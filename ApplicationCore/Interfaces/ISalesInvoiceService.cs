@@ -1,9 +1,9 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities.SalesInvoiceAggregate;
+﻿using Murimi.ApplicationCore.Entities.SalesInvoiceAggregate;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Edgias.Agrik.ApplicationCore.Interfaces
+namespace Murimi.ApplicationCore.Interfaces
 {
     public interface ISalesInvoiceService
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Edgias.Agrik.ApplicationCore.Entities.QuotationAggregate
+namespace Murimi.ApplicationCore.Entities.QuotationAggregate
 {
     public class QuotationItem : BaseEntity
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Edgias.Agrik.ApplicationCore.Entities
+namespace Murimi.ApplicationCore.Entities
 {
     class Asset
     {

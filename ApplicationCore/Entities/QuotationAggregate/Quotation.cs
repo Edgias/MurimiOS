@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Edgias.Agrik.ApplicationCore.Entities.QuotationAggregate
+namespace Murimi.ApplicationCore.Entities.QuotationAggregate
 {
     public class Quotation : BaseEntity
     {

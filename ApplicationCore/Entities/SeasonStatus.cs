@@ -1,4 +1,4 @@
-﻿namespace Edgias.Agrik.ApplicationCore.Entities
+﻿namespace Murimi.ApplicationCore.Entities
 {
     public class SeasonStatus : BaseEntity
     {

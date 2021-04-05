@@ -1,12 +1,12 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities;
-using Edgias.Agrik.ApplicationCore.Interfaces;
+﻿using Murimi.ApplicationCore.Entities;
+using Murimi.ApplicationCore.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Edgias.Agrik.Infrastructure.Data.Repositories
+namespace Murimi.Infrastructure.Data.Repositories
 {
     public class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity
     {

@@ -1,8 +1,8 @@
-using Edgias.Agrik.ApplicationCore.Events;
+using Murimi.ApplicationCore.Events;
 using System;
 using System.Collections.Generic;
 
-namespace Edgias.Agrik.ApplicationCore.Entities
+namespace Murimi.ApplicationCore.Entities
 {
     public abstract class BaseEntity
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Edgias.Agrik.API.Models.View
+namespace Murimi.API.Models.Response
 {
     public class CropApiModel : BaseApiModel
     {

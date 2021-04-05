@@ -1,13 +1,13 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities;
-using Edgias.Agrik.ApplicationCore.Exceptions;
-using Edgias.Agrik.ApplicationCore.Interfaces;
+﻿using Murimi.ApplicationCore.Entities;
+using Murimi.ApplicationCore.Exceptions;
+using Murimi.ApplicationCore.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Edgias.Agrik.Infrastructure.Data
+namespace Murimi.Infrastructure.Data
 {
     public class AgrikDbContext : DbContext
     {

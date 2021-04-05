@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Edgias.Agrik.API.Models.View
+namespace Murimi.API.Models.Response
 {
     public class ApiResponse<T>
     {

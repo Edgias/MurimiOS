@@ -1,10 +1,10 @@
-﻿using Edgias.Agrik.ApplicationCore.Events;
-using Edgias.Agrik.ApplicationCore.Interfaces;
+﻿using Murimi.ApplicationCore.Events;
+using Murimi.ApplicationCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Edgias.Agrik.Infrastructure.Services
+namespace Murimi.Infrastructure.Services
 {
     public class DomainEventDispatcher : IDomainEventDispatcher
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Edgias.Agrik.ApplicationCore.Entities.SalesOrderAggregate
+namespace Murimi.ApplicationCore.Entities.SalesOrderAggregate
 {
     public class SalesOrderItem : BaseEntity
     {

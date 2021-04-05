@@ -1,8 +1,8 @@
-﻿using Edgias.Agrik.ApplicationCore.Events;
+﻿using Murimi.ApplicationCore.Events;
 using System;
 using System.Threading.Tasks;
 
-namespace Edgias.Agrik.Infrastructure.Services
+namespace Murimi.Infrastructure.Services
 {
     public class LoanApprovedEventHandler : DomainEventHandler<LoanApprovedEvent>
     {

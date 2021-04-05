@@ -1,4 +1,4 @@
-﻿namespace Edgias.Agrik.ApplicationCore
+﻿namespace Murimi.ApplicationCore
 {
     public class Address
     {

@@ -1,8 +1,8 @@
-﻿using Edgias.Agrik.ApplicationCore.Events;
+﻿using Murimi.ApplicationCore.Events;
 using System;
 using System.Threading.Tasks;
 
-namespace Edgias.Agrik.ApplicationCore.Interfaces
+namespace Murimi.ApplicationCore.Interfaces
 {
     public interface IDomainEventHandler
     {

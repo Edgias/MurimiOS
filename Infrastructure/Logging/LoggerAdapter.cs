@@ -1,7 +1,7 @@
-﻿using Edgias.Agrik.ApplicationCore.Interfaces;
+﻿using Murimi.ApplicationCore.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace Edgias.Agrik.Infrastructure.Logging
+namespace Murimi.Infrastructure.Logging
 {
     public class LoggerAdapter<T> : IAppLogger<T>
     {

@@ -1,7 +1,7 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities.QuotationAggregate;
+﻿using Murimi.ApplicationCore.Entities.QuotationAggregate;
 using System;
 
-namespace Edgias.Agrik.ApplicationCore.Specifications
+namespace Murimi.ApplicationCore.Specifications
 {
     public class QuotationItemSpecification : BaseSpecification<QuotationItem>
     {

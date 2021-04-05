@@ -1,7 +1,7 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities.SalesInvoiceAggregate;
+﻿using Murimi.ApplicationCore.Entities.SalesInvoiceAggregate;
 using System;
 
-namespace Edgias.Agrik.ApplicationCore.Specifications
+namespace Murimi.ApplicationCore.Specifications
 {
     public class SalesInvoiceItemSpecification : BaseSpecification<SalesInvoiceItem>
     {

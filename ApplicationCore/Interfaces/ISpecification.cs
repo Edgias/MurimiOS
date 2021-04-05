@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Edgias.Agrik.ApplicationCore.Interfaces
+namespace Murimi.ApplicationCore.Interfaces
 {
     public interface ISpecification<T>
     {

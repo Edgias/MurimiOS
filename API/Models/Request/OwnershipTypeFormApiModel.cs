@@ -1,4 +1,4 @@
-﻿namespace Edgias.Agrik.API.Models.Form
+﻿namespace Murimi.API.Models.Request
 {
     public class OwnershipTypeRequestApiModel : BaseRequestApiModel
     {

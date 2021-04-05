@@ -1,4 +1,4 @@
-﻿namespace Edgias.Agrik.ApplicationCore.Interfaces
+﻿namespace Murimi.ApplicationCore.Interfaces
 {
     public interface IAggregateRoot
     {

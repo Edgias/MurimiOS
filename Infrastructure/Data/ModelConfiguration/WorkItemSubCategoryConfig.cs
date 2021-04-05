@@ -1,7 +1,7 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities;
+﻿using Murimi.ApplicationCore.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Edgias.Agrik.Infrastructure.Data.ModelConfiguration
+namespace Murimi.Infrastructure.Data.ModelConfiguration
 {
     internal class WorkItemSubCategoryConfig : BaseEntityConfig<WorkItemSubCategory>
     {

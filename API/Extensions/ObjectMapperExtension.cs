@@ -1,11 +1,11 @@
-﻿using Edgias.Agrik.API.Interfaces;
-using Edgias.Agrik.API.Models.Form;
-using Edgias.Agrik.API.Models.View;
-using Edgias.Agrik.API.ObjectMappers;
-using Edgias.Agrik.ApplicationCore.Entities;
+﻿using Murimi.API.Interfaces;
+using Murimi.API.Models.Request;
+using Murimi.API.Models.Response;
+using Murimi.API.ObjectMappers;
+using Murimi.ApplicationCore.Entities;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Edgias.Agrik.API.Extensions
+namespace Murimi.API.Extensions
 {
     public static class ObjectMapperExtension
     {

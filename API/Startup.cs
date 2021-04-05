@@ -1,9 +1,9 @@
-using Edgias.Agrik.API.Extensions;
-using Edgias.Agrik.ApplicationCore.Interfaces;
-using Edgias.Agrik.Infrastructure.Data;
-using Edgias.Agrik.Infrastructure.Data.Repositories;
-using Edgias.Agrik.Infrastructure.Logging;
-using Edgias.Agrik.Infrastructure.Services;
+using Murimi.API.Extensions;
+using Murimi.ApplicationCore.Interfaces;
+using Murimi.Infrastructure.Data;
+using Murimi.Infrastructure.Data.Repositories;
+using Murimi.Infrastructure.Logging;
+using Murimi.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

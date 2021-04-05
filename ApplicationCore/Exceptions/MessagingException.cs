@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Edgias.Agrik.ApplicationCore.Exceptions
+namespace Murimi.ApplicationCore.Exceptions
 {
     public class MessagingException : Exception
     {

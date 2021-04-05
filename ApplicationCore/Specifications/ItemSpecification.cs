@@ -1,7 +1,7 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities;
+﻿using Murimi.ApplicationCore.Entities;
 using System;
 
-namespace Edgias.Agrik.ApplicationCore.Specifications
+namespace Murimi.ApplicationCore.Specifications
 {
     public class ItemSpecification : BaseSpecification<Item>
     {

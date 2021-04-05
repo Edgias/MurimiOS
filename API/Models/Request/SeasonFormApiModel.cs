@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Edgias.Agrik.API.Models.Form
+namespace Murimi.API.Models.Request
 {
     public class SeasonRequestApiModel : BaseRequestApiModel
     {

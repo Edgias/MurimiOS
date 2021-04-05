@@ -1,4 +1,4 @@
-﻿namespace Edgias.Agrik.API.Models.View
+﻿namespace Murimi.API.Models.Response
 {
     public class FieldMeasurementApiModel : BaseApiModel
     {

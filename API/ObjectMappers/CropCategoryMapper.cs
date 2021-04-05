@@ -1,10 +1,10 @@
-﻿using Edgias.Agrik.API.Interfaces;
-using Edgias.Agrik.API.Models.Form;
-using Edgias.Agrik.API.Models.View;
-using Edgias.Agrik.ApplicationCore.Entities;
+﻿using Murimi.API.Interfaces;
+using Murimi.API.Models.Request;
+using Murimi.API.Models.Response;
+using Murimi.ApplicationCore.Entities;
 using System;
 
-namespace Edgias.Agrik.API.ObjectMappers
+namespace Murimi.API.ObjectMappers
 {
     public class CropCategoryMapper : IMapper<CropCategory, CropCategoryRequestApiModel, CropCategoryApiModel>
     {

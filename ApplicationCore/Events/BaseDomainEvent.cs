@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MediatR;
+using System;
 
-namespace Edgias.Agrik.ApplicationCore.Events
+namespace Murimi.ApplicationCore.Events
 {
-    public abstract class BaseDomainEvent
+    public abstract class BaseDomainEvent : INotification
     {
-        public DateTime DateOccurred { get; protected set; } = DateTime.UtcNow;
+        public DateTimeOffset DateOccurred { get; protected set; } = DateTimeOffset.UtcNow;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Edgias.Agrik.ApplicationCore.Interfaces
+﻿namespace Murimi.ApplicationCore.Interfaces
 {
     /// <summary>
     /// This type eliminates the need to depend directly on the ASP.NET Core logging types.

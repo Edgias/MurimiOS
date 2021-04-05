@@ -1,8 +1,8 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities.SalesOrderAggregate;
+﻿using Murimi.ApplicationCore.Entities.SalesOrderAggregate;
 using System;
 using System.Collections.Generic;
 
-namespace Edgias.Agrik.ApplicationCore.Entities.SalesInvoiceAggregate
+namespace Murimi.ApplicationCore.Entities.SalesInvoiceAggregate
 {
     public class SalesInvoice : BaseEntity
     {

@@ -1,8 +1,8 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities.QuotationAggregate;
+﻿using Murimi.ApplicationCore.Entities.QuotationAggregate;
 using System;
 using System.Collections.Generic;
 
-namespace Edgias.Agrik.ApplicationCore.Entities.SalesOrderAggregate
+namespace Murimi.ApplicationCore.Entities.SalesOrderAggregate
 {
     public class SalesOrder : BaseEntity
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Edgias.Agrik.ApplicationCore.Entities.SalesInvoiceAggregate
+namespace Murimi.ApplicationCore.Entities.SalesInvoiceAggregate
 {
     public class InvoicedItem
     {

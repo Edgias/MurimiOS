@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Edgias.Agrik.ApplicationCore.Interfaces
+namespace Murimi.ApplicationCore.Interfaces
 {
     public interface IMessagingService
     {

@@ -1,8 +1,8 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities.SalesOrderAggregate;
+﻿using Murimi.ApplicationCore.Entities.SalesOrderAggregate;
 using System;
 using System.Threading.Tasks;
 
-namespace Edgias.Agrik.ApplicationCore.Interfaces
+namespace Murimi.ApplicationCore.Interfaces
 {
     public interface ISalesOrderService
     {

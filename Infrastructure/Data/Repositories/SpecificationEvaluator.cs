@@ -1,9 +1,9 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities;
-using Edgias.Agrik.ApplicationCore.Interfaces;
+﻿using Murimi.ApplicationCore.Entities;
+using Murimi.ApplicationCore.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace Edgias.Agrik.Infrastructure.Data.Repositories
+namespace Murimi.Infrastructure.Data.Repositories
 {
     public class SpecificationEvaluator<T> where T : BaseEntity
     {

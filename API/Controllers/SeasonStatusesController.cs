@@ -1,10 +1,10 @@
-﻿using Edgias.Agrik.API.Interfaces;
-using Edgias.Agrik.API.Models.Form;
-using Edgias.Agrik.API.Models.View;
-using Edgias.Agrik.ApplicationCore.Entities;
-using Edgias.Agrik.ApplicationCore.Exceptions;
-using Edgias.Agrik.ApplicationCore.Interfaces;
-using Edgias.Agrik.ApplicationCore.Specifications;
+﻿using Murimi.API.Interfaces;
+using Murimi.API.Models.Request;
+using Murimi.API.Models.Response;
+using Murimi.ApplicationCore.Entities;
+using Murimi.ApplicationCore.Exceptions;
+using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.Specifications;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Edgias.Agrik.API.Controllers
+namespace Murimi.API.Controllers
 {
     [ApiController]
     [Route("v1.0/season-statuses")]

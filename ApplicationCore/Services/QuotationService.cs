@@ -1,14 +1,14 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities;
-using Edgias.Agrik.ApplicationCore.Entities.QuotationAggregate;
-using Edgias.Agrik.ApplicationCore.Entities.SalesOrderAggregate;
-using Edgias.Agrik.ApplicationCore.Interfaces;
-using Edgias.Agrik.ApplicationCore.Specifications;
+﻿using Murimi.ApplicationCore.Entities;
+using Murimi.ApplicationCore.Entities.QuotationAggregate;
+using Murimi.ApplicationCore.Entities.SalesOrderAggregate;
+using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Edgias.Agrik.ApplicationCore.Services
+namespace Murimi.ApplicationCore.Services
 {
     public class QuotationService : IQuotationService
     {

@@ -1,7 +1,7 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities.SalesOrderAggregate;
+﻿using Murimi.ApplicationCore.Entities.SalesOrderAggregate;
 using System;
 
-namespace Edgias.Agrik.ApplicationCore.Specifications
+namespace Murimi.ApplicationCore.Specifications
 {
     public class SalesOrderItemSpecification : BaseSpecification<SalesOrderItem>
     {

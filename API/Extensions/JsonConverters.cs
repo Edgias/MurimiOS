@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Edgias.Agrik.API.Extensions
+namespace Murimi.API.Extensions
 {
     public class StringToIntConverter : JsonConverter<int>
     {

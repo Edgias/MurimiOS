@@ -1,4 +1,4 @@
-﻿namespace Edgias.Agrik.API.Interfaces
+﻿namespace Murimi.API.Interfaces
 {
     public interface IMapper<TEntity, TRequestApiModel, TApiModel>
     {

@@ -1,8 +1,8 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities;
+﻿using Murimi.ApplicationCore.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Edgias.Agrik.Infrastructure.Data.ModelConfiguration
+namespace Murimi.Infrastructure.Data.ModelConfiguration
 {
     internal abstract class BaseEntityConfig<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity: BaseEntity
     {

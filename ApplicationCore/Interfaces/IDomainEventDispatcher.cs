@@ -1,6 +1,6 @@
-﻿using Edgias.Agrik.ApplicationCore.Events;
+﻿using Murimi.ApplicationCore.Events;
 
-namespace Edgias.Agrik.ApplicationCore.Interfaces
+namespace Murimi.ApplicationCore.Interfaces
 {
     public interface IDomainEventDispatcher
     {

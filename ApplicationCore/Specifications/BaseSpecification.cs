@@ -1,9 +1,9 @@
-﻿using Edgias.Agrik.ApplicationCore.Interfaces;
+﻿using Murimi.ApplicationCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Edgias.Agrik.ApplicationCore.Specifications
+namespace Murimi.ApplicationCore.Specifications
 {
     public abstract class BaseSpecification<T> : ISpecification<T>
     {

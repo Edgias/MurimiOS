@@ -1,6 +1,6 @@
-﻿using Edgias.Agrik.ApplicationCore.Entities;
+﻿using Murimi.ApplicationCore.Entities;
 
-namespace Edgias.Agrik.ApplicationCore.Specifications
+namespace Murimi.ApplicationCore.Specifications
 {
     public class FieldMeasurementSpecification : BaseSpecification<FieldMeasurement>
     {

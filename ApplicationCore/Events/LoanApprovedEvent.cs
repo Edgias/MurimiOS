@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Edgias.Agrik.ApplicationCore.Events
+namespace Murimi.ApplicationCore.Events
 {
     public class LoanApprovedEvent : BaseDomainEvent
     {
