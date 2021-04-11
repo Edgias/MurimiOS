@@ -1,24 +1,15 @@
-using Murimi.ApplicationCore.Events;
 using System;
 using System.Collections.Generic;
 
-namespace Murimi.ApplicationCore.Entities
+namespace Murimi.ApplicationCore.SharedKernel
 {
     public abstract class BaseEntity
     {
-        public Guid Id { get; set; }
-
-        public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.Now;
-
-        public DateTimeOffset LastModifiedDate { get; set; } = DateTimeOffset.Now;
+        public Guid Id { get; protected set; }
 
         public bool IsActive { get; private set; } = true;
 
         public bool IsDeleted { get; private set; }
-
-        public string CreatedBy { get; set; }
-
-        public string LastModifiedBy { get; set; }
 
         public List<BaseDomainEvent> Events { get; private set; } = new List<BaseDomainEvent>();
 
@@ -32,18 +23,14 @@ namespace Murimi.ApplicationCore.Entities
             Events.Remove(domainEvent);
         }
 
-        public void ChangeStatus(string userId)
+        public void ChangeStatus()
         {
-            LastModifiedBy = userId;
-            LastModifiedDate = DateTimeOffset.Now;
             IsActive = !IsActive;
         }
 
-        public void Delete(string userId)
+        public void Delete()
         {
             IsDeleted = true;
-            LastModifiedBy = userId;
-            LastModifiedDate = DateTimeOffset.Now;
         }
 
     }

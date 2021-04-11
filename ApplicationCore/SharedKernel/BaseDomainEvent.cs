@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace Murimi.ApplicationCore.Events
+namespace Murimi.ApplicationCore.SharedKernel
 {
     public abstract class BaseDomainEvent : INotification
     {
