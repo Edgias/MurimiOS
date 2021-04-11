@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Murimi.Infrastructure.Data.ModelConfiguration
+namespace Murimi.Infrastructure.Data.Config
 {
     internal class FieldConfig : BaseEntityConfig<Field>
     {

@@ -8,9 +8,9 @@ namespace Murimi.ApplicationCore.Specifications
         public SalesInvoiceSpecification(Guid salesInvoiceId)
             : base(si => si.Id == salesInvoiceId)
         {
-            AddInclude(o => o.InvoiceItems);
-            AddInclude($"{nameof(SalesInvoice.InvoiceItems)}.{nameof(SalesInvoiceItem.InvoicedItem)}");
-            AddInclude($"{nameof(SalesInvoice.InvoiceItems)}.{nameof(SalesInvoiceItem.Tax)}");
+            AddInclude(o => o.SalesInvoiceItems);
+            AddInclude($"{nameof(SalesInvoice.SalesInvoiceItems)}.{nameof(SalesInvoiceItem.InvoicedItem)}");
+            AddInclude($"{nameof(SalesInvoice.SalesInvoiceItems)}.{nameof(SalesInvoiceItem.Tax)}");
         }
 
         public SalesInvoiceSpecification(Guid? customerId)

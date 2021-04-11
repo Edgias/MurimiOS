@@ -6,7 +6,9 @@ namespace Murimi.ApplicationCore.Entities
     {
         public string Name { get; private set; }
 
-        public string Telephone { get; private set; }
+        public string Email { get; private set; }
+
+        public string Phone { get; private set; }
 
         public string Website { get; private set; }
 
@@ -18,25 +20,26 @@ namespace Murimi.ApplicationCore.Entities
 
         public Address BillingAddress { get; private set; }
 
-        public Customer(string name, string telephone, string website, string contactPerson, string contactPersonEmail, string contactPersonPhone, Address billingAddress)
+        public Customer(string name, string phone, string email, string website, string contactPerson, string contactPersonEmail, string contactPersonPhone, Address billingAddress)
         {
-            SetData(name, telephone, website, contactPerson, contactPersonEmail, contactPersonPhone, billingAddress);
+            SetData(name, phone, email, website, contactPerson, contactPersonEmail, contactPersonPhone, billingAddress);
         }
 
-        public void UpdateDetails(string name, string telephone, string website, string contactPerson, string contactPersonEmail, string contactPersonPhone, Address billingAddress)
+        public void UpdateDetails(string name, string phone, string email, string website, string contactPerson, string contactPersonEmail, string contactPersonPhone, Address billingAddress)
         {
-            SetData(name, telephone, website, contactPerson, contactPersonEmail, contactPersonPhone, billingAddress);
+            SetData(name, phone, email, website, contactPerson, contactPersonEmail, contactPersonPhone, billingAddress);
         }
 
-        private void SetData(string name, string telephone, string website, string contactPerson, string contactPersonEmail, string contactPersonPhone, Address billingAddress)
+        private void SetData(string name, string phone, string email, string website, string contactPerson, string contactPersonEmail, string contactPersonPhone, Address billingAddress)
         {
             Guard.AgainstNullOrEmpty(name, nameof(name));
-            Guard.AgainstNullOrEmpty(telephone, nameof(telephone));
+            Guard.AgainstNullOrEmpty(phone, nameof(phone));
             Guard.AgainstNullOrEmpty(contactPerson, nameof(contactPerson));
             Guard.AgainstNullOrEmpty(contactPersonPhone, nameof(contactPersonPhone));
 
             Name = name;
-            Telephone = telephone;
+            Phone = phone;
+            Email = email;
             Website = website;
             ContactPerson = contactPerson;
             ContactPersonEmail = contactPersonEmail;

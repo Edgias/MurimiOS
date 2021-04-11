@@ -19,7 +19,7 @@ namespace Murimi.ApplicationCore.Specifications
         public CustomerSpecification(string searchString)
             : base(c => string.IsNullOrEmpty(searchString) ||
             c.Name.Contains(searchString) ||
-            c.Telephone.Contains(searchString) ||
+            c.Phone.Contains(searchString) ||
             c.ContactPerson.Contains(searchString) ||
             c.ContactPersonPhone.Contains(searchString) ||
             c.ContactPersonEmail.Contains(searchString))
@@ -29,7 +29,7 @@ namespace Murimi.ApplicationCore.Specifications
         public CustomerSpecification(int skip, int take, string searchString) 
             : base(c => string.IsNullOrEmpty(searchString) ||
             c.Name.Contains(searchString) ||
-            c.Telephone.Contains(searchString) ||
+            c.Phone.Contains(searchString) ||
             c.ContactPerson.Contains(searchString) ||
             c.ContactPersonPhone.Contains(searchString) ||
             c.ContactPersonEmail.Contains(searchString))

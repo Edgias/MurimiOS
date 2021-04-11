@@ -1,7 +1,7 @@
 ﻿using Murimi.ApplicationCore.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Murimi.Infrastructure.Data.ModelConfiguration
+namespace Murimi.Infrastructure.Data.Config
 {
     internal class SeasonStatusConfig : BaseEntityConfig<SeasonStatus>
     {

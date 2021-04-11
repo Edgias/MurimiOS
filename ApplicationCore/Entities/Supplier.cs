@@ -6,7 +6,7 @@ namespace Murimi.ApplicationCore.Entities
     {
         public string Name { get; private set; }
 
-        public string Telephone { get; private set; }
+        public string Phone { get; private set; }
 
         public string Email { get; private set; }
 
@@ -18,20 +18,22 @@ namespace Murimi.ApplicationCore.Entities
 
         public string ContactPersonPhone { get; private set; }
 
-        public Supplier(string name, string telephone, string email, string website, string contactPerson, 
-            string contactPersonEmail, string contactPersonPhone)
+        public Address BillingAddress { get; private set; }
+
+        public Supplier(string name, string phone, string email, string website, string contactPerson, 
+            string contactPersonEmail, string contactPersonPhone, Address billingAddress)
         {
-            SetData(name, telephone, email, website, contactPerson, contactPersonEmail, contactPersonPhone);
+            SetData(name, phone, email, website, contactPerson, contactPersonEmail, contactPersonPhone, billingAddress);
         }
 
-        public void UpdateDetails(string name, string telephone, string email, string website, string contactPerson,
-            string contactPersonEmail, string contactPersonPhone)
+        public void UpdateDetails(string name, string phone, string email, string website, string contactPerson,
+            string contactPersonEmail, string contactPersonPhone, Address billingAddress)
         {
-            SetData(name, telephone, email, website, contactPerson, contactPersonEmail, contactPersonPhone);
+            SetData(name, phone, email, website, contactPerson, contactPersonEmail, contactPersonPhone, billingAddress);
         }
 
-        private void SetData(string name, string telephone, string email, string website, string contactPerson,
-            string contactPersonEmail, string contactPersonPhone)
+        private void SetData(string name, string phone, string email, string website, string contactPerson,
+            string contactPersonEmail, string contactPersonPhone, Address billingAddress)
         {
             Guard.AgainstNullOrEmpty(name, nameof(name));
             Guard.AgainstNullOrEmpty(email, nameof(email));
@@ -39,12 +41,13 @@ namespace Murimi.ApplicationCore.Entities
             Guard.AgainstNullOrEmpty(contactPersonEmail, nameof(contactPersonEmail));
 
             Name = name;
-            Telephone = telephone;
+            Phone = phone;
             Email = email;
             Website = website;
             ContactPerson = contactPerson;
             ContactPersonEmail = contactPersonEmail;
             ContactPersonPhone = contactPersonPhone;
+            BillingAddress = billingAddress;
         }
     }
 }

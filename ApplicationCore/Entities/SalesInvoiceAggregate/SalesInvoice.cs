@@ -28,7 +28,7 @@ namespace Murimi.ApplicationCore.Entities.SalesInvoiceAggregate
         
         private readonly List<SalesInvoiceItem> _salesInvoiceItems = new();
 
-        public IReadOnlyCollection<SalesInvoiceItem> InvoiceItems => _salesInvoiceItems.AsReadOnly();
+        public IReadOnlyCollection<SalesInvoiceItem> SalesInvoiceItems => _salesInvoiceItems.AsReadOnly();
 
         private SalesInvoice()
         {

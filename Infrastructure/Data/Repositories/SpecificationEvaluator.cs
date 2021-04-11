@@ -1,6 +1,6 @@
-﻿using Murimi.ApplicationCore.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 using Murimi.ApplicationCore.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using Murimi.ApplicationCore.SharedKernel;
 using System.Linq;
 
 namespace Murimi.Infrastructure.Data.Repositories
