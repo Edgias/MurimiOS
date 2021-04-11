@@ -1,10 +1,27 @@
-﻿namespace Murimi.ApplicationCore.Entities
-{
-    public class SeasonStatus : BaseEntity
-    {
-        public string Name { get; set; }
+﻿using Murimi.ApplicationCore.SharedKernel;
 
-        public bool IsDefault { get; set; }
+namespace Murimi.ApplicationCore.Entities
+{
+    public class SeasonStatus : BaseEntity, IAggregateRoot
+    {
+        public string Name { get; private set; }
+
+        public bool IsDefault { get; private set; }
+
+        public SeasonStatus(string name, bool isDefault)
+        {
+            Guard.AgainstNullOrEmpty(name, nameof(name));
+
+            Name = name;
+            IsDefault = isDefault;
+        }
+
+        public void UpdateName(string name)
+        {
+            Guard.AgainstNullOrEmpty(name, nameof(name));
+
+            Name = name;
+        }
 
         public void MakeDefault()
         {

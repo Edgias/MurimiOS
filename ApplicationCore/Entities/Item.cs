@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Murimi.ApplicationCore.SharedKernel;
+using System;
 
 namespace Murimi.ApplicationCore.Entities
 {
-    public class Item : BaseEntity
+    public class Item : BaseEntity, IAggregateRoot
     {
         public string Name { get; set; }
 

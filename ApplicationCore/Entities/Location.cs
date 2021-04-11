@@ -1,23 +1,45 @@
-﻿namespace Murimi.ApplicationCore.Entities
+﻿using Murimi.ApplicationCore.SharedKernel;
+
+namespace Murimi.ApplicationCore.Entities
 {
-    public class Location : BaseEntity
+    public class Location : BaseEntity, IAggregateRoot
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
-        public decimal? Latitude { get; set; }
+        public decimal? Latitude { get; private set; }
 
-        public decimal? Longitude { get; set; }
+        public decimal? Longitude { get; private set; }
 
-        public string Street1 { get; set; }
+        public Address LocationAddress { get; private set; }
 
-        public string Street2 { get; set; }
+        public Location(string name, decimal? latitude, decimal? longitude, Address locationAddress)
+        {
+            SetData(name, latitude, longitude, locationAddress);
+        }
 
-        public string City { get; set; }
+        public void UpdateDetails(string name, decimal? latitude, decimal? longitude, Address locationAddress)
+        {
+            SetData(name, latitude, longitude, locationAddress);
+        }
 
-        public string State { get; set; }
+        public void SetData(string name, decimal? latitude, decimal? longitude, Address locationAddress)
+        {
+            Guard.AgainstNullOrEmpty(name, nameof(name));
+            Guard.AgainstNull(locationAddress, nameof(locationAddress));
 
-        public string ZipCode { get; set; }
+            Name = name;
+            Latitude = latitude;
+            Longitude = longitude;
+            LocationAddress = locationAddress;
+        }
 
-        public string Country { get; set; }
+        public void UpdateLatitudeAndLongitude(decimal latitude, decimal longitude)
+        {
+            Guard.AgainstZero(latitude, nameof(latitude));
+            Guard.AgainstZero(longitude, nameof(longitude));
+
+            Latitude = latitude;
+            Longitude = longitude;
+        }
     }
 }

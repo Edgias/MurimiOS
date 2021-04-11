@@ -2,6 +2,7 @@
 using Murimi.ApplicationCore.Entities.QuotationAggregate;
 using Murimi.ApplicationCore.Entities.SalesOrderAggregate;
 using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.SharedKernel;
 using Murimi.ApplicationCore.Specifications;
 using System;
 using System.Collections.Generic;
@@ -23,36 +24,38 @@ namespace Murimi.ApplicationCore.Services
             IAsyncRepository<PriceList> priceListRepository,
             IAsyncRepository<Item> itemRepository,
             IAsyncRepository<SalesOrder> salesOrderRepository,
-            IAsyncRepository<Customer> customerRepository)
+            IAsyncRepository<Customer> customerRepository,
+            IAsyncRepository<Quotation> quotationRepository)
         {
             _numberSequenceRepository = numberSequenceRepository;
             _priceListRepository = priceListRepository;
             _itemRepository = itemRepository;
             _salesOrderRepository = salesOrderRepository;
             _customerRepository = customerRepository;
+            _quotationRepository = quotationRepository;
         }
 
-        public async Task AddQuotationItemAsync(Guid quotationId, Guid itemId, Guid priceListId, Guid? taxId, string userId, int units = 1)
+        public async Task AddQuotationItemAsync(Guid quotationId, Guid itemId, Guid priceListId, Guid? taxId, int units = 1)
         {
+            Guard.AgainstNull(quotationId, nameof(quotationId));
+            Guard.AgainstNull(priceListId, nameof(priceListId));
+            Guard.AgainstNull(itemId, nameof(itemId));
+
             Quotation quotation = await _quotationRepository.GetByIdAsync(quotationId);
 
             Item item = await _itemRepository.GetByIdAsync(itemId);
-            ItemQuoted itemQuoted = new ItemQuoted(item.Id, item.Name, item.Description);
+            ItemQuoted itemQuoted = new(item.Id, item.Name, item.Description);
 
             PriceList priceList = await _priceListRepository.GetByIdAsync(priceListId);
 
-            QuotationItem quotationItem = new QuotationItem(itemQuoted, priceList.Amount, units, taxId)
-            {
-                CreatedBy = userId,
-                LastModifiedBy = userId
-            };
+            QuotationItem quotationItem = new(itemQuoted, priceList.UnitPrice, units, taxId);
 
             quotation.AddItem(quotationItem);
 
             await _quotationRepository.UpdateAsync(quotation);
         }
 
-        public async Task ConvertToSalesOrderAsync(Guid quotationId, string userId)
+        public async Task ConvertToSalesOrderAsync(Guid quotationId)
         {
             Quotation quotation = await _quotationRepository.GetSingleBySpecificationAsync(new QuotationSpecification(quotationId));
 
@@ -62,12 +65,8 @@ namespace Murimi.ApplicationCore.Services
 
             List<SalesOrderItem> salesOrderItems = quotation.QuotationItems.Select(quotationItem =>
             {
-                ItemOrdered itemOrdered = new ItemOrdered(quotationItem.ItemQuoted.ItemId, quotationItem.ItemQuoted.ItemName);
-                SalesOrderItem salesOrderItem = new SalesOrderItem(itemOrdered, quotationItem.UnitPrice, quotationItem.Units)
-                {
-                    CreatedBy = userId,
-                    LastModifiedBy = userId
-                };
+                ItemOrdered itemOrdered = new(quotationItem.ItemQuoted.ItemId, quotationItem.ItemQuoted.ItemName, quotationItem.ItemQuoted.ItemDescription);
+                SalesOrderItem salesOrderItem = new(itemOrdered, quotationItem.UnitPrice, quotationItem.Units);
                 return salesOrderItem;
             }).ToList();
 
@@ -76,45 +75,33 @@ namespace Murimi.ApplicationCore.Services
             int salesOrderCount = await _salesOrderRepository.CountAllAsync();
             string salesOrderNumber = numberSequence.GenerateSequence(salesOrderCount);
 
-            SalesOrder salesOrder = new SalesOrder(salesOrderNumber, quotation.CustomerId, quotationId, shipToAddress, salesOrderItems)
-            {
-                CreatedBy = userId,
-                LastModifiedBy = userId
-            };
+            SalesOrder salesOrder = new(salesOrderNumber, quotation.CustomerId, quotationId, shipToAddress, salesOrderItems);
 
             await _salesOrderRepository.AddAsync(salesOrder);
         }
 
-        public async Task<Quotation> CreateQuotationAsync(DateTime quotationDate, DateTime validUntil, Guid? customerId, string userId)
+        public async Task<Quotation> CreateQuotationAsync(DateTimeOffset quotationDate, DateTimeOffset validUntil, Guid? customerId)
         {
             NumberSequence numberSequence = await _numberSequenceRepository.GetSingleBySpecificationAsync(new NumberSequenceSpecification(typeof(Quotation).Name));
 
             int quotationCount = await _quotationRepository.CountAllAsync();
             string quotationNumber = numberSequence.GenerateSequence(quotationCount);
 
-            Quotation quotation = new Quotation(quotationNumber, quotationDate, validUntil, customerId)
-            {
-                CreatedBy = userId,
-                LastModifiedBy = userId
-            };
+            Quotation quotation = new Quotation(quotationNumber, quotationDate, validUntil, customerId);
 
             quotation = await _quotationRepository.AddAsync(quotation);
 
             return quotation;
         }
 
-        public async Task<Quotation> CreateQuotationAsync(DateTime quotationDate, DateTime validUntil, List<QuotationItem> quotationItems, Guid? customerId, string userId)
+        public async Task<Quotation> CreateQuotationAsync(DateTimeOffset quotationDate, DateTimeOffset validUntil, List<QuotationItem> quotationItems, Guid? customerId)
         {
             NumberSequence numberSequence = await _numberSequenceRepository.GetSingleBySpecificationAsync(new NumberSequenceSpecification(typeof(Quotation).Name));
 
             int quotationCount = await _quotationRepository.CountAllAsync();
             string quotationNumber = numberSequence.GenerateSequence(quotationCount);
 
-            Quotation quotation = new Quotation(quotationNumber, quotationDate, validUntil, quotationItems, customerId)
-            {
-                CreatedBy = userId,
-                LastModifiedBy = userId
-            };
+            Quotation quotation = new(quotationNumber, quotationDate, validUntil, quotationItems, customerId);
 
             quotation = await _quotationRepository.AddAsync(quotation);
 

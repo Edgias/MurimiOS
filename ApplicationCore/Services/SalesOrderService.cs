@@ -2,6 +2,7 @@
 using Murimi.ApplicationCore.Entities.SalesInvoiceAggregate;
 using Murimi.ApplicationCore.Entities.SalesOrderAggregate;
 using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.SharedKernel;
 using Murimi.ApplicationCore.Specifications;
 using System;
 using System.Collections.Generic;
@@ -37,25 +38,21 @@ namespace Murimi.ApplicationCore.Services
             _salesOrderRepository = salesOrderRepository;
         }
 
-        public async Task AddSalesOrderItemAsync(Guid salesOrderId, Guid itemId, Guid priceListId, string userId, int units = 1)
+        public async Task AddSalesOrderItemAsync(Guid salesOrderId, Guid itemId, Guid priceListId, int units = 1)
         {
             SalesOrder salesOrder = await _salesOrderRepository.GetByIdAsync(salesOrderId);
 
             Item item = await _itemRepository.GetByIdAsync(itemId);
-            ItemOrdered itemQuoted = new ItemOrdered(item.Id, item.Name);
+            ItemOrdered itemQuoted = new(item.Id, item.Name, item.Description);
 
             PriceList priceList = await _priceListRepository.GetByIdAsync(priceListId);
-            SalesOrderItem salesOrderItem = new SalesOrderItem(itemQuoted, priceList.Amount, units)
-            {
-                CreatedBy = userId,
-                LastModifiedBy = userId
-            };
+            SalesOrderItem salesOrderItem = new(itemQuoted, priceList.UnitPrice, units);
             salesOrder.AddItem(salesOrderItem);
 
             await _salesOrderRepository.UpdateAsync(salesOrder);
         }
 
-        public async Task ConvertToInvoiceAsync(Guid salesOrderId, string userId)
+        public async Task ConvertToInvoiceAsync(Guid salesOrderId)
         {
             SalesOrder salesOrder = await _salesOrderRepository.GetSingleBySpecificationAsync(new SalesOrderSpecification(salesOrderId));
 
@@ -65,12 +62,8 @@ namespace Murimi.ApplicationCore.Services
 
             List<SalesInvoiceItem> invoiceLines = salesOrder.SalesOrderItems.Select(salesOrderLine =>
             {
-                InvoicedItem invoicedItem = new InvoicedItem(salesOrderLine.ItemOrdered.ItemId, salesOrderLine.ItemOrdered.ItemName, "");
-                SalesInvoiceItem invoiceLine = new SalesInvoiceItem(invoicedItem, salesOrderLine.UnitPrice, salesOrderLine.Units, null)
-                {
-                    CreatedBy = userId,
-                    LastModifiedBy = userId
-                };
+                InvoicedItem invoicedItem = new (salesOrderLine.ItemOrdered.ItemId, salesOrderLine.ItemOrdered.ItemName, salesOrderLine.ItemOrdered.ItemDescription);
+                SalesInvoiceItem invoiceLine = new(invoicedItem, salesOrderLine.UnitPrice, salesOrderLine.Units, null);
                 return invoiceLine;
             }).ToList();
 
@@ -81,16 +74,12 @@ namespace Murimi.ApplicationCore.Services
 
             SalesInvoiceNote invoiceNote = await _salesInvoiceNoteRepository.GetSingleBySpecificationAsync(new SalesInvoiceNoteSpecification());
 
-            SalesInvoice invoice = new SalesInvoice(invoiceNumber, DateTime.Now, invoiceNote?.Description, salesOrder.CustomerId, salesOrderId, billingAddress, invoiceLines)
-            {
-                CreatedBy = userId,
-                LastModifiedBy = userId
-            };
+            SalesInvoice invoice = new SalesInvoice(invoiceNumber, DateTime.Now, invoiceNote?.Description, salesOrder.CustomerId, salesOrderId, billingAddress, invoiceLines);
 
             await _salesInvoiceRepository.AddAsync(invoice);
         }
 
-        public async Task<SalesOrder> CreateSalesOrderAsync(Guid? customerId, Guid? quotationId, string userId)
+        public async Task<SalesOrder> CreateSalesOrderAsync(Guid? customerId, Guid? quotationId)
         {
             string salesOrderName = typeof(SalesOrder).Name;
             NumberSequence numberSequence = await _numberSequenceRepository.GetSingleBySpecificationAsync(new NumberSequenceSpecification(salesOrderName));
@@ -111,11 +100,7 @@ namespace Murimi.ApplicationCore.Services
                 throw new Exception("Shipping address cannot be null.");
             }
 
-            SalesOrder salesOrder = new SalesOrder(salesOrderNumber, customerId, quotationId, shipToAddress)
-            {
-                CreatedBy = userId,
-                LastModifiedBy = userId
-            };
+            SalesOrder salesOrder = new SalesOrder(salesOrderNumber, customerId, quotationId, shipToAddress);
 
             salesOrder = await _salesOrderRepository.AddAsync(salesOrder);
 

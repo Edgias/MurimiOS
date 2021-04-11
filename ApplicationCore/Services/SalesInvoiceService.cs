@@ -1,6 +1,7 @@
 ﻿using Murimi.ApplicationCore.Entities;
 using Murimi.ApplicationCore.Entities.SalesInvoiceAggregate;
 using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.SharedKernel;
 using Murimi.ApplicationCore.Specifications;
 using System;
 using System.Collections.Generic;
@@ -32,26 +33,22 @@ namespace Murimi.ApplicationCore.Services
             _salesInvoiceNoteRepository = salesInvoiceNoteRepository;
         }
 
-        public async Task AddInvoiceItemAsync(Guid invoiceId, Guid itemId, Guid priceListId, Guid? taxId, string userId, int units = 1)
+        public async Task AddInvoiceItemAsync(Guid invoiceId, Guid itemId, Guid priceListId, Guid? taxId, int units = 1)
         {
             SalesInvoice salesInvoice = await _salesInvoiceRepository.GetByIdAsync(invoiceId);
 
             Item item = await _itemRepository.GetByIdAsync(itemId);
-            InvoicedItem invoicedItem = new InvoicedItem(item.Id, item.Name, item.Description);
+            InvoicedItem invoicedItem = new(item.Id, item.Name, item.Description);
 
             PriceList priceList = await _priceListRepository.GetByIdAsync(priceListId);
-            SalesInvoiceItem salesInvoiceItem = new SalesInvoiceItem(invoicedItem, priceList.Amount, units, taxId)
-            {
-                CreatedBy = userId,
-                LastModifiedBy = userId
-            };
+            SalesInvoiceItem salesInvoiceItem = new(invoicedItem, priceList.UnitPrice, units, taxId);
 
             salesInvoice.AddItem(salesInvoiceItem);
 
             await _salesInvoiceRepository.UpdateAsync(salesInvoice);
         }
 
-        public async Task<SalesInvoice> CreateInvoiceAsync(DateTimeOffset dueDate, Guid? invoiceNoteId, Guid? customerId, Guid? salesOrderId, string userId)
+        public async Task<SalesInvoice> CreateInvoiceAsync(DateTimeOffset dueDate, Guid? invoiceNoteId, Guid? customerId, Guid? salesOrderId)
         {
             NumberSequence numberSequence = await _numberSequenceRepository.GetSingleBySpecificationAsync(new NumberSequenceSpecification(typeof(SalesInvoice).Name));
 
@@ -71,11 +68,7 @@ namespace Murimi.ApplicationCore.Services
                 invoiceNotes = salesInvoiceNote?.Description;
             }
 
-            SalesInvoice salesInvoice = new SalesInvoice(invoiceNumber, dueDate, invoiceNotes, customerId, salesOrderId, billingAddress)
-            {
-                CreatedBy = userId,
-                LastModifiedBy = userId
-            };
+            SalesInvoice salesInvoice = new(invoiceNumber, dueDate, invoiceNotes, customerId, salesOrderId, billingAddress);
 
             salesInvoice = await _salesInvoiceRepository.AddAsync(salesInvoice);
 
@@ -83,7 +76,7 @@ namespace Murimi.ApplicationCore.Services
         }
 
         public async Task<SalesInvoice> CreateInvoiceAsync(DateTimeOffset dueDate, Guid? invoiceNoteId, List<SalesInvoiceItem> invoiceItems, 
-            Guid? customerId, Guid? salesOrderId, string userId)
+            Guid? customerId, Guid? salesOrderId)
         {
             NumberSequence numberSequence = await _numberSequenceRepository.GetSingleBySpecificationAsync(new NumberSequenceSpecification(typeof(SalesInvoice).Name));
 
@@ -103,11 +96,7 @@ namespace Murimi.ApplicationCore.Services
                 invoiceNotes = salesInvoiceNote?.Description;
             }
 
-            SalesInvoice invoice = new SalesInvoice(invoiceNumber, dueDate, invoiceNotes, customerId, salesOrderId, billingAddress, invoiceItems)
-            {
-                CreatedBy = userId,
-                LastModifiedBy = userId
-            };
+            SalesInvoice invoice = new(invoiceNumber, dueDate, invoiceNotes, customerId, salesOrderId, billingAddress, invoiceItems);
 
             invoice = await _salesInvoiceRepository.AddAsync(invoice);
 

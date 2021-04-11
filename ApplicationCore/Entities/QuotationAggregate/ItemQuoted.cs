@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Murimi.ApplicationCore.SharedKernel;
+using System;
 
 namespace Murimi.ApplicationCore.Entities.QuotationAggregate
 {
-    public class ItemQuoted
+    public class ItemQuoted // Value Object
     {
         public Guid ItemId { get; private set; }
 
@@ -12,11 +13,15 @@ namespace Murimi.ApplicationCore.Entities.QuotationAggregate
 
         private ItemQuoted()
         {
-
+            // Required by EF
         }
 
         public ItemQuoted(Guid itemId, string itemName, string itemDescription)
         {
+            Guard.AgainstNull(itemId, nameof(itemId));
+            Guard.AgainstNullOrEmpty(itemName, nameof(itemName));
+            Guard.AgainstNullOrEmpty(itemDescription, nameof(itemDescription));
+
             ItemId = itemId;
             ItemName = itemName;
             ItemDescription = itemDescription;

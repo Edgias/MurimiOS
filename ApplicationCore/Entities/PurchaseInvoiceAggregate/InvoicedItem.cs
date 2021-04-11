@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Murimi.ApplicationCore.SharedKernel;
+using System;
 
 namespace Murimi.ApplicationCore.Entities.PurchaseInvoiceAggregate
 {
-    public class InvoicedItem
+    public class InvoicedItem // ValueObject
     {
         public Guid ItemId { get; private set; }
 
@@ -12,14 +13,18 @@ namespace Murimi.ApplicationCore.Entities.PurchaseInvoiceAggregate
 
         private InvoicedItem()
         {
-
+            // Required by EF
         }
 
-        public InvoicedItem(Guid productId, string productName, string productDescription)
+        public InvoicedItem(Guid itemId, string itemName, string itemDescription)
         {
-            ItemId = productId;
-            ItemName = productName;
-            ItemDescription = productDescription;
+            Guard.AgainstNull(itemId, nameof(itemId));
+            Guard.AgainstNullOrEmpty(itemName, nameof(itemName));
+            Guard.AgainstNullOrEmpty(itemDescription, nameof(itemDescription));
+
+            ItemId = itemId;
+            ItemName = itemName;
+            ItemDescription = itemDescription;
         }
     }
 }

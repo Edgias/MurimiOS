@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Murimi.ApplicationCore.SharedKernel;
+using System;
 
 namespace Murimi.ApplicationCore.Entities.SalesInvoiceAggregate
 {
@@ -12,11 +13,7 @@ namespace Murimi.ApplicationCore.Entities.SalesInvoiceAggregate
 
         public Guid? TaxId { get; private set; }
 
-        public Tax Tax { get; set; }
-
-        public Guid SalesInvoiceId { get; set; }
-
-        public SalesInvoice SalesInvoice { get; set; }
+        public Tax Tax { get; private set; }
 
         private SalesInvoiceItem()
         {
@@ -24,6 +21,10 @@ namespace Murimi.ApplicationCore.Entities.SalesInvoiceAggregate
 
         public SalesInvoiceItem(InvoicedItem invoicedItem, decimal unitPrice, int units, Guid? taxId)
         {
+            Guard.AgainstZero(units, nameof(units));
+            Guard.AgainstZero(unitPrice, nameof(unitPrice));
+            Guard.AgainstNull(invoicedItem, nameof(invoicedItem));
+
             InvoicedItem = invoicedItem;
             UnitPrice = unitPrice;
             Units = units;

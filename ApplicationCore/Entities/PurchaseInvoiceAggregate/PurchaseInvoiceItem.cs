@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Murimi.ApplicationCore.SharedKernel;
+using System;
 
 namespace Murimi.ApplicationCore.Entities.PurchaseInvoiceAggregate
 {
@@ -12,18 +13,19 @@ namespace Murimi.ApplicationCore.Entities.PurchaseInvoiceAggregate
 
         public Guid? TaxId { get; private set; }
 
-        public Tax Tax { get; set; }
-
-        public Guid PurchaseInvoiceId { get; set; }
-
-        public PurchaseInvoice PurchaseInvoice { get; set; }
+        public Tax Tax { get; private set; }
 
         private PurchaseInvoiceItem()
         {
+            // Required by EF
         }
 
         public PurchaseInvoiceItem(InvoicedItem invoicedItem, decimal unitPrice, int units, Guid? taxId)
         {
+            Guard.AgainstZero(unitPrice, nameof(unitPrice));
+            Guard.AgainstZero(units, nameof(units));
+            Guard.AgainstNull(invoicedItem, nameof(invoicedItem));
+
             InvoicedItem = invoicedItem;
             UnitPrice = unitPrice;
             Units = units;

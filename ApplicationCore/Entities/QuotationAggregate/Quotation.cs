@@ -1,38 +1,49 @@
-﻿using System;
+﻿using Murimi.ApplicationCore.SharedKernel;
+using System;
 using System.Collections.Generic;
 
 namespace Murimi.ApplicationCore.Entities.QuotationAggregate
 {
-    public class Quotation : BaseEntity
+    public class Quotation : BaseEntity, IAggregateRoot
     {
         public string Name { get; private set; }
 
-        public DateTime QuotationDate { get; private set; }
+        public DateTimeOffset QuotationDate { get; private set; } = DateTimeOffset.UtcNow;
 
-        public DateTime ValidUntil { get; private set; }
+        public DateTimeOffset ValidUntil { get; private set; }
 
         public Guid? CustomerId { get; private set; }
 
         public Customer Customer { get; set; }
 
-        private readonly List<QuotationItem> _quotationItems = new List<QuotationItem>();
+        private readonly List<QuotationItem> _quotationItems = new();
 
         public IReadOnlyCollection<QuotationItem> QuotationItems => _quotationItems.AsReadOnly();
 
         private Quotation()
         {
+            // Required by EF
         }
 
-        public Quotation(string name, DateTime quotationDate, DateTime validUntil, Guid? customerId)
+        public Quotation(string name, DateTimeOffset quotationDate, DateTimeOffset validUntil, Guid? customerId)
         {
+            Guard.AgainstNullOrEmpty(name, nameof(name));
+            Guard.AgainstNull(quotationDate, nameof(quotationDate));
+            Guard.AgainstNull(validUntil, nameof(validUntil));
+
             Name = name;
             QuotationDate = quotationDate;
             ValidUntil = validUntil;
             CustomerId = customerId;
         }
 
-        public Quotation(string name, DateTime quotationDate, DateTime validUntil, List<QuotationItem> quotationItems, Guid? customerId)
+        public Quotation(string name, DateTimeOffset quotationDate, DateTimeOffset validUntil, List<QuotationItem> quotationItems, Guid? customerId)
         {
+            Guard.AgainstNullOrEmpty(name, nameof(name));
+            Guard.AgainstNull(quotationDate, nameof(quotationDate));
+            Guard.AgainstNull(validUntil, nameof(validUntil));
+            Guard.AgainstNull(quotationItems, nameof(quotationItems));
+
             Name = name;
             QuotationDate = quotationDate;
             ValidUntil = validUntil;
@@ -42,6 +53,8 @@ namespace Murimi.ApplicationCore.Entities.QuotationAggregate
 
         public void AddItem(QuotationItem quotationItem)
         {
+            Guard.AgainstNull(quotationItem, nameof(quotationItem));
+
             _quotationItems.Add(quotationItem);
         }
 
@@ -86,7 +99,7 @@ namespace Murimi.ApplicationCore.Entities.QuotationAggregate
             return total;
         }
 
-        public void ChangeValidDate(DateTime validUntil)
+        public void ChangeValidDate(DateTimeOffset validUntil)
         {
             ValidUntil = validUntil;
         }

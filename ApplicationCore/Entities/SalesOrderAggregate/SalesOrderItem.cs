@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Murimi.ApplicationCore.SharedKernel;
 
 namespace Murimi.ApplicationCore.Entities.SalesOrderAggregate
 {
@@ -10,17 +10,17 @@ namespace Murimi.ApplicationCore.Entities.SalesOrderAggregate
 
         public int Units { get; private set; }
 
-        public Guid SalesOrderId { get; set; }
-
-        public SalesOrder SalesOrder { get; set; }
-
         private SalesOrderItem()
         {
-            // required by EF
+            // Required by EF
         }
 
         public SalesOrderItem(ItemOrdered itemOrdered, decimal unitPrice, int units)
         {
+            Guard.AgainstZero(units, nameof(units));
+            Guard.AgainstZero(unitPrice, nameof(unitPrice));
+            Guard.AgainstNull(itemOrdered, nameof(itemOrdered));
+
             ItemOrdered = itemOrdered;
             UnitPrice = unitPrice;
             Units = units;

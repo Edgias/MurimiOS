@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Murimi.ApplicationCore.SharedKernel;
+using System;
 
 namespace Murimi.ApplicationCore.Entities.QuotationAggregate
 {
@@ -12,18 +13,19 @@ namespace Murimi.ApplicationCore.Entities.QuotationAggregate
 
         public Guid? TaxId { get; private set; }
 
-        public Tax Tax { get; set; }
-
-        public Guid QuotationId { get; set; }
-
-        public Quotation Quotation { get; set; }
+        public Tax Tax { get; private set; }
 
         private QuotationItem()
         {
+            // Required by EF
         }
 
         public QuotationItem(ItemQuoted itemQuoted, decimal unitPrice, int units, Guid? taxId)
         {
+            Guard.AgainstZero(units, nameof(units));
+            Guard.AgainstZero(unitPrice, nameof(unitPrice));
+            Guard.AgainstNull(itemQuoted, nameof(itemQuoted));
+
             ItemQuoted = itemQuoted;
             UnitPrice = unitPrice;
             Units = units;
@@ -32,11 +34,15 @@ namespace Murimi.ApplicationCore.Entities.QuotationAggregate
 
         public void ChangeQuantity(int units)
         {
+            Guard.AgainstZero(units, nameof(units));
+
             Units = units;
         }
 
         public void ChangeUnitPrice(decimal unitPrice)
         {
+            Guard.AgainstZero(unitPrice, nameof(unitPrice));
+
             UnitPrice = unitPrice;
         }
     }

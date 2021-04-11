@@ -1,6 +1,6 @@
 ﻿namespace Murimi.ApplicationCore
 {
-    public class Address
+    public class Address // Value object
     {
         public string Street1 { get; private set; }
 
@@ -13,8 +13,6 @@
         public string ZipCode { get; private set; }
 
         public string Country { get; private set; }
-
-        private Address() { }
 
         public Address(string street1, string street2, string city, string state, string zipCode, string country)
         {

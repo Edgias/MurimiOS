@@ -1,10 +1,11 @@
 ﻿using Murimi.ApplicationCore.Entities.SalesOrderAggregate;
+using Murimi.ApplicationCore.SharedKernel;
 using System;
 using System.Collections.Generic;
 
 namespace Murimi.ApplicationCore.Entities.PurchaseInvoiceAggregate
 {
-    public class PurchaseInvoice : BaseEntity
+    public class PurchaseInvoice : BaseEntity, IAggregateRoot
     {
         public string Name { get; private set; }
 
@@ -24,16 +25,20 @@ namespace Murimi.ApplicationCore.Entities.PurchaseInvoiceAggregate
 
         public Customer Customer { get; private set; }
 
-        private readonly List<PurchaseInvoiceItem> _purchaseInvoiceItems = new List<PurchaseInvoiceItem>();
+        private readonly List<PurchaseInvoiceItem> _purchaseInvoiceItems = new();
 
         public IReadOnlyCollection<PurchaseInvoiceItem> PurchaseInvoiceItems => _purchaseInvoiceItems.AsReadOnly();
 
         private PurchaseInvoice()
         {
+            // Required by EF
         }
 
         public PurchaseInvoice(string name, DateTimeOffset dueDate, string invoiceNotes, Guid? customerId, Guid? salesOrderId, Address billingAddress)
         {
+            Guard.AgainstNullOrEmpty(name, nameof(name));
+            Guard.AgainstNull(dueDate, nameof(dueDate));
+
             Name = name;
             BillingAddress = billingAddress;
             InvoiceNotes = invoiceNotes;
@@ -44,6 +49,10 @@ namespace Murimi.ApplicationCore.Entities.PurchaseInvoiceAggregate
 
         public PurchaseInvoice(string name, DateTimeOffset dueDate, string invoiceNotes, Guid? customerId, Guid? salesOrderId, Address billingAddress, List<PurchaseInvoiceItem> purchaseInvoiceItems)
         {
+            Guard.AgainstNullOrEmpty(name, nameof(name));
+            Guard.AgainstNull(dueDate, nameof(dueDate));
+            Guard.AgainstNull(purchaseInvoiceItems, nameof(purchaseInvoiceItems));
+
             Name = name;
             BillingAddress = billingAddress;
             InvoiceNotes = invoiceNotes;
@@ -55,6 +64,8 @@ namespace Murimi.ApplicationCore.Entities.PurchaseInvoiceAggregate
 
         public void AddItem(PurchaseInvoiceItem purchaseInvoiceItem)
         {
+            Guard.AgainstNull(purchaseInvoiceItem, nameof(purchaseInvoiceItem));
+
             _purchaseInvoiceItems.Add(purchaseInvoiceItem);
         }
 

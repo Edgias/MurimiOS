@@ -7,13 +7,13 @@ namespace Murimi.ApplicationCore.Interfaces
 {
     public interface IQuotationService
     {
-        Task AddQuotationItemAsync(Guid quotationId, Guid itemId, Guid priceListId, Guid? taxId, string userId, int units = 1);
+        Task AddQuotationItemAsync(Guid quotationId, Guid itemId, Guid priceListId, Guid? taxId, int units = 1);
 
-        Task ConvertToSalesOrderAsync(Guid quotationId, string userId);
+        Task ConvertToSalesOrderAsync(Guid quotationId);
 
-        Task<Quotation> CreateQuotationAsync(DateTime quotationDate, DateTime validUntil, Guid? customerId, string userId);
+        Task<Quotation> CreateQuotationAsync(DateTimeOffset quotationDate, DateTimeOffset validUntil, Guid? customerId);
 
-        Task<Quotation> CreateQuotationAsync(DateTime quotationDate, DateTime validUntil, List<QuotationItem> quotationItems, Guid? customerId, string userId);
+        Task<Quotation> CreateQuotationAsync(DateTimeOffset quotationDate, DateTimeOffset validUntil, List<QuotationItem> quotationItems, Guid? customerId);
 
     }
 }

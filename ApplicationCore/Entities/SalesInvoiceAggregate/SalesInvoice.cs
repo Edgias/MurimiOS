@@ -1,10 +1,11 @@
 ﻿using Murimi.ApplicationCore.Entities.SalesOrderAggregate;
+using Murimi.ApplicationCore.SharedKernel;
 using System;
 using System.Collections.Generic;
 
 namespace Murimi.ApplicationCore.Entities.SalesInvoiceAggregate
 {
-    public class SalesInvoice : BaseEntity
+    public class SalesInvoice : BaseEntity, IAggregateRoot
     {
         public string Name { get; private set; }
 
@@ -25,16 +26,21 @@ namespace Murimi.ApplicationCore.Entities.SalesInvoiceAggregate
         public Customer Customer { get; private set; }
 
         
-        private readonly List<SalesInvoiceItem> _salesInvoiceItems = new List<SalesInvoiceItem>();
+        private readonly List<SalesInvoiceItem> _salesInvoiceItems = new();
 
         public IReadOnlyCollection<SalesInvoiceItem> InvoiceItems => _salesInvoiceItems.AsReadOnly();
 
         private SalesInvoice()
         {
+            // Required by EF
         }
 
         public SalesInvoice(string name, DateTimeOffset dueDate, string invoiceNotes, Guid? customerId, Guid? salesOrderId, Address billingAddress)
         {
+            Guard.AgainstNullOrEmpty(name, nameof(name));
+            Guard.AgainstNull(dueDate, nameof(dueDate));
+            Guard.AgainstNull(billingAddress, nameof(billingAddress));
+
             Name = name;
             BillingAddress = billingAddress;
             InvoiceNotes = invoiceNotes;
@@ -45,6 +51,11 @@ namespace Murimi.ApplicationCore.Entities.SalesInvoiceAggregate
 
         public SalesInvoice(string name, DateTimeOffset dueDate, string invoiceNotes, Guid? customerId, Guid? salesOrderId, Address billingAddress, List<SalesInvoiceItem> salesInvoiceItems)
         {
+            Guard.AgainstNullOrEmpty(name, nameof(name));
+            Guard.AgainstNull(dueDate, nameof(dueDate));
+            Guard.AgainstNull(billingAddress, nameof(billingAddress));
+            Guard.AgainstNull(salesInvoiceItems, nameof(salesInvoiceItems));
+
             Name = name;
             BillingAddress = billingAddress;
             InvoiceNotes = invoiceNotes;
@@ -56,6 +67,8 @@ namespace Murimi.ApplicationCore.Entities.SalesInvoiceAggregate
 
         public void AddItem(SalesInvoiceItem salesInvoiceItem)
         {
+            Guard.AgainstNull(salesInvoiceItem, nameof(salesInvoiceItem));
+
             _salesInvoiceItems.Add(salesInvoiceItem);
         }
 
