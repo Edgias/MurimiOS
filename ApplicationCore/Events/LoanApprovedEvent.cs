@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Murimi.ApplicationCore.SharedKernel;
+using System;
 
 namespace Murimi.ApplicationCore.Events
 {
@@ -12,6 +13,10 @@ namespace Murimi.ApplicationCore.Events
 
         public LoanApprovedEvent(string name, decimal amount, DateTime dateApproved)
         {
+            Guard.AgainstNullOrEmpty(name, nameof(name));
+            Guard.AgainstZero(amount, nameof(amount));
+            Guard.AgainstNull(dateApproved, nameof(dateApproved));
+
             Name = name;
             Amount = amount;
             DateApproved = dateApproved;
