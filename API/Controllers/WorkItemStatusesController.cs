@@ -1,12 +1,13 @@
-﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Murimi.API.Interfaces;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
 using Murimi.ApplicationCore.Exceptions;
 using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.SharedKernel;
 using Murimi.ApplicationCore.Specifications;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace Murimi.API.Controllers
     {
         private readonly IAppLogger<WorkItemStatusesController> _logger;
         private readonly IAsyncRepository<WorkItemStatus> _repository;
-        private readonly IMapper<WorkItemStatus, WorkItemStatusRequestApiModel, WorkItemStatusApiModel> _mapper;
+        private readonly IMapper<WorkItemStatus, WorkItemStatusRequest, WorkItemStatusResponse> _mapper;
 
         public WorkItemStatusesController(IAppLogger<WorkItemStatusesController> logger,
             IAsyncRepository<WorkItemStatus> repository,
-            IMapper<WorkItemStatus, WorkItemStatusRequestApiModel, WorkItemStatusApiModel> mapper)
+            IMapper<WorkItemStatus, WorkItemStatusRequest, WorkItemStatusResponse> mapper)
         {
             _logger = logger;
             _repository = repository;
@@ -51,10 +52,10 @@ namespace Murimi.API.Controllers
 
             if (workItemStatuses.Any())
             {
-                ApiResponse<WorkItemStatusApiModel> response = new ApiResponse<WorkItemStatusApiModel>
+                PaginatedResponse<WorkItemStatusResponse> response = new()
                 {
                     Data = workItemStatuses.Select(cu => _mapper.Map(cu)),
-                    Count = await _repository.CountAsync(new WorkItemStatusSpecification(searchQuery))
+                    Total = await _repository.CountAsync(new WorkItemStatusSpecification(searchQuery))
                 };
 
                 return Ok(response);
@@ -77,11 +78,11 @@ namespace Murimi.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(WorkItemStatusRequestApiModel apiModel)
+        public async Task<IActionResult> Post(WorkItemStatusRequest request)
         {
             try
             {
-                WorkItemStatus workItemStatus = _mapper.Map(apiModel);
+                WorkItemStatus workItemStatus = _mapper.Map(request);
 
                 workItemStatus = await _repository.AddAsync(workItemStatus);
 
@@ -90,13 +91,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, WorkItemStatusRequestApiModel apiModel)
+        public async Task<IActionResult> Put(Guid id, WorkItemStatusRequest request)
         {
             try
             {
@@ -107,7 +108,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                _mapper.Map(workItemStatus, apiModel);
+                _mapper.Map(workItemStatus, request);
 
                 await _repository.UpdateAsync(workItemStatus);
 
@@ -116,13 +117,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
-        [HttpPatch("{id}/{userId}/change-status")]
-        public async Task<IActionResult> ChangeStatus(Guid id, string userId)
+        [HttpPatch("{id}/change-status")]
+        public async Task<IActionResult> ChangeStatus(Guid id)
         {
             try
             {
@@ -133,7 +134,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                workItemStatus.ChangeStatus(userId);
+                workItemStatus.ChangeStatus();
 
                 await _repository.UpdateAsync(workItemStatus);
 

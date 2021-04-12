@@ -1,44 +1,34 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class SoilTypeMapper : IMapper<SoilType, SoilTypeRequestApiModel, SoilTypeApiModel>
+    public class SoilTypeMapper : IMapper<SoilType, SoilTypeRequest, SoilTypeResponse>
     {
-        public SoilType Map(SoilTypeRequestApiModel apiModel)
+        public SoilType Map(SoilTypeRequest request)
         {
-            SoilType entity = new SoilType
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            SoilType entity = new(request.Name);
 
             return entity;
         }
 
-        public SoilTypeApiModel Map(SoilType entity)
+        public SoilTypeResponse Map(SoilType entity)
         {
-            SoilTypeApiModel apiModel = new SoilTypeApiModel
+            SoilTypeResponse response = new()
             {
                 Id = entity.Id,
                 IsActive = entity.IsActive,
-                CreatedDate = entity.CreatedDate,
-                LastModifiedDate = entity.LastModifiedDate,
                 Name = entity.Name
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(SoilType entity, SoilTypeRequestApiModel apiModel)
+        public void Map(SoilType entity, SoilTypeRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateDetails(request.Name);
         }
     }
 }

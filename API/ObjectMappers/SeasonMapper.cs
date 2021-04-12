@@ -1,51 +1,38 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class SeasonMapper : IMapper<Season, SeasonRequestApiModel, SeasonApiModel>
+    public class SeasonMapper : IMapper<Season, SeasonRequest, SeasonResponse>
     {
-        public Season Map(SeasonRequestApiModel apiModel)
+        public Season Map(SeasonRequest request)
         {
-            Season entity = new Season
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            Season entity = new(request.Name, request.StartDate, request.EndDate, request.StatusId);
 
             return entity;
         }
 
-        public SeasonApiModel Map(Season entity)
+        public SeasonResponse Map(Season entity)
         {
-            SeasonApiModel apiModel = new SeasonApiModel
+            SeasonResponse response = new()
             {
                 Id = entity.Id,
                 EndDate = entity.EndDate,
                 IsActive = entity.IsActive,
-                CreatedDate = entity.CreatedDate,
-                LastModifiedDate = entity.LastModifiedDate,
                 Name = entity.Name,
                 StartDate = entity.StartDate,
                 Status = entity.SeasonStatus?.Name,
                 StatusId = entity.SeasonStatusId
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(Season entity, SeasonRequestApiModel apiModel)
+        public void Map(Season entity, SeasonRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.StartDate = apiModel.StartDate;
-            entity.EndDate = apiModel.EndDate;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.SeasonStatusId = apiModel.StatusId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateDetails(request.Name, request.StartDate, request.EndDate);
         }
     }
 }

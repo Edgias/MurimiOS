@@ -1,44 +1,34 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class FieldMeasurementMapper : IMapper<FieldMeasurement, FieldMeasurementRequestApiModel, FieldMeasurementApiModel>
+    public class FieldMeasurementMapper : IMapper<FieldMeasurement, FieldMeasurementRequest, FieldMeasurementApiModel>
     {
-        public FieldMeasurement Map(FieldMeasurementRequestApiModel apiModel)
+        public FieldMeasurement Map(FieldMeasurementRequest request)
         {
-            FieldMeasurement entity = new FieldMeasurement
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            FieldMeasurement entity = new(request.Name);
 
             return entity;
         }
 
         public FieldMeasurementApiModel Map(FieldMeasurement entity)
         {
-            FieldMeasurementApiModel apiModel = new FieldMeasurementApiModel
+            FieldMeasurementApiModel response = new()
             {
                 Id = entity.Id,
-                CreatedDate = entity.CreatedDate,
-                LastModifiedDate = entity.LastModifiedDate,
                 IsActive = entity.IsActive,
                 Name = entity.Name
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(FieldMeasurement entity, FieldMeasurementRequestApiModel apiModel)
+        public void Map(FieldMeasurement entity, FieldMeasurementRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateDetails(request.Name);
         }
     }
 }

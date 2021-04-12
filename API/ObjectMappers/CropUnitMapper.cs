@@ -1,44 +1,34 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class CropUnitMapper : IMapper<CropUnit, CropUnitRequestApiModel, CropUnitApiModel>
+    public class CropUnitMapper : IMapper<CropUnit, CropUnitRequest, CropUnitResponse>
     {
-        public CropUnit Map(CropUnitRequestApiModel apiModel)
+        public CropUnit Map(CropUnitRequest request)
         {
-            CropUnit entity = new CropUnit
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            CropUnit entity = new(request.Name);
 
             return entity;
         }
 
-        public CropUnitApiModel Map(CropUnit entity)
+        public CropUnitResponse Map(CropUnit entity)
         {
-            CropUnitApiModel apiModel = new CropUnitApiModel
+            CropUnitResponse response = new()
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                IsActive = entity.IsActive,
-                CreatedDate = entity.CreatedDate,
-                LastModifiedDate = entity.LastModifiedDate
+                IsActive = entity.IsActive
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(CropUnit entity, CropUnitRequestApiModel apiModel)
+        public void Map(CropUnit entity, CropUnitRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateDetails(request.Name);
         }
     }
 }

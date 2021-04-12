@@ -1,59 +1,49 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
+using Murimi.ApplicationCore;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class LocationMapper : IMapper<Location, LocationRequestApiModel, LocationApiModel>
+    public class LocationMapper : IMapper<Location, LocationRequest, LocationResponse>
     {
-        public Location Map(LocationRequestApiModel apiModel)
+        public Location Map(LocationRequest request)
         {
-            Location entity = new Location
-            {
-                CreatedBy = apiModel.UserId
-            };
+            Address locationAddress = new(request.Street1, request.Street2, 
+                request.City, request.State, request.ZipCode, request.Country);
 
-            Map(entity, apiModel);
+            Location entity = new(request.Name, request.Latitude, request.Longitude, locationAddress);
 
             return entity;
         }
 
-        public LocationApiModel Map(Location entity)
+        public LocationResponse Map(Location entity)
         {
-            LocationApiModel apiModel = new LocationApiModel
+            LocationResponse response = new()
             {
                 Id = entity.Id,
                 IsActive = entity.IsActive,
-                City = entity.City,
-                Country = entity.Country,
-                CreatedDate = entity.CreatedDate,
-                LastModifiedDate = entity.LastModifiedDate,
+                City = entity.LocationAddress?.City,
+                Country = entity.LocationAddress?.Country,
                 Latitude = entity.Latitude,
                 Longitude = entity.Longitude,
                 Name = entity.Name,
-                State = entity.State,
-                Street1 = entity.Street1,
-                Street2 = entity.Street2,
-                ZipCode = entity.ZipCode
+                State = entity.LocationAddress?.State,
+                Street1 = entity.LocationAddress?.Street1,
+                Street2 = entity.LocationAddress?.Street2,
+                ZipCode = entity.LocationAddress?.ZipCode
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(Location entity, LocationRequestApiModel apiModel)
+        public void Map(Location entity, LocationRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.Street1 = apiModel.Street1;
-            entity.Street2 = apiModel.Street2;
-            entity.City = apiModel.City;
-            entity.State = apiModel.State;
-            entity.ZipCode = apiModel.ZipCode;
-            entity.Latitude = apiModel.Latitude;
-            entity.Longitude = apiModel.Longitude;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            Address locationAddress = new(request.Street1, request.Street2,
+                request.City, request.State, request.ZipCode, request.Country);
+
+            entity.UpdateDetails(request.Name, request.Latitude, request.Longitude, locationAddress);
         }
     }
 }

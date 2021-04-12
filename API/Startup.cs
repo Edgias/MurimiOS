@@ -1,10 +1,3 @@
-using Murimi.API.Extensions;
-using Murimi.ApplicationCore.Interfaces;
-using Murimi.Infrastructure.Data;
-using Murimi.Infrastructure.Data.Repositories;
-using Murimi.Infrastructure.Logging;
-using Murimi.Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,8 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Murimi.API.Extensions;
+using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.SharedKernel;
+using Murimi.Infrastructure.Data;
+using Murimi.Infrastructure.Data.Repositories;
+using Murimi.Infrastructure.Logging;
 
 namespace API
 {
@@ -32,21 +29,10 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MurimiDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("AgrikDbConnection")));
-
-            //services.AddDbContext<AgrikIdentityDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("AgrikIdentityConnection")));
-
-            //services.AddIdentity<ApplicationUser, IdentityRole>()
-            //        .AddEntityFrameworkStores<AgrikIdentityDbContext>()
-            //        .AddDefaultTokenProviders();
+                options.UseSqlServer(Configuration.GetConnectionString("MurimiDbConnection")));
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
-            services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
-            
-            services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
-            services.AddScoped<IDomainEventHandler, LoanApprovedEventHandler>();
-            //services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));            
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddObjectMappers();
@@ -62,27 +48,6 @@ namespace API
                                         .AllowAnyMethod();
                 });
             });
-
-            services.AddAuthentication(opt =>
-            {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = "https://mutengi.com",
-                    ValidAudience = "https://app.mutengi.com",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
-                };
-            });
-
-            //services.AddPolicies();
 
             services.AddControllers().AddJsonOptions(options =>
                 options.JsonSerializerOptions.Converters.Add(new StringToIntConverter())

@@ -1,47 +1,36 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class WorkItemSubCategoryMapper : IMapper<WorkItemSubCategory, WorkItemSubCategoryRequestApiModel, WorkItemSubCategoryApiModel>
+    public class WorkItemSubCategoryMapper : IMapper<WorkItemSubCategory, WorkItemSubCategoryRequest, WorkItemSubCategoryResponse>
     {
-        public WorkItemSubCategory Map(WorkItemSubCategoryRequestApiModel apiModel)
+        public WorkItemSubCategory Map(WorkItemSubCategoryRequest request)
         {
-            WorkItemSubCategory entity = new WorkItemSubCategory
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            WorkItemSubCategory entity = new(request.Name, request.WorkItemCategoryId);
 
             return entity;
         }
 
-        public WorkItemSubCategoryApiModel Map(WorkItemSubCategory entity)
+        public WorkItemSubCategoryResponse Map(WorkItemSubCategory entity)
         {
-            WorkItemSubCategoryApiModel apiModel = new WorkItemSubCategoryApiModel
+            WorkItemSubCategoryResponse response = new()
             {
                 Id = entity.Id,
                 IsActive = entity.IsActive,
-                WorkItemCategory = entity.WorkItemCategory?.Name,
-                CreatedDate = entity.CreatedDate,
-                LastModifiedDate = entity.LastModifiedDate,
+                WorkItemCategoryName = entity.WorkItemCategory?.Name,
                 Name = entity.Name,
                 WorkItemCategoryId = entity.WorkItemCategoryId
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(WorkItemSubCategory entity, WorkItemSubCategoryRequestApiModel apiModel)
+        public void Map(WorkItemSubCategory entity, WorkItemSubCategoryRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.WorkItemCategoryId = apiModel.WorkItemCategoryId;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateDetails(request.Name);
         }
     }
 }

@@ -1,47 +1,36 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class CropVarietyMapper : IMapper<CropVariety, CropVarietyRequestApiModel, CropVarietyApiModel>
+    public class CropVarietyMapper : IMapper<CropVariety, CropVarietyRequest, CropVarietyResponse>
     {
-        public CropVariety Map(CropVarietyRequestApiModel apiModel)
+        public CropVariety Map(CropVarietyRequest request)
         {
-            CropVariety entity = new CropVariety
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            CropVariety entity = new(request.Name, request.CropId);
 
             return entity;
         }
 
-        public CropVarietyApiModel Map(CropVariety entity)
+        public CropVarietyResponse Map(CropVariety entity)
         {
-            CropVarietyApiModel apiModel = new CropVarietyApiModel
+            CropVarietyResponse response = new()
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                LastModifiedDate = entity.LastModifiedDate,
-                CreatedDate = entity.CreatedDate,
                 CropId = entity.CropId,
-                Crop = entity.Crop?.Name,
+                CropName = entity.Crop?.Name,
                 IsActive = entity.IsActive
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(CropVariety entity, CropVarietyRequestApiModel apiModel)
+        public void Map(CropVariety entity, CropVarietyRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.CropId = apiModel.CropId;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateDetails(request.Name);
         }
     }
 }

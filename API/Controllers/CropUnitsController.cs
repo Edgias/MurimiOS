@@ -1,12 +1,13 @@
-﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Murimi.API.Interfaces;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
 using Murimi.ApplicationCore.Exceptions;
 using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.SharedKernel;
 using Murimi.ApplicationCore.Specifications;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace Murimi.API.Controllers
     {
         private readonly IAppLogger<CropUnitsController> _logger;
         private readonly IAsyncRepository<CropUnit> _repository;
-        private readonly IMapper<CropUnit, CropUnitRequestApiModel, CropUnitApiModel> _mapper;
+        private readonly IMapper<CropUnit, CropUnitRequest, CropUnitResponse> _mapper;
 
         public CropUnitsController(IAppLogger<CropUnitsController> logger,
             IAsyncRepository<CropUnit> repository,
-            IMapper<CropUnit, CropUnitRequestApiModel, CropUnitApiModel> mapper)
+            IMapper<CropUnit, CropUnitRequest, CropUnitResponse> mapper)
         {
             _logger = logger;
             _repository = repository;
@@ -51,10 +52,10 @@ namespace Murimi.API.Controllers
 
             if (cropUnits.Any())
             {
-                ApiResponse<CropUnitApiModel> response = new ApiResponse<CropUnitApiModel>
+                PaginatedResponse<CropUnitResponse> response = new()
                 {
                     Data = cropUnits.Select(cu => _mapper.Map(cu)),
-                    Count = await _repository.CountAsync(new CropUnitSpecification(searchQuery))
+                    Total = await _repository.CountAsync(new CropUnitSpecification(searchQuery))
                 };
 
                 return Ok(response);
@@ -77,11 +78,11 @@ namespace Murimi.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(CropUnitRequestApiModel apiModel)
+        public async Task<IActionResult> Post(CropUnitRequest request)
         {
             try
             {
-                CropUnit cropUnit = _mapper.Map(apiModel);
+                CropUnit cropUnit = _mapper.Map(request);
 
                 cropUnit = await _repository.AddAsync(cropUnit);
 
@@ -90,13 +91,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, CropUnitRequestApiModel apiModel)
+        public async Task<IActionResult> Put(Guid id, CropUnitRequest request)
         {
             try
             {
@@ -107,7 +108,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                _mapper.Map(cropUnit, apiModel);
+                _mapper.Map(cropUnit, request);
 
                 await _repository.UpdateAsync(cropUnit);
 
@@ -116,13 +117,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
-        [HttpPatch("{id}/{userId}/change-status")]
-        public async Task<IActionResult> ChangeStatus(Guid id, string userId)
+        [HttpPatch("{id}/change-status")]
+        public async Task<IActionResult> ChangeStatus(Guid id)
         {
             try
             {
@@ -133,7 +134,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                cropUnit.ChangeStatus(userId);
+                cropUnit.ChangeStatus();
 
                 await _repository.UpdateAsync(cropUnit);
 

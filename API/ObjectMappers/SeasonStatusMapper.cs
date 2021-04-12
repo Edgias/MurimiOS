@@ -1,46 +1,35 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class SeasonStatusMapper : IMapper<SeasonStatus, SeasonStatusRequestApiModel, SeasonStatusApiModel>
+    public class SeasonStatusMapper : IMapper<SeasonStatus, SeasonStatusRequest, SeasonStatusResponse>
     {
-        public SeasonStatus Map(SeasonStatusRequestApiModel apiModel)
+        public SeasonStatus Map(SeasonStatusRequest request)
         {
-            SeasonStatus entity = new SeasonStatus
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            SeasonStatus entity = new(request.Name, request.IsDefault);
 
             return entity;
         }
 
-        public SeasonStatusApiModel Map(SeasonStatus entity)
+        public SeasonStatusResponse Map(SeasonStatus entity)
         {
-            SeasonStatusApiModel apiModel = new SeasonStatusApiModel
+            SeasonStatusResponse response = new()
             {
                 IsDefault = entity.IsDefault,
                 Id = entity.Id,
                 IsActive = entity.IsActive,
-                CreatedDate = entity.CreatedDate,
-                LastModifiedDate = entity.LastModifiedDate,
                 Name = entity.Name
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(SeasonStatus entity, SeasonStatusRequestApiModel apiModel)
+        public void Map(SeasonStatus entity, SeasonStatusRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.IsDefault = apiModel.IsDefault;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateName(request.Name);
         }
     }
 }

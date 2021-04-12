@@ -1,46 +1,35 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class WorkItemStatusMapper : IMapper<WorkItemStatus, WorkItemStatusRequestApiModel, WorkItemStatusApiModel>
+    public class WorkItemStatusMapper : IMapper<WorkItemStatus, WorkItemStatusRequest, WorkItemStatusResponse>
     {
-        public WorkItemStatus Map(WorkItemStatusRequestApiModel apiModel)
+        public WorkItemStatus Map(WorkItemStatusRequest request)
         {
-            WorkItemStatus entity = new WorkItemStatus
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            WorkItemStatus entity = new(request.Name, request.IsDefault);
 
             return entity;
         }
 
-        public WorkItemStatusApiModel Map(WorkItemStatus entity)
+        public WorkItemStatusResponse Map(WorkItemStatus entity)
         {
-            WorkItemStatusApiModel apiModel = new WorkItemStatusApiModel
+            WorkItemStatusResponse response = new()
             {
                 Id = entity.Id,
                 Name = entity.Name,
                 IsActive = entity.IsActive,
-                IsDefault = entity.IsDefault,
-                CreatedDate = entity.CreatedDate,
-                LastModifiedDate = entity.LastModifiedDate
+                IsDefault = entity.IsDefault
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(WorkItemStatus entity, WorkItemStatusRequestApiModel apiModel)
+        public void Map(WorkItemStatus entity, WorkItemStatusRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.IsDefault = apiModel.IsDefault;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateDetails(request.Name);
         }
     }
 }

@@ -1,12 +1,13 @@
-﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Murimi.API.Interfaces;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
 using Murimi.ApplicationCore.Exceptions;
 using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.SharedKernel;
 using Murimi.ApplicationCore.Specifications;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace Murimi.API.Controllers
     {
         private readonly IAppLogger<LocationsController> _logger;
         private readonly IAsyncRepository<Location> _repository;
-        private readonly IMapper<Location, LocationRequestApiModel, LocationApiModel> _mapper;
+        private readonly IMapper<Location, LocationRequest, LocationResponse> _mapper;
 
         public LocationsController(IAppLogger<LocationsController> logger,
             IAsyncRepository<Location> repository,
-            IMapper<Location, LocationRequestApiModel, LocationApiModel> mapper)
+            IMapper<Location, LocationRequest, LocationResponse> mapper)
         {
             _logger = logger;
             _repository = repository;
@@ -51,10 +52,10 @@ namespace Murimi.API.Controllers
 
             if (locations.Any())
             {
-                ApiResponse<LocationApiModel> response = new ApiResponse<LocationApiModel>
+                PaginatedResponse<LocationResponse> response = new()
                 {
                     Data = locations.Select(c => _mapper.Map(c)),
-                    Count = await _repository.CountAsync(new LocationSpecification(searchQuery))
+                    Total = await _repository.CountAsync(new LocationSpecification(searchQuery))
                 };
 
                 return Ok(response);
@@ -77,11 +78,11 @@ namespace Murimi.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(LocationRequestApiModel apiModel)
+        public async Task<IActionResult> Post(LocationRequest request)
         {
             try
             {
-                Location location = _mapper.Map(apiModel);
+                Location location = _mapper.Map(request);
 
                 location = await _repository.AddAsync(location);
 
@@ -90,13 +91,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, LocationRequestApiModel apiModel)
+        public async Task<IActionResult> Put(Guid id, LocationRequest request)
         {
             try
             {
@@ -107,7 +108,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                _mapper.Map(location, apiModel);
+                _mapper.Map(location, request);
 
                 await _repository.UpdateAsync(location);
 
@@ -116,13 +117,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
-        [HttpPatch("{id}/{userId}/change-status")]
-        public async Task<IActionResult> ChangeStatus(Guid id, string userId)
+        [HttpPatch("{id}/change-status")]
+        public async Task<IActionResult> ChangeStatus(Guid id)
         {
             try
             {
@@ -133,7 +134,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                location.ChangeStatus(userId);
+                location.ChangeStatus();
 
                 await _repository.UpdateAsync(location);
 

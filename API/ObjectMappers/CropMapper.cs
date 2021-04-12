@@ -1,50 +1,38 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class CropMapper : IMapper<Crop, CropRequestApiModel, CropApiModel>
+    public class CropMapper : IMapper<Crop, CropRequest, CropResponse>
     {
-        public Crop Map(CropRequestApiModel apiModel)
+        public Crop Map(CropRequest request)
         {
-            Crop entity = new Crop
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            Crop entity = new(request.Name, request.CropCategoryId, request.CropUnitId);
 
             return entity;
         }
 
-        public CropApiModel Map(Crop entity)
+        public CropResponse Map(Crop entity)
         {
-            CropApiModel apiModel = new CropApiModel
+            CropResponse response = new()
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                CreatedDate = entity.CreatedDate,
-                CropCategory = entity.CropCategory?.Name,
+                CropCategoryName = entity.CropCategory?.Name,
                 CropCategoryId = entity.CropCategoryId,
-                CropUnit = entity.CropUnit?.Name,
+                CropUnitName = entity.CropUnit?.Name,
                 CropUnitId = entity.CropUnitId,
-                IsActive = entity.IsActive,
-                LastModifiedDate = entity.LastModifiedDate
+                IsActive = entity.IsActive
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(Crop entity, CropRequestApiModel apiModel)
+        public void Map(Crop entity, CropRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.CropCategoryId = apiModel.CropCategoryId;
-            entity.CropUnitId = apiModel.CropUnitId;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateDetails(request.Name);
         }
     }
 }

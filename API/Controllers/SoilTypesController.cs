@@ -1,12 +1,13 @@
-﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Murimi.API.Interfaces;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
 using Murimi.ApplicationCore.Exceptions;
 using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.SharedKernel;
 using Murimi.ApplicationCore.Specifications;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace Murimi.API.Controllers
     {
         private readonly IAppLogger<SoilTypesController> _logger;
         private readonly IAsyncRepository<SoilType> _repository;
-        private readonly IMapper<SoilType, SoilTypeRequestApiModel, SoilTypeApiModel> _mapper;
+        private readonly IMapper<SoilType, SoilTypeRequest, SoilTypeResponse> _mapper;
 
         public SoilTypesController(IAppLogger<SoilTypesController> logger,
             IAsyncRepository<SoilType> repository,
-            IMapper<SoilType, SoilTypeRequestApiModel, SoilTypeApiModel> mapper)
+            IMapper<SoilType, SoilTypeRequest, SoilTypeResponse> mapper)
         {
             _logger = logger;
             _repository = repository;
@@ -51,10 +52,10 @@ namespace Murimi.API.Controllers
 
             if (soilTypes.Any())
             {
-                ApiResponse<SoilTypeApiModel> response = new ApiResponse<SoilTypeApiModel>
+                PaginatedResponse<SoilTypeResponse> response = new()
                 {
                     Data = soilTypes.Select(c => _mapper.Map(c)),
-                    Count = await _repository.CountAsync(new SoilTypeSpecification(searchQuery))
+                    Total = await _repository.CountAsync(new SoilTypeSpecification(searchQuery))
                 };
 
                 return Ok(response);
@@ -77,11 +78,11 @@ namespace Murimi.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(SoilTypeRequestApiModel apiModel)
+        public async Task<IActionResult> Post(SoilTypeRequest request)
         {
             try
             {
-                SoilType soilType = _mapper.Map(apiModel);
+                SoilType soilType = _mapper.Map(request);
 
                 soilType = await _repository.AddAsync(soilType);
 
@@ -90,13 +91,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, SoilTypeRequestApiModel apiModel)
+        public async Task<IActionResult> Put(Guid id, SoilTypeRequest request)
         {
             try
             {
@@ -107,7 +108,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                _mapper.Map(soilType, apiModel);
+                _mapper.Map(soilType, request);
 
                 await _repository.UpdateAsync(soilType);
 
@@ -116,13 +117,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
-        [HttpPatch("{id}/{userId}/change-status")]
-        public async Task<IActionResult> ChangeStatus(Guid id, string userId)
+        [HttpPatch("{id}/change-status")]
+        public async Task<IActionResult> ChangeStatus(Guid id)
         {
             try
             {
@@ -133,7 +134,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                soilType.ChangeStatus(userId);
+                soilType.ChangeStatus();
 
                 await _repository.UpdateAsync(soilType);
 

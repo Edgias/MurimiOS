@@ -1,12 +1,13 @@
-﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Murimi.API.Interfaces;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
 using Murimi.ApplicationCore.Exceptions;
 using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.SharedKernel;
 using Murimi.ApplicationCore.Specifications;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace Murimi.API.Controllers
     {
         private readonly IAppLogger<SeasonsController> _logger;
         private readonly IAsyncRepository<Season> _repository;
-        private readonly IMapper<Season, SeasonRequestApiModel, SeasonApiModel> _mapper;
+        private readonly IMapper<Season, SeasonRequest, SeasonResponse> _mapper;
 
         public SeasonsController(IAppLogger<SeasonsController> logger,
             IAsyncRepository<Season> repository,
-            IMapper<Season, SeasonRequestApiModel, SeasonApiModel> mapper)
+            IMapper<Season, SeasonRequest, SeasonResponse> mapper)
         {
             _logger = logger;
             _repository = repository;
@@ -51,10 +52,10 @@ namespace Murimi.API.Controllers
 
             if (seasons.Any())
             {
-                ApiResponse<SeasonApiModel> response = new ApiResponse<SeasonApiModel>
+                PaginatedResponse<SeasonResponse> response = new()
                 {
                     Data = seasons.Select(c => _mapper.Map(c)),
-                    Count = await _repository.CountAsync(new SeasonSpecification(searchQuery))
+                    Total = await _repository.CountAsync(new SeasonSpecification(searchQuery))
                 };
 
                 return Ok(response);
@@ -77,11 +78,11 @@ namespace Murimi.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(SeasonRequestApiModel apiModel)
+        public async Task<IActionResult> Post(SeasonRequest request)
         {
             try
             {
-                Season season = _mapper.Map(apiModel);
+                Season season = _mapper.Map(request);
 
                 season = await _repository.AddAsync(season);
 
@@ -90,13 +91,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, SeasonRequestApiModel apiModel)
+        public async Task<IActionResult> Put(Guid id, SeasonRequest request)
         {
             try
             {
@@ -107,7 +108,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                _mapper.Map(season, apiModel);
+                _mapper.Map(season, request);
 
                 await _repository.UpdateAsync(season);
 
@@ -116,13 +117,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
-        [HttpPatch("{id}/{userId}/change-status")]
-        public async Task<IActionResult> ChangeStatus(Guid id, string userId)
+        [HttpPatch("{id}/change-status")]
+        public async Task<IActionResult> ChangeStatus(Guid id)
         {
             try
             {
@@ -133,7 +134,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                season.ChangeStatus(userId);
+                season.ChangeStatus();
 
                 await _repository.UpdateAsync(season);
 

@@ -1,44 +1,34 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class WorkItemCategoryMapper : IMapper<WorkItemCategory, WorkItemCategoryRequestApiModel, WorkItemCategoryApiModel>
+    public class WorkItemCategoryMapper : IMapper<WorkItemCategory, WorkItemCategoryRequest, WorkItemCategoryResponse>
     {
-        public WorkItemCategory Map(WorkItemCategoryRequestApiModel apiModel)
+        public WorkItemCategory Map(WorkItemCategoryRequest request)
         {
-            WorkItemCategory entity = new WorkItemCategory
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            WorkItemCategory entity = new(request.Name);
 
             return entity;
         }
 
-        public WorkItemCategoryApiModel Map(WorkItemCategory entity)
+        public WorkItemCategoryResponse Map(WorkItemCategory entity)
         {
-            WorkItemCategoryApiModel apiModel = new WorkItemCategoryApiModel
+            WorkItemCategoryResponse response = new()
             {
                 Id = entity.Id,
-                CreatedDate = entity.CreatedDate,
                 IsActive = entity.IsActive,
-                LastModifiedDate = entity.LastModifiedDate,
                 Name = entity.Name
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(WorkItemCategory entity, WorkItemCategoryRequestApiModel apiModel)
+        public void Map(WorkItemCategory entity, WorkItemCategoryRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateDetails(request.Name);
         }
     }
 }

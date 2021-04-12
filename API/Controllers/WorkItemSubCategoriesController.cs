@@ -1,12 +1,13 @@
-﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Murimi.API.Interfaces;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
 using Murimi.ApplicationCore.Exceptions;
 using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.SharedKernel;
 using Murimi.ApplicationCore.Specifications;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace Murimi.API.Controllers
     {
         private readonly IAppLogger<WorkItemSubCategoriesController> _logger;
         private readonly IAsyncRepository<WorkItemSubCategory> _repository;
-        private readonly IMapper<WorkItemSubCategory, WorkItemSubCategoryRequestApiModel, WorkItemSubCategoryApiModel> _mapper;
+        private readonly IMapper<WorkItemSubCategory, WorkItemSubCategoryRequest, WorkItemSubCategoryResponse> _mapper;
 
         public WorkItemSubCategoriesController(IAppLogger<WorkItemSubCategoriesController> logger,
             IAsyncRepository<WorkItemSubCategory> repository,
-            IMapper<WorkItemSubCategory, WorkItemSubCategoryRequestApiModel, WorkItemSubCategoryApiModel> mapper)
+            IMapper<WorkItemSubCategory, WorkItemSubCategoryRequest, WorkItemSubCategoryResponse> mapper)
         {
             _logger = logger;
             _repository = repository;
@@ -60,14 +61,15 @@ namespace Murimi.API.Controllers
         [HttpGet("work-item-sub-categories/{skip}/{take}/{searchQuery?}")]
         public async Task<IActionResult> Get(int skip, int take, string searchQuery = null)
         {
-            IReadOnlyList<WorkItemSubCategory> workItemSubCategories = await _repository.GetAsync(new WorkItemSubCategorySpecification(skip, take, searchQuery));
+            IReadOnlyList<WorkItemSubCategory> workItemSubCategories = 
+                await _repository.GetAsync(new WorkItemSubCategorySpecification(skip, take, searchQuery));
 
             if (workItemSubCategories.Any())
             {
-                ApiResponse<WorkItemSubCategoryApiModel> response = new ApiResponse<WorkItemSubCategoryApiModel>
+                PaginatedResponse<WorkItemSubCategoryResponse> response = new()
                 {
                     Data = workItemSubCategories.Select(wisc => _mapper.Map(wisc)),
-                    Count = await _repository.CountAsync(new WorkItemSubCategorySpecification(searchQuery))
+                    Total = await _repository.CountAsync(new WorkItemSubCategorySpecification(searchQuery))
                 };
 
                 return Ok(response);
@@ -79,14 +81,15 @@ namespace Murimi.API.Controllers
         [HttpGet("work-item-categories/{workItemCategoryId}/sub-categories/{skip}/{take}/{searchQuery?}")]
         public async Task<IActionResult> Get(Guid workItemCategoryId, int skip, int take, string searchQuery = null)
         {
-            IReadOnlyList<WorkItemSubCategory> workItemSubCategories = await _repository.GetAsync(new WorkItemSubCategorySpecification(workItemCategoryId, skip, take, searchQuery));
+            IReadOnlyList<WorkItemSubCategory> workItemSubCategories = 
+                await _repository.GetAsync(new WorkItemSubCategorySpecification(workItemCategoryId, skip, take, searchQuery));
 
             if (workItemSubCategories.Any())
             {
-                ApiResponse<WorkItemSubCategoryApiModel> response = new ApiResponse<WorkItemSubCategoryApiModel>
+                PaginatedResponse<WorkItemSubCategoryResponse> response = new()
                 {
                     Data = workItemSubCategories.Select(wisc => _mapper.Map(wisc)),
-                    Count = await _repository.CountAsync(new WorkItemSubCategorySpecification(workItemCategoryId, searchQuery))
+                    Total = await _repository.CountAsync(new WorkItemSubCategorySpecification(workItemCategoryId, searchQuery))
                 };
 
                 return Ok(response);
@@ -109,11 +112,11 @@ namespace Murimi.API.Controllers
         }
 
         [HttpPost("work-item-sub-categories")]
-        public async Task<IActionResult> Post(WorkItemSubCategoryRequestApiModel apiModel)
+        public async Task<IActionResult> Post(WorkItemSubCategoryRequest request)
         {
             try
             {
-                WorkItemSubCategory workItemSubCategory = _mapper.Map(apiModel);
+                WorkItemSubCategory workItemSubCategory = _mapper.Map(request);
 
                 workItemSubCategory = await _repository.AddAsync(workItemSubCategory);
 
@@ -122,13 +125,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
         [HttpPut("work-item-sub-categories/{id}")]
-        public async Task<IActionResult> Put(Guid id, WorkItemSubCategoryRequestApiModel apiModel)
+        public async Task<IActionResult> Put(Guid id, WorkItemSubCategoryRequest request)
         {
             try
             {
@@ -139,7 +142,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                _mapper.Map(workItemSubCategory, apiModel);
+                _mapper.Map(workItemSubCategory, request);
 
                 await _repository.UpdateAsync(workItemSubCategory);
 
@@ -148,13 +151,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
-        [HttpPatch("work-item-sub-categories/{id}/{userId}/change-status")]
-        public async Task<IActionResult> ChangeStatus(Guid id, string userId)
+        [HttpPatch("work-item-sub-categories/{id}/change-status")]
+        public async Task<IActionResult> ChangeStatus(Guid id)
         {
             try
             {
@@ -165,7 +168,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                workItemSubCategory.ChangeStatus(userId);
+                workItemSubCategory.ChangeStatus();
 
                 await _repository.UpdateAsync(workItemSubCategory);
 

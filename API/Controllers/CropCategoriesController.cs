@@ -1,12 +1,13 @@
-﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Murimi.API.Interfaces;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
 using Murimi.ApplicationCore.Exceptions;
 using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.SharedKernel;
 using Murimi.ApplicationCore.Specifications;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace Murimi.API.Controllers
     {
         private readonly IAppLogger<CropCategoriesController> _logger;
         private readonly IAsyncRepository<CropCategory> _repository;
-        private readonly IMapper<CropCategory, CropCategoryRequestApiModel, CropCategoryApiModel> _mapper;
+        private readonly IMapper<CropCategory, CropCategoryRequest, CropCategoryApiModel> _mapper;
 
         public CropCategoriesController(IAppLogger<CropCategoriesController> logger,
             IAsyncRepository<CropCategory> repository,
-            IMapper<CropCategory, CropCategoryRequestApiModel, CropCategoryApiModel> mapper)
+            IMapper<CropCategory, CropCategoryRequest, CropCategoryApiModel> mapper)
         {
             _logger = logger;
             _repository = repository;
@@ -51,10 +52,10 @@ namespace Murimi.API.Controllers
 
             if (cropCategories.Any())
             {
-                ApiResponse<CropCategoryApiModel> response = new ApiResponse<CropCategoryApiModel>
+                PaginatedResponse<CropCategoryApiModel> response = new()
                 {
                     Data = cropCategories.Select(cc => _mapper.Map(cc)),
-                    Count = await _repository.CountAsync(new CropCategorySpecification(searchQuery))
+                    Total = await _repository.CountAsync(new CropCategorySpecification(searchQuery))
                 };
 
                 return Ok(response);
@@ -77,11 +78,11 @@ namespace Murimi.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(CropCategoryRequestApiModel apiModel)
+        public async Task<IActionResult> Post(CropCategoryRequest request)
         {
             try
             {
-                CropCategory cropCategory = _mapper.Map(apiModel);
+                CropCategory cropCategory = _mapper.Map(request);
 
                 cropCategory = await _repository.AddAsync(cropCategory);
 
@@ -90,13 +91,13 @@ namespace Murimi.API.Controllers
 
             catch(DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, CropCategoryRequestApiModel apiModel)
+        public async Task<IActionResult> Put(Guid id, CropCategoryRequest request)
         {
             try
             {
@@ -107,7 +108,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                _mapper.Map(cropCategory, apiModel);
+                _mapper.Map(cropCategory, request);
 
                 await _repository.UpdateAsync(cropCategory);
 
@@ -116,13 +117,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
-        [HttpPatch("{id}/{userId}/change-status")]
-        public async Task<IActionResult> ChangeStatus(Guid id, string userId)
+        [HttpPatch("{id}/change-status")]
+        public async Task<IActionResult> ChangeStatus(Guid id)
         {
             try
             {
@@ -133,7 +134,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                cropCategory.ChangeStatus(userId);
+                cropCategory.ChangeStatus();
 
                 await _repository.UpdateAsync(cropCategory);
 

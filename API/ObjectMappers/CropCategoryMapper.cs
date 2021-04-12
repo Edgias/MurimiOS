@@ -1,46 +1,35 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class CropCategoryMapper : IMapper<CropCategory, CropCategoryRequestApiModel, CropCategoryApiModel>
+    public class CropCategoryMapper : IMapper<CropCategory, CropCategoryRequest, CropCategoryApiModel>
     {
-        public CropCategory Map(CropCategoryRequestApiModel apiModel)
+        public CropCategory Map(CropCategoryRequest request)
         {
-            CropCategory entity = new CropCategory
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            CropCategory entity = new(request.Name, request.Description);
 
             return entity;
         }
 
         public CropCategoryApiModel Map(CropCategory entity)
         {
-            CropCategoryApiModel apiModel = new CropCategoryApiModel
+            CropCategoryApiModel response = new()
             {
                 Id = entity.Id,
                 Name = entity.Name,
                 Description = entity.Description,
-                CreatedDate = entity.CreatedDate,
-                LastModifiedDate = entity.LastModifiedDate,
                 IsActive = entity.IsActive
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(CropCategory entity, CropCategoryRequestApiModel apiModel)
+        public void Map(CropCategory entity, CropCategoryRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.Description = apiModel.Description;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateDetails(request.Name, request.Description);
         }
     }
 }

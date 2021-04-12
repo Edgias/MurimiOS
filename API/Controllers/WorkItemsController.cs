@@ -1,12 +1,13 @@
-﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Murimi.API.Interfaces;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
 using Murimi.ApplicationCore.Exceptions;
 using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.SharedKernel;
 using Murimi.ApplicationCore.Specifications;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace Murimi.API.Controllers
     {
         private readonly IAppLogger<WorkItemsController> _logger;
         private readonly IAsyncRepository<WorkItem> _repository;
-        private readonly IMapper<WorkItem, WorkItemRequestApiModel, WorkItemApiModel> _mapper;
+        private readonly IMapper<WorkItem, WorkItemRequest, WorkItemResponse> _mapper;
 
         public WorkItemsController(IAppLogger<WorkItemsController> logger,
             IAsyncRepository<WorkItem> repository,
-            IMapper<WorkItem, WorkItemRequestApiModel, WorkItemApiModel> mapper)
+            IMapper<WorkItem, WorkItemRequest, WorkItemResponse> mapper)
         {
             _logger = logger;
             _repository = repository;
@@ -64,10 +65,10 @@ namespace Murimi.API.Controllers
 
             if (workItems.Any())
             {
-                ApiResponse<WorkItemApiModel> response = new ApiResponse<WorkItemApiModel>
+                PaginatedResponse<WorkItemResponse> response = new()
                 {
                     Data = workItems.Select(wi => _mapper.Map(wi)),
-                    Count = await _repository.CountAsync(new WorkItemSpecification(searchQuery))
+                    Total = await _repository.CountAsync(new WorkItemSpecification(searchQuery))
                 };
 
                 return Ok(response);
@@ -83,10 +84,10 @@ namespace Murimi.API.Controllers
 
             if (workItems.Any())
             {
-                ApiResponse<WorkItemApiModel> response = new ApiResponse<WorkItemApiModel>
+                PaginatedResponse<WorkItemResponse> response = new()
                 {
                     Data = workItems.Select(wi => _mapper.Map(wi)),
-                    Count = await _repository.CountAsync(new WorkItemSpecification(seasonId, searchQuery))
+                    Total = await _repository.CountAsync(new WorkItemSpecification(seasonId, searchQuery))
                 };
 
                 return Ok(response);
@@ -109,11 +110,11 @@ namespace Murimi.API.Controllers
         }
 
         [HttpPost("work-items")]
-        public async Task<IActionResult> Post(WorkItemRequestApiModel apiModel)
+        public async Task<IActionResult> Post(WorkItemRequest request)
         {
             try
             {
-                WorkItem workItem = _mapper.Map(apiModel);
+                WorkItem workItem = _mapper.Map(request);
 
                 workItem = await _repository.AddAsync(workItem);
 
@@ -122,13 +123,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
         [HttpPut("work-items/{id}")]
-        public async Task<IActionResult> Put(Guid id, WorkItemRequestApiModel apiModel)
+        public async Task<IActionResult> Put(Guid id, WorkItemRequest request)
         {
             try
             {
@@ -139,7 +140,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                _mapper.Map(workItem, apiModel);
+                _mapper.Map(workItem, request);
 
                 await _repository.UpdateAsync(workItem);
 
@@ -148,13 +149,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
-        [HttpPatch("work-items/{id}/{userId}/change-status")]
-        public async Task<IActionResult> ChangeStatus(Guid id, string userId)
+        [HttpPatch("work-items/{id}/change-status")]
+        public async Task<IActionResult> ChangeStatus(Guid id)
         {
             try
             {
@@ -165,7 +166,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                workItem.ChangeStatus(userId);
+                workItem.ChangeStatus();
 
                 await _repository.UpdateAsync(workItem);
 

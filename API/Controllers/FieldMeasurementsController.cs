@@ -1,12 +1,13 @@
-﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Murimi.API.Interfaces;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
 using Murimi.ApplicationCore.Exceptions;
 using Murimi.ApplicationCore.Interfaces;
+using Murimi.ApplicationCore.SharedKernel;
 using Murimi.ApplicationCore.Specifications;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace Murimi.API.Controllers
     {
         private readonly IAppLogger<FieldMeasurementsController> _logger;
         private readonly IAsyncRepository<FieldMeasurement> _repository;
-        private readonly IMapper<FieldMeasurement, FieldMeasurementRequestApiModel, FieldMeasurementApiModel> _mapper;
+        private readonly IMapper<FieldMeasurement, FieldMeasurementRequest, FieldMeasurementApiModel> _mapper;
 
         public FieldMeasurementsController(IAppLogger<FieldMeasurementsController> logger,
             IAsyncRepository<FieldMeasurement> repository,
-            IMapper<FieldMeasurement, FieldMeasurementRequestApiModel, FieldMeasurementApiModel> mapper)
+            IMapper<FieldMeasurement, FieldMeasurementRequest, FieldMeasurementApiModel> mapper)
         {
             _logger = logger;
             _repository = repository;
@@ -51,10 +52,10 @@ namespace Murimi.API.Controllers
 
             if (fieldMeasurements.Any())
             {
-                ApiResponse<FieldMeasurementApiModel> response = new ApiResponse<FieldMeasurementApiModel>
+                PaginatedResponse<FieldMeasurementApiModel> response = new()
                 {
                     Data = fieldMeasurements.Select(c => _mapper.Map(c)),
-                    Count = await _repository.CountAsync(new FieldMeasurementSpecification(searchQuery))
+                    Total = await _repository.CountAsync(new FieldMeasurementSpecification(searchQuery))
                 };
 
                 return Ok(response);
@@ -77,11 +78,11 @@ namespace Murimi.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(FieldMeasurementRequestApiModel apiModel)
+        public async Task<IActionResult> Post(FieldMeasurementRequest request)
         {
             try
             {
-                FieldMeasurement fieldMeasurement = _mapper.Map(apiModel);
+                FieldMeasurement fieldMeasurement = _mapper.Map(request);
 
                 fieldMeasurement = await _repository.AddAsync(fieldMeasurement);
 
@@ -90,13 +91,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, FieldMeasurementRequestApiModel apiModel)
+        public async Task<IActionResult> Put(Guid id, FieldMeasurementRequest request)
         {
             try
             {
@@ -107,7 +108,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                _mapper.Map(fieldMeasurement, apiModel);
+                _mapper.Map(fieldMeasurement, request);
 
                 await _repository.UpdateAsync(fieldMeasurement);
 
@@ -116,13 +117,13 @@ namespace Murimi.API.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
-        [HttpPatch("{id}/{userId}/change-status")]
-        public async Task<IActionResult> ChangeStatus(Guid id, string userId)
+        [HttpPatch("{id}/change-status")]
+        public async Task<IActionResult> ChangeStatus(Guid id)
         {
             try
             {
@@ -133,7 +134,7 @@ namespace Murimi.API.Controllers
                     return NotFound();
                 }
 
-                fieldMeasurement.ChangeStatus(userId);
+                fieldMeasurement.ChangeStatus();
 
                 await _repository.UpdateAsync(fieldMeasurement);
 

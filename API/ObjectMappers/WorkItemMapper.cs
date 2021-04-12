@@ -1,68 +1,50 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class WorkItemMapper : IMapper<WorkItem, WorkItemRequestApiModel, WorkItemApiModel>
+    public class WorkItemMapper : IMapper<WorkItem, WorkItemRequest, WorkItemResponse>
     {
-        public WorkItem Map(WorkItemRequestApiModel apiModel)
+        public WorkItem Map(WorkItemRequest request)
         {
-            WorkItem entity = new WorkItem
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            WorkItem entity = new(request.Name, request.Description, request.StartDate, request.EndDate, 
+                request.WorkItemStatusId, request.WorkItemCategoryId, request.WorkItemSubCategoryId, request.FieldId, request.SeasonId, request.CropProductionId);
 
             return entity;
         }
 
-        public WorkItemApiModel Map(WorkItem entity)
+        public WorkItemResponse Map(WorkItem entity)
         {
-            WorkItemApiModel apiModel = new WorkItemApiModel
+            WorkItemResponse response = new()
             {
                 Id = entity.Id,
                 IsActive = entity.IsActive,
                 CropProductionId = entity.CropProductionId,
                 FieldId = entity.FieldId,
                 EndDate = entity.EndDate,
-                CreatedDate = entity.CreatedDate,
-                CropProduction = entity.CropProduction?.Name,
-                WorkItemCategory = entity.WorkItemCategory?.Name,
+                CropProductionName = entity.CropProduction?.Name,
+                WorkItemCategoryName = entity.WorkItemCategory?.Name,
                 WorkItemCategoryId = entity.WorkItemCategoryId,
-                WorkItemStatus = entity.WorkItemStatus?.Name,
+                WorkItemStatusName = entity.WorkItemStatus?.Name,
                 WorkItemStatusId = entity.WorkItemStatusId,
-                WorkItemSubCategory = entity.WorkItemSubCategory?.Name,
+                WorkItemSubCategoryName = entity.WorkItemSubCategory?.Name,
                 WorkItemSubCategoryId = entity.WorkItemSubCategoryId,
                 Description = entity.Description,
-                Field = entity.Field?.Name,
-                LastModifiedDate = entity.LastModifiedDate,
+                FieldName = entity.Field?.Name,
                 Name = entity.Name,
                 SeasonId = entity.SeasonId,
-                Season = entity.Season?.Name,
+                SeasonName = entity.Season?.Name,
                 StartDate = entity.StartDate
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(WorkItem entity, WorkItemRequestApiModel apiModel)
+        public void Map(WorkItem entity, WorkItemRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.Description = apiModel.Description;
-            entity.CropProductionId = apiModel.CropProductionId;
-            entity.EndDate = apiModel.EndDate;
-            entity.FieldId = apiModel.FieldId;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
-            entity.SeasonId = apiModel.SeasonId;
-            entity.StartDate = apiModel.StartDate;
-            entity.WorkItemCategoryId = apiModel.WorkItemCategoryId;
-            entity.WorkItemStatusId = apiModel.WorkItemStatusId;
-            entity.WorkItemSubCategoryId = apiModel.WorkItemSubCategoryId;
+            entity.UpdateDetails(request.Name, request.Description, request.StartDate, request.EndDate);
         }
     }
 }

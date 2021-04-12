@@ -1,44 +1,34 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class OwnershipTypeMapper : IMapper<OwnershipType, OwnershipTypeRequestApiModel, OwnershipTypeApiModel>
+    public class OwnershipTypeMapper : IMapper<OwnershipType, OwnershipTypeRequest, OwnershipTypeResponse>
     {
-        public OwnershipType Map(OwnershipTypeRequestApiModel apiModel)
+        public OwnershipType Map(OwnershipTypeRequest request)
         {
-            OwnershipType entity = new OwnershipType
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            OwnershipType entity = new(request.Name);
 
             return entity;
         }
 
-        public OwnershipTypeApiModel Map(OwnershipType entity)
+        public OwnershipTypeResponse Map(OwnershipType entity)
         {
-            OwnershipTypeApiModel apiModel = new OwnershipTypeApiModel
+            OwnershipTypeResponse response = new()
             {
                 Id = entity.Id,
                 IsActive = entity.IsActive,
-                CreatedDate = entity.CreatedDate,
-                LastModifiedDate = entity.LastModifiedDate,
                 Name = entity.Name
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(OwnershipType entity, OwnershipTypeRequestApiModel apiModel)
+        public void Map(OwnershipType entity, OwnershipTypeRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateDetails(request.Name);
         }
     }
 }

@@ -1,58 +1,44 @@
 ﻿using Murimi.API.Interfaces;
-using Murimi.API.Models.Request;
-using Murimi.API.Models.Response;
+using Murimi.API.Models.Requests;
+using Murimi.API.Models.Responses;
 using Murimi.ApplicationCore.Entities;
-using System;
 
 namespace Murimi.API.ObjectMappers
 {
-    public class FieldMapper : IMapper<Field, FieldRequestApiModel, FieldApiModel>
+    public class FieldMapper : IMapper<Field, FieldRequest, FieldResponse>
     {
-        public Field Map(FieldRequestApiModel apiModel)
+        public Field Map(FieldRequest request)
         {
-            Field entity = new Field
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            Field entity = new(request.Name, request.LocationId, request.FieldMeasurementId, 
+                request.UsableArea, request.SoilTypeId, request.OwnershipTypeId);
 
             return entity;
         }
 
-        public FieldApiModel Map(Field entity)
+        public FieldResponse Map(Field entity)
         {
-            FieldApiModel apiModel = new FieldApiModel
+            FieldResponse response = new()
             {
                 Id = entity.Id,
-                CreatedDate = entity.CreatedDate,
-                FieldMeasurement = entity.FieldMeasurement?.Name,
+                FieldMeasurementName = entity.FieldMeasurement?.Name,
                 FieldMeasurementId = entity.FieldMeasurementId,
                 IsActive = entity.IsActive,
-                LastModifiedDate = entity.LastModifiedDate,
-                Location = entity.Location?.Name,
+                LocationName = entity.Location?.Name,
                 LocationId = entity.LocationId,
                 Name = entity.Name,
-                OwnershipType = entity.OwnershipType?.Name,
+                OwnershipTypeName = entity.OwnershipType?.Name,
                 OwnershipTypeId = entity.OwnershipTypeId,
-                SoilType = entity.SoilType?.Name,
+                SoilTypeName = entity.SoilType?.Name,
                 SoilTypeId = entity.SoilTypeId,
                 UsableArea = entity.UsableArea
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(Field entity, FieldRequestApiModel apiModel)
+        public void Map(Field entity, FieldRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.FieldMeasurementId = apiModel.FieldMeasurementId;
-            entity.LocationId = apiModel.LocationId;
-            entity.OwnershipTypeId = apiModel.OwnershipTypeId;
-            entity.SoilTypeId = apiModel.SoilTypeId;
-            entity.UsableArea = apiModel.UsableArea;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateName(request.Name);
         }
     }
 }
