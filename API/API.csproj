@@ -3,13 +3,13 @@
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <RootNamespace>Murimi.API</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <UserSecretsId>aebbb4e6-208e-4d53-8a26-b477e9ead27e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
