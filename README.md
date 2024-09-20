@@ -2,8 +2,8 @@
 A farm solution to manage crop productions, sales, expenses, warehouses, assets, and etc.
 
 # Features
-- Crops
-- Crop varieties
+- Crop production
+- Livestock production
 - Farming seasons
 - Warehouses
 - Sales
