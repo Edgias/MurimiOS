@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Murimi.ApplicationCore.Entities;
+using Edgias.MurimiOS.Domain.Entities;
 
-namespace Murimi.Infrastructure.Data.Config
+namespace Edgias.MurimiOS.Infrastructure.Data.Config
 {
     internal class SupplierConfig : BaseEntityConfig<Supplier>
     {

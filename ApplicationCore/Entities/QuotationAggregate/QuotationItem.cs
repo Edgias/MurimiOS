@@ -1,7 +1,7 @@
-﻿using Murimi.ApplicationCore.SharedKernel;
+﻿using Edgias.MurimiOS.Domain.SharedKernel;
 using System;
 
-namespace Murimi.ApplicationCore.Entities.QuotationAggregate
+namespace Edgias.MurimiOS.Domain.Entities.QuotationAggregate
 {
     public class QuotationItem : BaseEntity
     {

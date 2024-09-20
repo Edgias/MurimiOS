@@ -6,11 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Murimi.API.Extensions;
-using Murimi.ApplicationCore.Interfaces;
-using Murimi.ApplicationCore.SharedKernel;
-using Murimi.Infrastructure.Data;
-using Murimi.Infrastructure.Data.Repositories;
-using Murimi.Infrastructure.Logging;
+using Edgias.MurimiOS.Domain.Interfaces;
+using Edgias.MurimiOS.Domain.SharedKernel;
+using Edgias.MurimiOS.Infrastructure.Data;
+using Edgias.MurimiOS.Infrastructure.Data.Repositories;
+using Edgias.MurimiOS.Infrastructure.Logging;
 
 namespace API
 {

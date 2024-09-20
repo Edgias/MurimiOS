@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Murimi.ApplicationCore.Entities.SalesOrderAggregate;
+using Edgias.MurimiOS.Domain.Entities.SalesOrderAggregate;
 
-namespace Murimi.Infrastructure.Data.Config
+namespace Edgias.MurimiOS.Infrastructure.Data.Config
 {
     internal class SalesOrderConfig : BaseEntityConfig<SalesOrder>
     {

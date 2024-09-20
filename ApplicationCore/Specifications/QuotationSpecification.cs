@@ -1,7 +1,7 @@
-﻿using Murimi.ApplicationCore.Entities.QuotationAggregate;
+﻿using Edgias.MurimiOS.Domain.Entities.QuotationAggregate;
 using System;
 
-namespace Murimi.ApplicationCore.Specifications
+namespace Edgias.MurimiOS.Domain.Specifications
 {
     public class QuotationSpecification : BaseSpecification<Quotation>
     {

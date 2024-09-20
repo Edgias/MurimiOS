@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Murimi.ApplicationCore.Entities.SalesInvoiceAggregate;
+using Edgias.MurimiOS.Domain.Entities.SalesInvoiceAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Murimi.Infrastructure.Data.Config
+namespace Edgias.MurimiOS.Infrastructure.Data.Config
 {
     internal class SalesInvoiceConfig : BaseEntityConfig<SalesInvoice>
     {

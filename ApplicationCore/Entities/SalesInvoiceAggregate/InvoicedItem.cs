@@ -1,7 +1,7 @@
-﻿using Murimi.ApplicationCore.SharedKernel;
+﻿using Edgias.MurimiOS.Domain.SharedKernel;
 using System;
 
-namespace Murimi.ApplicationCore.Entities.SalesInvoiceAggregate
+namespace Edgias.MurimiOS.Domain.Entities.SalesInvoiceAggregate
 {
     public class InvoicedItem // Value Object
     {

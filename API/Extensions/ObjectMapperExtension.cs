@@ -3,7 +3,7 @@ using Murimi.API.Interfaces;
 using Murimi.API.Models.Requests;
 using Murimi.API.Models.Responses;
 using Murimi.API.ObjectMappers;
-using Murimi.ApplicationCore.Entities;
+using Edgias.MurimiOS.Domain.Entities;
 
 namespace Murimi.API.Extensions
 {

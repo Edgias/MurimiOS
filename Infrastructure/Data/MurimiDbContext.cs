@@ -1,18 +1,18 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Murimi.ApplicationCore.Entities;
-using Murimi.ApplicationCore.Entities.CropProductionAggregate;
-using Murimi.ApplicationCore.Entities.PurchaseInvoiceAggregate;
-using Murimi.ApplicationCore.Entities.QuotationAggregate;
-using Murimi.ApplicationCore.Entities.SalesInvoiceAggregate;
-using Murimi.ApplicationCore.Entities.SalesOrderAggregate;
-using Murimi.ApplicationCore.SharedKernel;
+using Edgias.MurimiOS.Domain.Entities;
+using Edgias.MurimiOS.Domain.Entities.CropProductionAggregate;
+using Edgias.MurimiOS.Domain.Entities.PurchaseInvoiceAggregate;
+using Edgias.MurimiOS.Domain.Entities.QuotationAggregate;
+using Edgias.MurimiOS.Domain.Entities.SalesInvoiceAggregate;
+using Edgias.MurimiOS.Domain.Entities.SalesOrderAggregate;
+using Edgias.MurimiOS.Domain.SharedKernel;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Murimi.Infrastructure.Data
+namespace Edgias.MurimiOS.Infrastructure.Data
 {
     public class MurimiDbContext : DbContext
     {

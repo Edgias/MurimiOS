@@ -1,7 +1,7 @@
-﻿using Murimi.ApplicationCore.Entities.SalesOrderAggregate;
+﻿using Edgias.MurimiOS.Domain.Entities.SalesOrderAggregate;
 using System;
 
-namespace Murimi.ApplicationCore.Specifications
+namespace Edgias.MurimiOS.Domain.Specifications
 {
     public class SalesOrderSpecification : BaseSpecification<SalesOrder>
     {

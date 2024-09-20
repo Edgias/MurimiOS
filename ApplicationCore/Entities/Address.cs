@@ -1,4 +1,4 @@
-﻿namespace Murimi.ApplicationCore
+﻿namespace Edgias.MurimiOS.Domain
 {
     public class Address // Value object
     {

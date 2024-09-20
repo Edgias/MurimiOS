@@ -1,9 +1,9 @@
-﻿using Murimi.ApplicationCore.Interfaces;
+﻿using Edgias.MurimiOS.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Murimi.ApplicationCore.Specifications
+namespace Edgias.MurimiOS.Domain.Specifications
 {
     public abstract class BaseSpecification<T> : ISpecification<T>
     {

@@ -1,8 +1,8 @@
 ﻿using Murimi.API.Interfaces;
 using Murimi.API.Models.Requests;
 using Murimi.API.Models.Responses;
-using Murimi.ApplicationCore;
-using Murimi.ApplicationCore.Entities;
+using Edgias.MurimiOS.Domain;
+using Edgias.MurimiOS.Domain.Entities;
 
 namespace Murimi.API.ObjectMappers
 {

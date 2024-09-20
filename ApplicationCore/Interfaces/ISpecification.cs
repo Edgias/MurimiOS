@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Murimi.ApplicationCore.Interfaces
+namespace Edgias.MurimiOS.Domain.Interfaces
 {
     public interface ISpecification<T>
     {

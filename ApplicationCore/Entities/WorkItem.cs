@@ -1,8 +1,8 @@
-﻿using Murimi.ApplicationCore.Entities.CropProductionAggregate;
-using Murimi.ApplicationCore.SharedKernel;
+﻿using Edgias.MurimiOS.Domain.Entities.CropProductionAggregate;
+using Edgias.MurimiOS.Domain.SharedKernel;
 using System;
 
-namespace Murimi.ApplicationCore.Entities
+namespace Edgias.MurimiOS.Domain.Entities
 {
     public class WorkItem : BaseEntity, IAggregateRoot
     {

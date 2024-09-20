@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Murimi.ApplicationCore.Interfaces
+namespace Edgias.MurimiOS.Domain.Interfaces
 {
     public interface IMessagingService
     {

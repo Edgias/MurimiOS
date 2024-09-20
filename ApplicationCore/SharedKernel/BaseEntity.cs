@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Murimi.ApplicationCore.SharedKernel
+namespace Edgias.MurimiOS.Domain.SharedKernel
 {
     public abstract class BaseEntity
     {

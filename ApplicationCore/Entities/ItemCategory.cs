@@ -1,6 +1,6 @@
-﻿using Murimi.ApplicationCore.SharedKernel;
+﻿using Edgias.MurimiOS.Domain.SharedKernel;
 
-namespace Murimi.ApplicationCore.Entities
+namespace Edgias.MurimiOS.Domain.Entities
 {
     public class ItemCategory : BaseEntity
     {

@@ -1,7 +1,7 @@
-﻿using Murimi.ApplicationCore.SharedKernel;
+﻿using Edgias.MurimiOS.Domain.SharedKernel;
 using System;
 
-namespace Murimi.ApplicationCore.Events
+namespace Edgias.MurimiOS.Domain.Events
 {
     public class LoanApprovedEvent : BaseDomainEvent
     {

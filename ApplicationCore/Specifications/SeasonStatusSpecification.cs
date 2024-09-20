@@ -1,6 +1,6 @@
-﻿using Murimi.ApplicationCore.Entities;
+﻿using Edgias.MurimiOS.Domain.Entities;
 
-namespace Murimi.ApplicationCore.Specifications
+namespace Edgias.MurimiOS.Domain.Specifications
 {
     public class SeasonStatusSpecification : BaseSpecification<SeasonStatus>
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Murimi.ApplicationCore.SharedKernel
+namespace Edgias.MurimiOS.Domain.SharedKernel
 {
     // source: https://github.com/jhewlett/ValueObject
     public abstract class ValueObject : IEquatable<ValueObject>

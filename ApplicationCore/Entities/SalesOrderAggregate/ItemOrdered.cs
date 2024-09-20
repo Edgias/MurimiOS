@@ -1,7 +1,7 @@
-﻿using Murimi.ApplicationCore.SharedKernel;
+﻿using Edgias.MurimiOS.Domain.SharedKernel;
 using System;
 
-namespace Murimi.ApplicationCore.Entities.SalesOrderAggregate
+namespace Edgias.MurimiOS.Domain.Entities.SalesOrderAggregate
 {
     public class ItemOrdered // Value Object
     {

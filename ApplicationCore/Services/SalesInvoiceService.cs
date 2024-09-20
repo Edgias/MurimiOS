@@ -1,13 +1,13 @@
-﻿using Murimi.ApplicationCore.Entities;
-using Murimi.ApplicationCore.Entities.SalesInvoiceAggregate;
-using Murimi.ApplicationCore.Interfaces;
-using Murimi.ApplicationCore.SharedKernel;
-using Murimi.ApplicationCore.Specifications;
+﻿using Edgias.MurimiOS.Domain.Entities;
+using Edgias.MurimiOS.Domain.Entities.SalesInvoiceAggregate;
+using Edgias.MurimiOS.Domain.Interfaces;
+using Edgias.MurimiOS.Domain.SharedKernel;
+using Edgias.MurimiOS.Domain.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Murimi.ApplicationCore.Services
+namespace Edgias.MurimiOS.Domain.Services
 {
     public class SalesInvoiceService : ISalesInvoiceService
     {

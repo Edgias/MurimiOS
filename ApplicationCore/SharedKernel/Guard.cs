@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Murimi.ApplicationCore.SharedKernel
+namespace Edgias.MurimiOS.Domain.SharedKernel
 {
     public static class Guard
     {

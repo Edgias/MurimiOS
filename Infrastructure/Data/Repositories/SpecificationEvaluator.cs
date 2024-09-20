@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Murimi.ApplicationCore.Interfaces;
-using Murimi.ApplicationCore.SharedKernel;
+using Edgias.MurimiOS.Domain.Interfaces;
+using Edgias.MurimiOS.Domain.SharedKernel;
 using System.Linq;
 
-namespace Murimi.Infrastructure.Data.Repositories
+namespace Edgias.MurimiOS.Infrastructure.Data.Repositories
 {
     public class SpecificationEvaluator<T> where T : BaseEntity
     {

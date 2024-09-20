@@ -1,7 +1,7 @@
-﻿using Murimi.ApplicationCore.Entities.SalesInvoiceAggregate;
+﻿using Edgias.MurimiOS.Domain.Entities.SalesInvoiceAggregate;
 using System;
 
-namespace Murimi.ApplicationCore.Specifications
+namespace Edgias.MurimiOS.Domain.Specifications
 {
     public class SalesInvoiceSpecification : BaseSpecification<SalesInvoice>
     {

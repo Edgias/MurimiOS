@@ -1,7 +1,7 @@
-﻿using Murimi.ApplicationCore.Entities;
+﻿using Edgias.MurimiOS.Domain.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Murimi.Infrastructure.Data.Config
+namespace Edgias.MurimiOS.Infrastructure.Data.Config
 {
     internal class CropCategoryConfig : BaseEntityConfig<CropCategory>
     {

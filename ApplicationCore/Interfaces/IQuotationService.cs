@@ -1,9 +1,9 @@
-﻿using Murimi.ApplicationCore.Entities.QuotationAggregate;
+﻿using Edgias.MurimiOS.Domain.Entities.QuotationAggregate;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Murimi.ApplicationCore.Interfaces
+namespace Edgias.MurimiOS.Domain.Interfaces
 {
     public interface IQuotationService
     {

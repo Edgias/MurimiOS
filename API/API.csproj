@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <RootNamespace>Murimi.API</RootNamespace>
+    <RootNamespace>Edgias.MurimiOS.API</RootNamespace>
     <TargetFramework>net8.0</TargetFramework>
     <UserSecretsId>aebbb4e6-208e-4d53-8a26-b477e9ead27e</UserSecretsId>
   </PropertyGroup>

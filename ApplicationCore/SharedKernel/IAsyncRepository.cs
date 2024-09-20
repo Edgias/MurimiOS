@@ -1,10 +1,10 @@
-﻿using Murimi.ApplicationCore.Interfaces;
+﻿using Edgias.MurimiOS.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Murimi.ApplicationCore.SharedKernel
+namespace Edgias.MurimiOS.Domain.SharedKernel
 {
     public interface IAsyncRepository<T> where T: BaseEntity, IAggregateRoot
     {

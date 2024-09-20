@@ -1,9 +1,9 @@
-﻿using Murimi.ApplicationCore.Entities.QuotationAggregate;
-using Murimi.ApplicationCore.SharedKernel;
+﻿using Edgias.MurimiOS.Domain.Entities.QuotationAggregate;
+using Edgias.MurimiOS.Domain.SharedKernel;
 using System;
 using System.Collections.Generic;
 
-namespace Murimi.ApplicationCore.Entities.SalesOrderAggregate
+namespace Edgias.MurimiOS.Domain.Entities.SalesOrderAggregate
 {
     public class SalesOrder : BaseEntity, IAggregateRoot
     {

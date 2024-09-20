@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Murimi.ApplicationCore.Entities.QuotationAggregate;
+using Edgias.MurimiOS.Domain.Entities.QuotationAggregate;
 
-namespace Murimi.Infrastructure.Data.Config
+namespace Edgias.MurimiOS.Infrastructure.Data.Config
 {
     internal class QuotationItemConfig : BaseEntityConfig<QuotationItem>
     {

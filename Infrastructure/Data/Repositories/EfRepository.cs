@@ -1,14 +1,14 @@
-﻿using Murimi.ApplicationCore.Entities;
-using Murimi.ApplicationCore.Interfaces;
+﻿using Edgias.MurimiOS.Domain.Entities;
+using Edgias.MurimiOS.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Murimi.ApplicationCore.SharedKernel;
+using Edgias.MurimiOS.Domain.SharedKernel;
 using System.Threading;
 
-namespace Murimi.Infrastructure.Data.Repositories
+namespace Edgias.MurimiOS.Infrastructure.Data.Repositories
 {
     public class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity, IAggregateRoot
     {

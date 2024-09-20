@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Murimi.ApplicationCore.Exceptions
+namespace Edgias.MurimiOS.Domain.Exceptions
 {
     public class DataStoreException : Exception
     {

@@ -1,9 +1,9 @@
-﻿using Murimi.ApplicationCore.Entities.SalesOrderAggregate;
-using Murimi.ApplicationCore.SharedKernel;
+﻿using Edgias.MurimiOS.Domain.Entities.SalesOrderAggregate;
+using Edgias.MurimiOS.Domain.SharedKernel;
 using System;
 using System.Collections.Generic;
 
-namespace Murimi.ApplicationCore.Entities.PurchaseInvoiceAggregate
+namespace Edgias.MurimiOS.Domain.Entities.PurchaseInvoiceAggregate
 {
     public class PurchaseInvoice : BaseEntity, IAggregateRoot
     {

@@ -1,8 +1,8 @@
-﻿using Murimi.ApplicationCore.Entities.SalesOrderAggregate;
+﻿using Edgias.MurimiOS.Domain.Entities.SalesOrderAggregate;
 using System;
 using System.Threading.Tasks;
 
-namespace Murimi.ApplicationCore.Interfaces
+namespace Edgias.MurimiOS.Domain.Interfaces
 {
     public interface ISalesOrderService
     {

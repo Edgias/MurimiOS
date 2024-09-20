@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Murimi.ApplicationCore.Entities.CropProductionAggregate;
+using Edgias.MurimiOS.Domain.Entities.CropProductionAggregate;
 
-namespace Murimi.Infrastructure.Data.Config
+namespace Edgias.MurimiOS.Infrastructure.Data.Config
 {
     internal class CropProductionVarietyConfig : BaseEntityConfig<CropProductionVariety>
     {

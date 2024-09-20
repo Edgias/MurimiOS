@@ -1,9 +1,9 @@
-﻿using Murimi.ApplicationCore.Entities.SalesInvoiceAggregate;
+﻿using Edgias.MurimiOS.Domain.Entities.SalesInvoiceAggregate;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Murimi.ApplicationCore.Interfaces
+namespace Edgias.MurimiOS.Domain.Interfaces
 {
     public interface ISalesInvoiceService
     {

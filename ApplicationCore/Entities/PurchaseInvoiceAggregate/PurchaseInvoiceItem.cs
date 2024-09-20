@@ -1,7 +1,7 @@
-﻿using Murimi.ApplicationCore.SharedKernel;
+﻿using Edgias.MurimiOS.Domain.SharedKernel;
 using System;
 
-namespace Murimi.ApplicationCore.Entities.PurchaseInvoiceAggregate
+namespace Edgias.MurimiOS.Domain.Entities.PurchaseInvoiceAggregate
 {
     public class PurchaseInvoiceItem : BaseEntity
     {

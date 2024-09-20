@@ -1,7 +1,7 @@
-﻿using Murimi.ApplicationCore.Interfaces;
+﻿using Edgias.MurimiOS.Domain.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace Murimi.Infrastructure.Logging
+namespace Edgias.MurimiOS.Infrastructure.Logging
 {
     public class LoggerAdapter<T> : IAppLogger<T>
     {

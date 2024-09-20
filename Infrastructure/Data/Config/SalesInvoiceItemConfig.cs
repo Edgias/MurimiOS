@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Murimi.ApplicationCore.Entities.SalesInvoiceAggregate;
+using Edgias.MurimiOS.Domain.Entities.SalesInvoiceAggregate;
 
-namespace Murimi.Infrastructure.Data.Config
+namespace Edgias.MurimiOS.Infrastructure.Data.Config
 {
     internal class SalesInvoiceItemConfig : BaseEntityConfig<SalesInvoiceItem>
     {
