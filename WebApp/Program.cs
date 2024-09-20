@@ -1,9 +1,9 @@
+using Edgias.MurimiOS.WebApp.Components;
+using Edgias.MurimiOS.WebApp.Components.Account;
+using Edgias.MurimiOS.WebApp.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Components;
-using WebApp.Components.Account;
-using WebApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

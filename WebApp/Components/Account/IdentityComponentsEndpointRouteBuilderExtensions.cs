@@ -1,3 +1,6 @@
+using Edgias.MurimiOS.WebApp.Components.Account.Pages;
+using Edgias.MurimiOS.WebApp.Components.Account.Pages.Manage;
+using Edgias.MurimiOS.WebApp.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -6,9 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System.Security.Claims;
 using System.Text.Json;
-using WebApp.Components.Account.Pages;
-using WebApp.Components.Account.Pages.Manage;
-using WebApp.Data;
 
 namespace Microsoft.AspNetCore.Routing
 {
