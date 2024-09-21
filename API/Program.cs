@@ -1,20 +1,38 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+using Edgias.MurimiOS.API.Extensions;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System.Net;
 
-namespace API
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<MurimiOSDbContext>();
+
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.WebHost.ConfigureKestrel((context, serverOptions) =>
 {
-    public class Program
+    //serverOptions.ListenAnyIP(IPAddress.Any, 5000);
+    serverOptions.Listen(IPAddress.Any, 5000, listenOptions =>
     {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+        listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+        //listenOptions.UseHttps("testCert.pfx", "testPassword");
+    });
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
-}
+WebApplication app = builder.Build();
+
+// Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseHttpsRedirection();
+
+app.RegisterEndpoints();
+
+app.Run();

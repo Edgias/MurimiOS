@@ -1,31 +1,20 @@
-﻿using Edgias.MurimiOS.Domain.SharedKernel;
+﻿namespace Edgias.MurimiOS.Domain.Entities;
 
-namespace Edgias.MurimiOS.Domain.Entities
+public class SeasonStatus(string name, bool isDefault) : BaseEntity, IAggregateRoot
 {
-    public class SeasonStatus : BaseEntity, IAggregateRoot
+    public string Name { get; private set; } = name;
+
+    public bool IsDefault { get; private set; } = isDefault;
+
+    public void Update(string name)
     {
-        public string Name { get; private set; }
+        Name = name;
+    }
 
-        public bool IsDefault { get; private set; }
-
-        public SeasonStatus(string name, bool isDefault)
-        {
-            Guard.AgainstNullOrEmpty(name, nameof(name));
-
-            Name = name;
-            IsDefault = isDefault;
-        }
-
-        public void UpdateName(string name)
-        {
-            Guard.AgainstNullOrEmpty(name, nameof(name));
-
-            Name = name;
-        }
-
-        public void MakeDefault()
-        {
-            IsDefault = true;
-        }
+    public void MakeDefault()
+    {
+        IsDefault = true;
     }
 }
+
+

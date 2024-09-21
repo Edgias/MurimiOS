@@ -1,53 +1,37 @@
-﻿using Edgias.MurimiOS.Domain.SharedKernel;
+﻿namespace Edgias.MurimiOS.Domain.Entities;
 
-namespace Edgias.MurimiOS.Domain.Entities
+public class Supplier(string name, string phone, string email, string website, string contactPerson,
+        string contactPersonEmail, string contactPersonPhone, Address billingAddress) : BaseEntity, IAggregateRoot
 {
-    public class Supplier : BaseEntity, IAggregateRoot
+    public string Name { get; private set; } = name;
+
+    public string Phone { get; private set; } = phone;
+
+    public string Email { get; private set; } = email;
+
+    public string Website { get; private set; } = website;
+
+    public string ContactPerson { get; private set; } = contactPerson;
+
+    public string ContactPersonEmail { get; private set; } = contactPersonEmail;
+
+    public string ContactPersonPhone { get; private set; } = contactPersonPhone;
+
+    public Address BillingAddress { get; private set; } = billingAddress;
+
+    public void Update(string name, string phone, string email, string website, string contactPerson,
+        string contactPersonEmail, string contactPersonPhone, Address billingAddress)
     {
-        public string Name { get; private set; }
-
-        public string Phone { get; private set; }
-
-        public string Email { get; private set; }
-
-        public string Website { get; private set; }
-
-        public string ContactPerson { get; private set; }
-
-        public string ContactPersonEmail { get; private set; }
-
-        public string ContactPersonPhone { get; private set; }
-
-        public Address BillingAddress { get; private set; }
-
-        public Supplier(string name, string phone, string email, string website, string contactPerson, 
-            string contactPersonEmail, string contactPersonPhone, Address billingAddress)
-        {
-            SetData(name, phone, email, website, contactPerson, contactPersonEmail, contactPersonPhone, billingAddress);
-        }
-
-        public void UpdateDetails(string name, string phone, string email, string website, string contactPerson,
-            string contactPersonEmail, string contactPersonPhone, Address billingAddress)
-        {
-            SetData(name, phone, email, website, contactPerson, contactPersonEmail, contactPersonPhone, billingAddress);
-        }
-
-        private void SetData(string name, string phone, string email, string website, string contactPerson,
-            string contactPersonEmail, string contactPersonPhone, Address billingAddress)
-        {
-            Guard.AgainstNullOrEmpty(name, nameof(name));
-            Guard.AgainstNullOrEmpty(email, nameof(email));
-            Guard.AgainstNullOrEmpty(contactPerson, nameof(contactPerson));
-            Guard.AgainstNullOrEmpty(contactPersonEmail, nameof(contactPersonEmail));
-
-            Name = name;
-            Phone = phone;
-            Email = email;
-            Website = website;
-            ContactPerson = contactPerson;
-            ContactPersonEmail = contactPersonEmail;
-            ContactPersonPhone = contactPersonPhone;
-            BillingAddress = billingAddress;
-        }
+        Name = name;
+        Phone = phone;
+        Email = email;
+        Website = website;
+        ContactPerson = contactPerson;
+        ContactPersonEmail = contactPersonEmail;
+        ContactPersonPhone = contactPersonPhone;
+        BillingAddress = billingAddress;
     }
+
 }
+
+

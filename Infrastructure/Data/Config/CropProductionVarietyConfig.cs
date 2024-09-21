@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Edgias.MurimiOS.Domain.Entities.CropProductionAggregate;
+﻿using Edgias.MurimiOS.Domain.Entities.CropProductionAggregate;
 
-namespace Edgias.MurimiOS.Infrastructure.Data.Config
+namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+
+internal class CropProductionVarietyConfig : BaseEntityConfig<CropProductionVariety>
 {
-    internal class CropProductionVarietyConfig : BaseEntityConfig<CropProductionVariety>
+    public override void Configure(EntityTypeBuilder<CropProductionVariety> builder)
     {
-        public override void Configure(EntityTypeBuilder<CropProductionVariety> builder)
-        {
-            base.Configure(builder);
-        }
+        base.Configure(builder);
     }
 }
+
+

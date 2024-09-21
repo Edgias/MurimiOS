@@ -1,0 +1,10 @@
+﻿global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Metadata;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Edgias.MurimiOS.Domain.Entities;
+global using Edgias.MurimiOS.Domain.SharedKernel;
+global using Edgias.MurimiOS.Domain.Entities.CropProductionAggregate;
+global using Edgias.MurimiOS.Domain.Entities.PurchaseInvoiceAggregate;
+global using Edgias.MurimiOS.Domain.Entities.QuotationAggregate;
+global using Edgias.MurimiOS.Domain.Entities.SalesInvoiceAggregate;
+global using Edgias.MurimiOS.Domain.Entities.SalesOrderAggregate;

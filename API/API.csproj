@@ -4,6 +4,8 @@
     <LangVersion>latest</LangVersion>
     <RootNamespace>Edgias.MurimiOS.API</RootNamespace>
     <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
     <UserSecretsId>aebbb4e6-208e-4d53-8a26-b477e9ead27e</UserSecretsId>
   </PropertyGroup>
 
@@ -13,6 +15,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="MiniValidation" Version="0.9.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
   </ItemGroup>
 
   <ItemGroup>

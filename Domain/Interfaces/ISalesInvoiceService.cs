@@ -1,17 +1,13 @@
 ﻿using Edgias.MurimiOS.Domain.Entities.SalesInvoiceAggregate;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Edgias.MurimiOS.Domain.Interfaces
+namespace Edgias.MurimiOS.Domain.Interfaces;
+
+public interface ISalesInvoiceService
 {
-    public interface ISalesInvoiceService
-    {
-        Task AddInvoiceItemAsync(Guid invoiceId, Guid itemId, Guid priceListId, Guid? taxId, int units = 1);
+    Task AddInvoiceItemAsync(Guid invoiceId, Guid itemId, Guid priceListId, Guid? taxId, int units = 1);
 
-        Task<SalesInvoice> CreateInvoiceAsync(DateTimeOffset dueDate, Guid? invoiceNoteId, Guid? customerId, Guid? salesOrderId);
+    Task<SalesInvoice> CreateInvoiceAsync(DateTime dueDate, Guid? invoiceNoteId, Guid? customerId, Guid? salesOrderId);
 
-        Task<SalesInvoice> CreateInvoiceAsync(DateTimeOffset dueDate, Guid? invoiceNoteId, List<SalesInvoiceItem> invoiceItems,
-            Guid? customerId, Guid? salesOrderId);
-    }
+    Task<SalesInvoice> CreateInvoiceAsync(DateTime dueDate, Guid? invoiceNoteId, List<SalesInvoiceItem> invoiceItems,
+        Guid? customerId, Guid? salesOrderId);
 }

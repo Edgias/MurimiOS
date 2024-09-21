@@ -1,50 +1,31 @@
-﻿using Edgias.MurimiOS.Domain.SharedKernel;
-using System;
+﻿namespace Edgias.MurimiOS.Domain.Entities;
 
-namespace Edgias.MurimiOS.Domain.Entities
+public class Crop(string name, Guid cropCategoryId, Guid cropUnitId) : BaseEntity, IAggregateRoot
 {
-    public class Crop : BaseEntity, IAggregateRoot
+    public string Name { get; private set; } = name;
+
+    public Guid CropCategoryId { get; private set; } = cropCategoryId;
+
+    public CropCategory CropCategory { get; private set; } = default!;
+
+    public Guid CropUnitId { get; private set; } = cropUnitId;
+
+    public CropUnit CropUnit { get; private set; } = default!;
+
+    public void UpdateName(string name)
     {
-        public string Name { get; private set; }
+        Name = name;
+    }
 
-        public Guid CropCategoryId { get; private set; }
+    public void UpdateCropCategory(Guid cropCategoryId)
+    {
+        CropCategoryId = cropCategoryId;
+    }
 
-        public CropCategory CropCategory { get; private set; }
-
-        public Guid CropUnitId { get; private set; }
-
-        public CropUnit CropUnit { get; private set; }
-
-        public Crop(string name, Guid cropCategoryId, Guid cropUnitId)
-        {
-            Guard.AgainstNullOrEmpty(name, nameof(name));
-            Guard.AgainstNull(cropCategoryId, nameof(cropCategoryId));
-            Guard.AgainstNull(cropUnitId, nameof(cropUnitId));
-
-            Name = name;
-            CropCategoryId = cropCategoryId;
-            CropUnitId = cropUnitId;
-        }
-
-        public void UpdateDetails(string name)
-        {
-            Guard.AgainstNullOrEmpty(name, nameof(name));
-
-            Name = name;
-        }
-
-        public void UpdateCropCategory(Guid cropCategoryId)
-        {
-            Guard.AgainstNull(cropCategoryId, nameof(cropCategoryId));
-
-            CropCategoryId = cropCategoryId;
-        }
-
-        public void UpdateCropUnit(Guid cropUnitId)
-        {
-            Guard.AgainstNull(cropUnitId, nameof(cropUnitId));
-
-            CropUnitId = cropUnitId;
-        }
+    public void UpdateCropUnit(Guid cropUnitId)
+    {
+        CropUnitId = cropUnitId;
     }
 }
+
+

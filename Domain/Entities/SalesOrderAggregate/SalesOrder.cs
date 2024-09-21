@@ -1,76 +1,45 @@
 ﻿using Edgias.MurimiOS.Domain.Entities.QuotationAggregate;
-using Edgias.MurimiOS.Domain.SharedKernel;
-using System;
-using System.Collections.Generic;
 
-namespace Edgias.MurimiOS.Domain.Entities.SalesOrderAggregate
+namespace Edgias.MurimiOS.Domain.Entities.SalesOrderAggregate;
+
+public class SalesOrder(string name, Guid? customerId, Guid? quotationId, Address shipToAddress,
+        List<SalesOrderItem> salesOrderItems) : BaseEntity, IAggregateRoot
 {
-    public class SalesOrder : BaseEntity, IAggregateRoot
+    public string Name { get; private set; } = name;
+
+    public DateTimeOffset OrderDate { get; private set; } = DateTimeOffset.Now;
+
+    public Address ShipToAddress { get; private set; } = shipToAddress;
+
+    public Guid? CustomerId { get; private set; } = customerId;
+
+    public Customer? Customer { get; private set; }
+
+    public Guid? QuotationId { get; private set; } = quotationId;
+
+    public Quotation? Quotation { get; private set; }
+
+    private readonly List<SalesOrderItem> _salesOrderItems = salesOrderItems;
+    public IReadOnlyCollection<SalesOrderItem> SalesOrderItems => _salesOrderItems.AsReadOnly();
+
+    public void AddItem(SalesOrderItem salesOrderItem)
     {
-        public string Name { get; private set; }
+        Guard.AgainstNull(salesOrderItem, nameof(salesOrderItem));
 
-        public DateTimeOffset OrderDate { get; private set; } = DateTimeOffset.Now;
+        _salesOrderItems.Add(salesOrderItem);
+    }
 
-        public Address ShipToAddress { get; private set; }
+    public decimal Total()
+    {
+        decimal total = 0m;
 
-        public Guid? CustomerId { get; private set; }
-
-        public Customer Customer { get; private set; }
-
-        public Guid? QuotationId { get; private set; }
-
-        public Quotation Quotation { get; private set; }
-
-        private readonly List<SalesOrderItem> _salesOrderItems = new();
-
-        public IReadOnlyCollection<SalesOrderItem> SalesOrderItems => _salesOrderItems.AsReadOnly();
-
-        private SalesOrder()
+        foreach (SalesOrderItem salesOrderItem in _salesOrderItems)
         {
-            // Required by EF
+            total += salesOrderItem.UnitPrice * salesOrderItem.Units;
         }
 
-        public SalesOrder(string name, Guid? customerId, Guid? quotationId, Address shipToAddress)
-        {
-            Guard.AgainstNullOrEmpty(name, nameof(name));
-            Guard.AgainstNull(shipToAddress, nameof(shipToAddress));
-
-            Name = name;
-            CustomerId = customerId;
-            QuotationId = quotationId;
-            ShipToAddress = shipToAddress;
-        }
-
-        public SalesOrder(string name, Guid? customerId, Guid? quotationId, Address shipToAddress, List<SalesOrderItem> salesOrderItems)
-        {
-            Guard.AgainstNullOrEmpty(name, nameof(name));
-            Guard.AgainstNull(shipToAddress, nameof(shipToAddress));
-            Guard.AgainstNull(salesOrderItems, nameof(salesOrderItems));
-
-            Name = name;
-            CustomerId = customerId;
-            QuotationId = quotationId;
-            ShipToAddress = shipToAddress;
-            _salesOrderItems = salesOrderItems;
-        }
-
-        public void AddItem(SalesOrderItem salesOrderItem)
-        {
-            Guard.AgainstNull(salesOrderItem, nameof(salesOrderItem));
-
-            _salesOrderItems.Add(salesOrderItem);
-        }
-
-        public decimal Total()
-        {
-            decimal total = 0m;
-
-            foreach (SalesOrderItem salesOrderItem in _salesOrderItems)
-            {
-                total += salesOrderItem.UnitPrice * salesOrderItem.Units;
-            }
-
-            return total;
-        }
+        return total;
     }
 }
+
+

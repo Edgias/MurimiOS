@@ -1,16 +1,21 @@
-﻿using Edgias.MurimiOS.Domain.SharedKernel;
-using System;
+﻿namespace Edgias.MurimiOS.Domain.Entities;
 
-namespace Edgias.MurimiOS.Domain.Entities
+public class Item(string name, string description, Guid itemCategoryId) : BaseEntity, IAggregateRoot
 {
-    public class Item : BaseEntity, IAggregateRoot
+    public string Name { get; set; } = name;
+
+    public string Description { get; set; } = description;
+
+    public Guid ItemCategoryId { get; set; } = itemCategoryId;
+
+    public ItemCategory ItemCategory { get; set; } = default!;
+
+    public void Update(string name, string description, Guid itemCategoryId)
     {
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public Guid ItemCategoryId { get; set; }
-
-        public ItemCategory ItemCategory { get; set; }
+        Name = name;
+        Description = description;
+        ItemCategoryId = itemCategoryId;
     }
 }
+
+

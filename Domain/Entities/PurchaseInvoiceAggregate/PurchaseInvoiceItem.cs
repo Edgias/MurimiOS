@@ -1,36 +1,16 @@
-﻿using Edgias.MurimiOS.Domain.SharedKernel;
-using System;
+﻿namespace Edgias.MurimiOS.Domain.Entities.PurchaseInvoiceAggregate;
 
-namespace Edgias.MurimiOS.Domain.Entities.PurchaseInvoiceAggregate
+public class PurchaseInvoiceItem(InvoicedItem invoicedItem, decimal unitPrice, int units, Guid? taxId) : BaseEntity
 {
-    public class PurchaseInvoiceItem : BaseEntity
-    {
-        public decimal UnitPrice { get; private set; }
+    public decimal UnitPrice { get; private set; } = unitPrice;
 
-        public int Units { get; private set; }
+    public int Units { get; private set; } = units;
 
-        public InvoicedItem InvoicedItem { get; private set; }
+    public InvoicedItem InvoicedItem { get; private set; } = invoicedItem;
 
-        public Guid? TaxId { get; private set; }
+    public Guid? TaxId { get; private set; } = taxId;
 
-        public Tax Tax { get; private set; }
-
-        private PurchaseInvoiceItem()
-        {
-            // Required by EF
-        }
-
-        public PurchaseInvoiceItem(InvoicedItem invoicedItem, decimal unitPrice, int units, Guid? taxId)
-        {
-            Guard.AgainstZero(unitPrice, nameof(unitPrice));
-            Guard.AgainstZero(units, nameof(units));
-            Guard.AgainstNull(invoicedItem, nameof(invoicedItem));
-
-            InvoicedItem = invoicedItem;
-            UnitPrice = unitPrice;
-            Units = units;
-            TaxId = taxId;
-        }
-
-    }
+    public Tax? Tax { get; private set; }
 }
+
+

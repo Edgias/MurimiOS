@@ -1,17 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Edgias.MurimiOS.Domain.Entities;
+﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
 
-namespace Edgias.MurimiOS.Infrastructure.Data.Config
+internal class SalesInvoiceNoteConfig : BaseEntityConfig<SalesInvoiceNote>
 {
-    internal class SalesInvoiceNoteConfig : BaseEntityConfig<SalesInvoiceNote>
+    public override void Configure(EntityTypeBuilder<SalesInvoiceNote> builder)
     {
-        public override void Configure(EntityTypeBuilder<SalesInvoiceNote> builder)
-        {
-            base.Configure(builder);
+        base.Configure(builder);
 
-            builder.Property(sin => sin.Description)
-                .HasMaxLength(500)
-                .IsRequired();
-        }
+        builder.Property(sin => sin.Description)
+            .HasMaxLength(500)
+            .IsRequired();
     }
 }
+
+

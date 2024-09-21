@@ -1,33 +1,19 @@
-﻿using Edgias.MurimiOS.Domain.SharedKernel;
-using System;
+﻿namespace Edgias.MurimiOS.Domain.Entities;
 
-namespace Edgias.MurimiOS.Domain.Entities
+public class Warehouse(string name, Guid locationId) : BaseEntity, IAggregateRoot
 {
-    public class Warehouse : BaseEntity, IAggregateRoot
+    public string Name { get; private set; } = name;
+
+    public Guid LocationId { get; private set; } = locationId;
+
+    public Location Location { get; private set; } = default!;
+
+    public void Update(string name, Guid locationId)
     {
-        public string Name { get; private set; }
-
-        public Guid LocationId { get; private set; }
-
-        public Location Location { get; private set; }
-
-        public Warehouse(string name, Guid locationId)
-        {
-            SetData(name, locationId);
-        }
-
-        public void UpdateDetails(string name, Guid locationId)
-        {
-            SetData(name, locationId);
-        }
-
-        private void SetData(string name, Guid locationId)
-        {
-            Guard.AgainstNullOrEmpty(name, nameof(name));
-            Guard.AgainstNull(locationId, nameof(locationId));
-
-            Name = name;
-            LocationId = locationId;
-        }
+        Name = name;
+        LocationId = locationId;
     }
+
 }
+
+

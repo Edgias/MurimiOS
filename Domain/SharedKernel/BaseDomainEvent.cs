@@ -1,10 +1,8 @@
 ﻿using MediatR;
-using System;
 
-namespace Edgias.MurimiOS.Domain.SharedKernel
+namespace Edgias.MurimiOS.Domain.SharedKernel;
+
+public abstract class BaseDomainEvent : INotification
 {
-    public abstract class BaseDomainEvent : INotification
-    {
-        public DateTimeOffset DateOccurred { get; protected set; } = DateTimeOffset.UtcNow;
-    }
+    public DateTime DateOccurred { get; protected set; } = DateTime.UtcNow;
 }

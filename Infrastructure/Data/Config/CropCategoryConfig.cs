@@ -1,23 +1,21 @@
-﻿using Edgias.MurimiOS.Domain.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
 
-namespace Edgias.MurimiOS.Infrastructure.Data.Config
+internal class CropCategoryConfig : BaseEntityConfig<CropCategory>
 {
-    internal class CropCategoryConfig : BaseEntityConfig<CropCategory>
+    public override void Configure(EntityTypeBuilder<CropCategory> builder)
     {
-        public override void Configure(EntityTypeBuilder<CropCategory> builder)
-        {
-            base.Configure(builder);
+        base.Configure(builder);
 
-            builder.Property(cc => cc.Name)
-                .HasMaxLength(256)
-                .IsRequired();
+        builder.Property(cc => cc.Name)
+            .HasMaxLength(256)
+            .IsRequired();
 
-            builder.Property(cc => cc.Description)
-                .HasMaxLength(500);
+        builder.Property(cc => cc.Description)
+            .HasMaxLength(500);
 
-            builder.HasIndex(cc => cc.Name)
-                .IsUnique();
-        }
+        builder.HasIndex(cc => cc.Name)
+            .IsUnique();
     }
 }
+
+

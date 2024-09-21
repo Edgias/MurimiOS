@@ -1,83 +1,53 @@
-﻿using Edgias.MurimiOS.Domain.SharedKernel;
-using System;
+﻿namespace Edgias.MurimiOS.Domain.Entities;
 
-namespace Edgias.MurimiOS.Domain.Entities
+public class Bin(string name, decimal capacity, Guid binTypeId,
+        Guid unitGroupId, Guid unitMeasurementId, Guid warehouseId) : BaseEntity, IAggregateRoot
 {
-    public class Bin : BaseEntity, IAggregateRoot
+    public string Name { get; private set; } = name;
+
+    public decimal Capacity { get; private set; } = capacity;
+
+    public Guid BinTypeId { get; private set; } = binTypeId;
+
+    public BinType BinType { get; private set; } = default!;
+
+    public Guid UnitGroupId { get; private set; } = unitGroupId;
+
+    public UnitGroup UnitGroup { get; private set; } = default!;
+
+    public Guid UnitMeasurementId { get; private set; } = unitMeasurementId;
+
+    public UnitMeasurement UnitMeasurement { get; private set; } = default!;
+
+    public Guid WarehouseId { get; private set; } = warehouseId;
+
+    public Warehouse Warehouse { get; private set; } = default!;
+
+    public void Update(string name, decimal capacity)
     {
-        public string Name { get; private set; }
+        Name = name;
+        Capacity = capacity;
+    }
 
-        public decimal Capacity { get; private set; }
+    public void UpdateBinType(Guid binTypeId)
+    {
+        BinTypeId = binTypeId;
+    }
 
-        public Guid BinTypeId { get; private set; }
+    public void UpdateUnitGroup(Guid unitGroupId)
+    {
+        UnitGroupId = unitGroupId;
+    }
 
-        public BinType BinType { get; private set; }
+    public void UpdateUnitMeasurement(Guid unitMeasurementId)
+    {
+        UnitMeasurementId = unitMeasurementId;
+    }
 
-        public Guid UnitGroupId { get; private set; }
-
-        public UnitGroup UnitGroup { get; private set; }
-
-        public Guid UnitMeasurementId { get; private set; }
-
-        public UnitMeasurement UnitMeasurement { get; private set; }
-
-        public Guid WarehouseId { get; private set; }
-
-        public Warehouse Warehouse { get; private set; }
-
-        public Bin(string name, decimal capacity, Guid binTypeId, Guid unitGroupId, Guid unitMeasurementId, Guid warehouseId)
-        {
-            Guard.AgainstNullOrEmpty(name, nameof(name));
-            Guard.AgainstNull(capacity, nameof(capacity));
-            Guard.AgainstNull(binTypeId, nameof(binTypeId));
-            Guard.AgainstNull(unitGroupId, nameof(unitGroupId));
-            Guard.AgainstNull(unitMeasurementId, nameof(unitMeasurementId));
-            Guard.AgainstNull(warehouseId, nameof(warehouseId));
-
-            Name = name;
-            Capacity = capacity;
-            BinTypeId = binTypeId;
-            UnitGroupId = unitGroupId;
-            UnitMeasurementId = unitMeasurementId;
-            WarehouseId = warehouseId;
-        }
-
-        public void UpdateDetails(string name, decimal capacity)
-        {
-            Guard.AgainstNullOrEmpty(name, nameof(name));
-            Guard.AgainstNull(capacity, nameof(capacity));
-
-
-            Name = name;
-            Capacity = capacity;
-        }
-
-        public void UpdateBinType(Guid binTypeId)
-        {
-            Guard.AgainstNull(binTypeId, nameof(binTypeId));
-
-            BinTypeId = binTypeId;
-        }
-
-        public void UpdateUnitGroup(Guid unitGroupId)
-        {
-            Guard.AgainstNull(unitGroupId, nameof(unitGroupId));
-
-            UnitGroupId = unitGroupId;
-        }
-
-        public void UpdateUnitMeasurement(Guid unitMeasurementId)
-        {
-            Guard.AgainstNull(unitMeasurementId, nameof(unitMeasurementId));
-
-            UnitMeasurementId = unitMeasurementId;
-        }
-
-        public void UpdateWarehouse(Guid warehouseId)
-        {
-            Guard.AgainstNull(warehouseId, nameof(warehouseId));
-
-            WarehouseId = warehouseId;
-        }
+    public void UpdateWarehouse(Guid warehouseId)
+    {
+        WarehouseId = warehouseId;
     }
 }
+
+

@@ -1,20 +1,18 @@
-﻿using Edgias.MurimiOS.Domain.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
 
-namespace Edgias.MurimiOS.Infrastructure.Data.Config
+internal class SeasonConfig : BaseEntityConfig<Season>
 {
-    internal class SeasonConfig : BaseEntityConfig<Season>
+    public override void Configure(EntityTypeBuilder<Season> builder)
     {
-        public override void Configure(EntityTypeBuilder<Season> builder)
-        {
-            base.Configure(builder);
+        base.Configure(builder);
 
-            builder.Property(s => s.Name)
-                .HasMaxLength(160)
-                .IsRequired();
+        builder.Property(s => s.Name)
+            .HasMaxLength(160)
+            .IsRequired();
 
-            builder.HasIndex(s => s.Name)
-                .IsUnique();
-        }
+        builder.HasIndex(s => s.Name)
+            .IsUnique();
     }
 }
+
+

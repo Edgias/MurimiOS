@@ -1,37 +1,22 @@
-﻿using Edgias.MurimiOS.Domain.SharedKernel;
-using System;
+﻿namespace Edgias.MurimiOS.Domain.Entities;
 
-namespace Edgias.MurimiOS.Domain.Entities
+public class WorkItemSubCategory(string name, Guid workItemCategoryId) : BaseEntity, IAggregateRoot
 {
-    public class WorkItemSubCategory : BaseEntity, IAggregateRoot
+    public string Name { get; private set; } = name;
+
+    public Guid WorkItemCategoryId { get; private set; } = workItemCategoryId;
+
+    public WorkItemCategory WorkItemCategory { get; private set; } = default!;
+
+    public void Update(string name)
     {
-        public string Name { get; private set; }
+        Name = name;
+    }
 
-        public Guid WorkItemCategoryId { get; private set; }
-
-        public WorkItemCategory WorkItemCategory { get; private set; }
-
-        public WorkItemSubCategory(string name, Guid workItemCategoryId)
-        {
-            Guard.AgainstNullOrEmpty(name, nameof(name));
-            Guard.AgainstNull(workItemCategoryId, nameof(workItemCategoryId));
-
-            Name = name;
-            WorkItemCategoryId = workItemCategoryId;
-        }
-
-        public void UpdateDetails(string name)
-        {
-            Guard.AgainstNullOrEmpty(name, nameof(name));
-
-            Name = name;
-        }
-
-        public void UpdateWorkItemCategory(Guid workItemCategoryId)
-        {
-            Guard.AgainstNull(workItemCategoryId, nameof(workItemCategoryId));
-
-            WorkItemCategoryId = workItemCategoryId;
-        }
+    public void UpdateWorkItemCategory(Guid workItemCategoryId)
+    {
+        WorkItemCategoryId = workItemCategoryId;
     }
 }
+
+

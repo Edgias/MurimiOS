@@ -1,30 +1,17 @@
-﻿using Edgias.MurimiOS.Domain.SharedKernel;
+﻿namespace Edgias.MurimiOS.Domain.Entities;
 
-namespace Edgias.MurimiOS.Domain.Entities
+public class CropCategory(string name, string description) : BaseEntity, IAggregateRoot
 {
-    public class CropCategory : BaseEntity, IAggregateRoot
+    public string Name { get; private set; } = name;
+
+    public string Description { get; private set; } = description;
+
+    public void Update(string name, string description)
     {
-        public string Name { get; private set; }
-
-        public string Description { get; private set; }
-
-        public CropCategory(string name, string description)
-        {
-            SetData(name, description);
-        }
-
-        public void UpdateDetails(string name, string description)
-        {
-            SetData(name, description);
-        }
-
-        private void SetData(string name, string description)
-        {
-            Guard.AgainstNullOrEmpty(name, nameof(name));
-            Guard.AgainstNullOrEmpty(description, nameof(description));
-
-            Name = name;
-            Description = description;
-        }
+        Name = name;
+        Description = description;
     }
+
 }
+
+

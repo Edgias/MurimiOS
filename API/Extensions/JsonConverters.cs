@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Murimi.API.Extensions
+namespace Edgias.MurimiOS.API.Extensions
 {
     public class StringToIntConverter : JsonConverter<int>
     {
