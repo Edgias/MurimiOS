@@ -35,7 +35,7 @@ internal static class EquipmentCategoryEndpoints
             dbContext.Add(equipmentCategory);
             await dbContext.SaveChangesAsync();
 
-            return TypedResults.Created($"/machinery-categories/{equipmentCategory.Id}", equipmentCategory.AsApiResponse());
+            return TypedResults.Created($"/equipment-categories/{equipmentCategory.Id}", equipmentCategory.AsApiResponse());
         });
 
         group.MapPut("/{id}", async Task<Results<Ok, NotFound, BadRequest>> (MurimiOSDbContext dbContext,
