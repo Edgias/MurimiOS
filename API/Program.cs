@@ -4,6 +4,8 @@ using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 builder.Services.AddDbContext<MurimiOSDbContext>();
 
 // Add services to the container.
@@ -22,6 +24,8 @@ builder.WebHost.ConfigureKestrel((context, serverOptions) =>
 });
 
 WebApplication app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
