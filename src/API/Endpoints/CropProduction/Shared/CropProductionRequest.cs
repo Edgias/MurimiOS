@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.CropProductions;
+namespace EdgIQ.MurimiOS.API.Endpoints.CropProduction.Shared;
 
 public record CropProductionRequest : CropProductionModel
 {

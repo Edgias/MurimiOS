@@ -1,4 +1,9 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Currency;
+using CurrencyCode = global::EdgIQ.MurimiOS.Domain.Common.CurrencyCode;
+using Currency = global::EdgIQ.MurimiOS.Domain.Currency.Currency;
+
 
 internal class CurrencyConfig : BaseEntityConfig<Currency>
 {

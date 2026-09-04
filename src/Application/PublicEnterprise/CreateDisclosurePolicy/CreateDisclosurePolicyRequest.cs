@@ -1,0 +1,14 @@
+using System.Data;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using EdgIQ.Dispatcher;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.PublicEnterprise.CreateDisclosurePolicy;
+using DataGrant = global::EdgIQ.MurimiOS.Domain.DataGrant.DataGrant;
+using DataGrantStatus = global::EdgIQ.MurimiOS.Domain.DataGrant.DataGrantStatus;
+using RetailDisclosurePolicy = global::EdgIQ.MurimiOS.Domain.RetailDisclosurePolicy.RetailDisclosurePolicy;
+public sealed record CreateDisclosurePolicyRequest(Guid? Id, string Name, string PublicBrandName, IReadOnlyList<string> Attributes, IReadOnlyList<Guid> FarmIds, Guid? DataGrantId, Guid? PreviousPolicyId, string Locale = "en");

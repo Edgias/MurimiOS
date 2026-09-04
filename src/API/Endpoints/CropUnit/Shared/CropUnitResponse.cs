@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.CropUnits;
+namespace EdgIQ.MurimiOS.API.Endpoints.CropUnit.Shared;
 
 public record CropUnitResponse : CropUnitModel
 {

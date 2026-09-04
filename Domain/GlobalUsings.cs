@@ -1,1 +1,0 @@
-﻿global using Edgias.MurimiOS.Domain.SharedKernel;

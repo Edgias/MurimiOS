@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Season;
+using Season = global::EdgIQ.MurimiOS.Domain.Season.Season;
+
 
 internal class SeasonConfig : BaseEntityConfig<Season>
 {

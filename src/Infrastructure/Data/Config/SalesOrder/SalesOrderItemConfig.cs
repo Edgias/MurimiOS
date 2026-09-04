@@ -1,6 +1,12 @@
-﻿using Edgias.MurimiOS.Domain.Entities.SalesOrderAggregate;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
 
-namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Domain.SalesOrder;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.SalesOrder;
+using SalesOrder = global::EdgIQ.MurimiOS.Domain.SalesOrder.SalesOrder;
+
+using ItemOrdered = global::EdgIQ.MurimiOS.Domain.SalesOrder.ItemOrdered;
+using SalesOrderItem = global::EdgIQ.MurimiOS.Domain.SalesOrder.SalesOrderItem;
 
 internal class SalesOrderItemConfig : BaseEntityConfig<SalesOrderItem>
 {

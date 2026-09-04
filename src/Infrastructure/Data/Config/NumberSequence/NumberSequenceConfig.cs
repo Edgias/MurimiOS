@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.NumberSequence;
+using NumberSequence = global::EdgIQ.MurimiOS.Domain.NumberSequence.NumberSequence;
+
 
 internal class NumberSequenceConfig : BaseEntityConfig<NumberSequence>
 {

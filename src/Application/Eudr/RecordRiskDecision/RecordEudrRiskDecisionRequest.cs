@@ -1,0 +1,22 @@
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using EdgIQ.MurimiOS.Domain.EudrDueDiligenceCase;
+using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
+using EdgIQ.Dispatcher;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.Eudr.RecordRiskDecision;
+using AuditEvent = global::EdgIQ.MurimiOS.Domain.AuditEvent.AuditEvent;
+using EudrCaseStatus = global::EdgIQ.MurimiOS.Domain.EudrDueDiligenceCase.EudrCaseStatus;
+using EudrDeforestationScreening = global::EdgIQ.MurimiOS.Domain.EudrDueDiligenceCase.EudrDeforestationScreening;
+using EudrDueDiligenceCase = global::EdgIQ.MurimiOS.Domain.EudrDueDiligenceCase.EudrDueDiligenceCase;
+using EudrPlotEvidence = global::EdgIQ.MurimiOS.Domain.EudrDueDiligenceCase.EudrPlotEvidence;
+using EudrRiskConclusion = global::EdgIQ.MurimiOS.Domain.EudrDueDiligenceCase.EudrRiskConclusion;
+using EudrRiskDecision = global::EdgIQ.MurimiOS.Domain.EudrDueDiligenceCase.EudrRiskDecision;
+using EudrScreeningResult = global::EdgIQ.MurimiOS.Domain.EudrDueDiligenceCase.EudrScreeningResult;
+using OutboxMessage = global::EdgIQ.MurimiOS.Domain.OutboxMessage.OutboxMessage;
+public sealed record RecordEudrRiskDecisionRequest(Guid? Id, EudrRiskConclusion Conclusion,
+    bool LegalProductionConfirmed, string Rationale, JsonElement? Mitigation, JsonElement LegalityEvidence);

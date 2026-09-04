@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.YieldMeasurement;
+using YieldMeasurement = global::EdgIQ.MurimiOS.Domain.YieldMeasurement.YieldMeasurement;
+
 
 internal class YieldMeasurementConfig : BaseEntityConfig<YieldMeasurement>
 {

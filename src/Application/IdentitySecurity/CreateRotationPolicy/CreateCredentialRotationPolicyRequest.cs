@@ -1,0 +1,10 @@
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using EdgIQ.Dispatcher;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.IdentitySecurity.CreateRotationPolicy;
+using ApiCredentialRotationPolicy = global::EdgIQ.MurimiOS.Domain.ApiCredentialRotationPolicy.ApiCredentialRotationPolicy;
+public sealed record CreateCredentialRotationPolicyRequest(Guid? Id, Guid? PublicApiClientId, int MaximumAgeDays, int WarningDays, bool RequireExpiry);

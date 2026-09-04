@@ -1,7 +1,18 @@
-﻿using Edgias.MurimiOS.Domain.Interfaces;
-using Edgias.MurimiOS.Infrastructure.Data;
+using EdgIQ.MurimiOS.Application.Common.Abstractions;
+using EdgIQ.MurimiOS.Infrastructure.Data;
 
-namespace Edgias.MurimiOS.Infrastructure.Services;
+namespace EdgIQ.MurimiOS.Infrastructure.BusinessServices;
+using Address = global::EdgIQ.MurimiOS.Domain.Common.Address;
+using Customer = global::EdgIQ.MurimiOS.Domain.Customer.Customer;
+using Item = global::EdgIQ.MurimiOS.Domain.Item.Item;
+using NumberSequence = global::EdgIQ.MurimiOS.Domain.NumberSequence.NumberSequence;
+using PriceList = global::EdgIQ.MurimiOS.Domain.PriceList.PriceList;
+using SalesInvoice = global::EdgIQ.MurimiOS.Domain.SalesInvoice.SalesInvoice;
+using SalesInvoiceItem = global::EdgIQ.MurimiOS.Domain.SalesInvoice.SalesInvoiceItem;
+using SalesInvoiceNote = global::EdgIQ.MurimiOS.Domain.SalesInvoiceNote.SalesInvoiceNote;
+
+using ISalesInvoiceService = global::EdgIQ.MurimiOS.Application.Common.Abstractions.ISalesInvoiceService;
+using MurimiOSDbContext = global::EdgIQ.MurimiOS.Infrastructure.Data.MurimiOSDbContext;
 
 public class SalesInvoiceService(MurimiOSDbContext dbContext) : ISalesInvoiceService
 {
@@ -12,7 +23,7 @@ public class SalesInvoiceService(MurimiOSDbContext dbContext) : ISalesInvoiceSer
 
         Item? item = await dbContext.Items.FindAsync(itemId) ?? throw new ArgumentNullException($"Item with id {itemId} cannot be found.");
 
-        Domain.Entities.SalesInvoiceAggregate.InvoicedItem invoicedItem = new(item.Id, item.Name, item.Description);
+        EdgIQ.MurimiOS.Domain.SalesInvoice.InvoicedItem invoicedItem = new(item.Id, item.Name, item.Description);
 
         PriceList? priceList = await dbContext.PriceLists.FindAsync(priceListId) ?? throw new ArgumentNullException($"Price list with id {priceListId} cannot be found.");
 

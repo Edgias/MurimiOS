@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.CropCategory;
+using CropCategory = global::EdgIQ.MurimiOS.Domain.CropCategory.CropCategory;
+
 
 internal class CropCategoryConfig : BaseEntityConfig<CropCategory>
 {

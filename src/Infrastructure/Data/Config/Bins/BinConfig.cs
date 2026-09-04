@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Bins;
+using Bin = global::EdgIQ.MurimiOS.Domain.Bins.Bin;
+
 
 internal class BinConfig : BaseEntityConfig<Bin>
 {

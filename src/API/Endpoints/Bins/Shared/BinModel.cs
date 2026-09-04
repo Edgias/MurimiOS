@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.Bins;
+namespace EdgIQ.MurimiOS.API.Endpoints.Bins.Shared;
 
 public record BinModel
 {

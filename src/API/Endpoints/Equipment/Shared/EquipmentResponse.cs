@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.Equipments;
+namespace EdgIQ.MurimiOS.API.Endpoints.Equipment.Shared;
 
 public record EquipmentResponse : EquipmentModel
 {

@@ -1,0 +1,20 @@
+using System.Data;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using EdgIQ.MurimiOS.Domain.IngestionJob;
+using Microsoft.EntityFrameworkCore;
+using EdgIQ.Dispatcher;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.ProviderIntegration.ReceiveRecords;
+using AuditEvent = global::EdgIQ.MurimiOS.Domain.AuditEvent.AuditEvent;
+using IngestionJob = global::EdgIQ.MurimiOS.Domain.IngestionJob.IngestionJob;
+using IngestionJobStatus = global::EdgIQ.MurimiOS.Domain.IngestionJob.IngestionJobStatus;
+using IngestionQuality = global::EdgIQ.MurimiOS.Domain.IngestionJob.IngestionQuality;
+using IngestionRecord = global::EdgIQ.MurimiOS.Domain.IngestionJob.IngestionRecord;
+using OutboxMessage = global::EdgIQ.MurimiOS.Domain.OutboxMessage.OutboxMessage;
+using SyncChange = global::EdgIQ.MurimiOS.Domain.SyncClient.SyncChange;
+public sealed record IngestionRecordRequest(Guid? Id, string ExternalRecordId, int SchemaVersion,
+    DateTimeOffset ObservedAt, DateTimeOffset? SourceModifiedAt, IngestionQuality Quality, JsonElement Payload);

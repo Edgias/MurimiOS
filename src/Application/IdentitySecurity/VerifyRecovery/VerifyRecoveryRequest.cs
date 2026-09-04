@@ -1,0 +1,15 @@
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using EdgIQ.Dispatcher;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.IdentitySecurity.VerifyRecovery;
+using AccountRecoveryRequest = global::EdgIQ.MurimiOS.Domain.AccountRecoveryRequest.AccountRecoveryRequest;
+using IdentitySession = global::EdgIQ.MurimiOS.Domain.IdentitySession.IdentitySession;
+using IdentitySessionStatus = global::EdgIQ.MurimiOS.Domain.IdentitySession.IdentitySessionStatus;
+using OutboxMessage = global::EdgIQ.MurimiOS.Domain.OutboxMessage.OutboxMessage;
+using SecurityEvent = global::EdgIQ.MurimiOS.Domain.SecurityEvent.SecurityEvent;
+using SecurityEventOutcome = global::EdgIQ.MurimiOS.Domain.SecurityEvent.SecurityEventOutcome;
+public sealed record VerifyRecoveryRequest(Guid TenantId, Guid RequestId, string Token);

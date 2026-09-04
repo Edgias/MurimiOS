@@ -1,10 +1,58 @@
-﻿using MediatR;
+using MediatR;
 using System.Reflection;
 
-namespace Edgias.MurimiOS.Infrastructure.Data;
+namespace EdgIQ.MurimiOS.Infrastructure.Data;
+using Asset = global::EdgIQ.MurimiOS.Domain.Asset.Asset;
+using Bin = global::EdgIQ.MurimiOS.Domain.Bins.Bin;
+using BinType = global::EdgIQ.MurimiOS.Domain.BinType.BinType;
+using BaseDomainEvent = global::EdgIQ.MurimiOS.Domain.Common.BaseDomainEvent;
+using BaseEntity = global::EdgIQ.MurimiOS.Domain.Common.BaseEntity;
+using Crop = global::EdgIQ.MurimiOS.Domain.Crop.Crop;
+using CropCategory = global::EdgIQ.MurimiOS.Domain.CropCategory.CropCategory;
+using CropProduction = global::EdgIQ.MurimiOS.Domain.CropProduction.CropProduction;
+using CropProductionField = global::EdgIQ.MurimiOS.Domain.CropProduction.CropProductionField;
+using CropProductionVariety = global::EdgIQ.MurimiOS.Domain.CropProduction.CropProductionVariety;
+using CropUnit = global::EdgIQ.MurimiOS.Domain.CropUnit.CropUnit;
+using CropVariety = global::EdgIQ.MurimiOS.Domain.CropVariety.CropVariety;
+using Currency = global::EdgIQ.MurimiOS.Domain.Currency.Currency;
+using Customer = global::EdgIQ.MurimiOS.Domain.Customer.Customer;
+using Equipment = global::EdgIQ.MurimiOS.Domain.Equipment.Equipment;
+using EquipmentCategory = global::EdgIQ.MurimiOS.Domain.EquipmentCategory.EquipmentCategory;
+using Field = global::EdgIQ.MurimiOS.Domain.Field.Field;
+using FieldMeasurement = global::EdgIQ.MurimiOS.Domain.FieldMeasurement.FieldMeasurement;
+using Item = global::EdgIQ.MurimiOS.Domain.Item.Item;
+using ItemCategory = global::EdgIQ.MurimiOS.Domain.ItemCategory.ItemCategory;
+using Loan = global::EdgIQ.MurimiOS.Domain.Loan.Loan;
+using Location = global::EdgIQ.MurimiOS.Domain.Location.Location;
+using NumberSequence = global::EdgIQ.MurimiOS.Domain.NumberSequence.NumberSequence;
+using OwnershipType = global::EdgIQ.MurimiOS.Domain.OwnershipType.OwnershipType;
+using PriceList = global::EdgIQ.MurimiOS.Domain.PriceList.PriceList;
+using PurchaseInvoice = global::EdgIQ.MurimiOS.Domain.PurchaseInvoice.PurchaseInvoice;
+using PurchaseInvoiceItem = global::EdgIQ.MurimiOS.Domain.PurchaseInvoice.PurchaseInvoiceItem;
+using Quotation = global::EdgIQ.MurimiOS.Domain.Quotation.Quotation;
+using QuotationItem = global::EdgIQ.MurimiOS.Domain.Quotation.QuotationItem;
+using SalesInvoice = global::EdgIQ.MurimiOS.Domain.SalesInvoice.SalesInvoice;
+using SalesInvoiceItem = global::EdgIQ.MurimiOS.Domain.SalesInvoice.SalesInvoiceItem;
+using SalesInvoiceNote = global::EdgIQ.MurimiOS.Domain.SalesInvoiceNote.SalesInvoiceNote;
+using SalesOrder = global::EdgIQ.MurimiOS.Domain.SalesOrder.SalesOrder;
+using SalesOrderItem = global::EdgIQ.MurimiOS.Domain.SalesOrder.SalesOrderItem;
+using Season = global::EdgIQ.MurimiOS.Domain.Season.Season;
+using SeasonStatus = global::EdgIQ.MurimiOS.Domain.SeasonStatus.SeasonStatus;
+using SoilType = global::EdgIQ.MurimiOS.Domain.SoilType.SoilType;
+using Supplier = global::EdgIQ.MurimiOS.Domain.Supplier.Supplier;
+using Tax = global::EdgIQ.MurimiOS.Domain.Tax.Tax;
+using UnitGroup = global::EdgIQ.MurimiOS.Domain.UnitGroup.UnitGroup;
+using UnitMeasurement = global::EdgIQ.MurimiOS.Domain.UnitMeasurement.UnitMeasurement;
+using Warehouse = global::EdgIQ.MurimiOS.Domain.Warehouse.Warehouse;
+using WorkItem = global::EdgIQ.MurimiOS.Domain.WorkItem.WorkItem;
+using WorkItemCategory = global::EdgIQ.MurimiOS.Domain.WorkItemCategory.WorkItemCategory;
+using WorkItemStatus = global::EdgIQ.MurimiOS.Domain.WorkItemStatus.WorkItemStatus;
+using WorkItemSubCategory = global::EdgIQ.MurimiOS.Domain.WorkItemSubCategory.WorkItemSubCategory;
+using YieldMeasurement = global::EdgIQ.MurimiOS.Domain.YieldMeasurement.YieldMeasurement;
+
 
 public class MurimiOSDbContext(DbContextOptions<MurimiOSDbContext> options, IMediator mediator) : DbContext(options)
-{
+,EdgIQ.MurimiOS.Application.Common.Abstractions.ILegacyDbContext{
     public DbSet<Asset> Assets { get; set; }
 
     public DbSet<Bin> Bins { get; set; }

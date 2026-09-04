@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.FieldMeasurements;
+namespace EdgIQ.MurimiOS.API.Endpoints.FieldMeasurement.Shared;
 
 public record FieldMeasurementModel
 {

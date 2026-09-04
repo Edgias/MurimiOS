@@ -1,6 +1,12 @@
-﻿using Edgias.MurimiOS.Domain.Entities.PurchaseInvoiceAggregate;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
 
-namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Domain.PurchaseInvoice;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.PurchaseInvoice;
+using PurchaseInvoice = global::EdgIQ.MurimiOS.Domain.PurchaseInvoice.PurchaseInvoice;
+
+using InvoicedItem = global::EdgIQ.MurimiOS.Domain.PurchaseInvoice.InvoicedItem;
+using PurchaseInvoiceItem = global::EdgIQ.MurimiOS.Domain.PurchaseInvoice.PurchaseInvoiceItem;
 
 internal class PurchaseInvoiceItemConfig : BaseEntityConfig<PurchaseInvoiceItem>
 {

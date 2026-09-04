@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.Bins;
+namespace EdgIQ.MurimiOS.API.Endpoints.Bins.Shared;
 
 public record BinRequest : BinModel
 {

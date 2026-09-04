@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.Fields;
+namespace EdgIQ.MurimiOS.API.Endpoints.Field.Shared;
 
 public record FieldModel
 {

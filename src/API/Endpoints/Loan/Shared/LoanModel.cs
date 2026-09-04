@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.Loans;
+namespace EdgIQ.MurimiOS.API.Endpoints.Loan.Shared;
 
 public record LoanModel
 {

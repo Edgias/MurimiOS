@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Equipment;
+using Equipment = global::EdgIQ.MurimiOS.Domain.Equipment.Equipment;
+
 
 internal class EquipmentConfig : BaseEntityConfig<Equipment>
 {

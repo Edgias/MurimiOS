@@ -1,4 +1,21 @@
-﻿namespace Edgias.MurimiOS.API.WorkItemSubCategories;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
+using Gender = global::EdgIQ.MurimiOS.Domain.LivestockProduction.Gender;
+using ContactType = global::EdgIQ.MurimiOS.Domain.Contact.ContactType;
+using LivestockType = global::EdgIQ.MurimiOS.Domain.LivestockProduction.LivestockType;
+using LivestockStatus = global::EdgIQ.MurimiOS.Domain.LivestockProduction.LivestockStatus;
+using LivestockUnitOfMeasure = global::EdgIQ.MurimiOS.Domain.LivestockProduction.LivestockUnitOfMeasure;
+using TagLocation = global::EdgIQ.MurimiOS.Domain.LivestockProduction.TagLocation;
+using TreatmentApplicationMethod = global::EdgIQ.MurimiOS.Domain.LivestockProduction.TreatmentApplicationMethod;
+using TreatmentType = global::EdgIQ.MurimiOS.Domain.LivestockProduction.TreatmentType;
+using EdgIQ.MurimiOS.Domain.WorkItemSubCategory;
+using EdgIQ.MurimiOS.Domain.WorkItemCategory;
+using EdgIQ.Dispatcher;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.WorkItemSubCategory.GetGroup;
+using WorkItemCategory = global::EdgIQ.MurimiOS.Domain.WorkItemCategory.WorkItemCategory;
+using WorkItemSubCategory = global::EdgIQ.MurimiOS.Domain.WorkItemSubCategory.WorkItemSubCategory;
 
 public static class WorkItemSubCategoryMapper
 {
@@ -27,4 +44,3 @@ public static class WorkItemSubCategoryMapper
         entity.Update(request.Name);
     }
 }
-

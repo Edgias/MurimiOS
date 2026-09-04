@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Field;
+using Field = global::EdgIQ.MurimiOS.Domain.Field.Field;
+
 
 internal class FieldConfig : BaseEntityConfig<Field>
 {

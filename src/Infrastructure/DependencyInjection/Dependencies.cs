@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.Infrastructure;
+namespace EdgIQ.MurimiOS.Infrastructure.DependencyInjection;
 
 public static class Dependencies
 {

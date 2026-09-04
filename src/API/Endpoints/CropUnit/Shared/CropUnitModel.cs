@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.CropUnits;
+namespace EdgIQ.MurimiOS.API.Endpoints.CropUnit.Shared;
 
 public record CropUnitModel
 {

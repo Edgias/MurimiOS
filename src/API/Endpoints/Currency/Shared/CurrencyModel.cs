@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.Currencies;
+namespace EdgIQ.MurimiOS.API.Endpoints.Currency.Shared;
 
 public record CurrencyModel
 {

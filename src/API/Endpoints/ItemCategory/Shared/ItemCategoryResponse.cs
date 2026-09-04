@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.ItemCategories;
+namespace EdgIQ.MurimiOS.API.Endpoints.ItemCategory.Shared;
 
 public record ItemCategoryResponse : ItemCategoryModel
 {

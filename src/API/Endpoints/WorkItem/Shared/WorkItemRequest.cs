@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.WorkItems;
+namespace EdgIQ.MurimiOS.API.Endpoints.WorkItem.Shared;
 
 public record WorkItemRequest : WorkItemModel
 {

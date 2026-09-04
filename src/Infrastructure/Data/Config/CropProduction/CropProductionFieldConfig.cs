@@ -1,6 +1,11 @@
-﻿using Edgias.MurimiOS.Domain.Entities.CropProductionAggregate;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
 
-namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Domain.CropProduction;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.CropProduction;
+using CropProduction = global::EdgIQ.MurimiOS.Domain.CropProduction.CropProduction;
+
+using CropProductionField = global::EdgIQ.MurimiOS.Domain.CropProduction.CropProductionField;
 
 internal class CropProductionFieldConfig : BaseEntityConfig<CropProductionField>
 {

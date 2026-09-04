@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.Assets;
+namespace EdgIQ.MurimiOS.API.Endpoints.Asset.Shared;
 
 public record AssetResponse : AssetModel
 {

@@ -1,0 +1,27 @@
+using System.Data;
+using System.Diagnostics;
+using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using EdgIQ.Dispatcher;
+using EdgIQ.MurimiOS.Application.Common.Results;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.CropPlanning.RecordFinancialEntry;
+using AuditEvent = global::EdgIQ.MurimiOS.Domain.AuditEvent.AuditEvent;
+using CostCentre = global::EdgIQ.MurimiOS.Domain.CostCentre.CostCentre;
+using CostCentreType = global::EdgIQ.MurimiOS.Domain.CostCentre.CostCentreType;
+using CropPlan = global::EdgIQ.MurimiOS.Domain.CropPlan.CropPlan;
+using CropPlanAllocation = global::EdgIQ.MurimiOS.Domain.CropPlan.CropPlanAllocation;
+using CropPlanFinancialEntry = global::EdgIQ.MurimiOS.Domain.CropPlan.CropPlanFinancialEntry;
+using CropPlanStatus = global::EdgIQ.MurimiOS.Domain.CropPlan.CropPlanStatus;
+using FinancialEntryType = global::EdgIQ.MurimiOS.Domain.CropPlan.FinancialEntryType;
+using CropProductApplicationRule = global::EdgIQ.MurimiOS.Domain.CropProductApplicationRule.CropProductApplicationRule;
+using CostAllocation = global::EdgIQ.MurimiOS.Domain.FinanceTransaction.CostAllocation;
+using CostAllocationMethod = global::EdgIQ.MurimiOS.Domain.FinanceTransaction.CostAllocationMethod;
+using FinanceEntryType = global::EdgIQ.MurimiOS.Domain.FinanceTransaction.FinanceEntryType;
+using FinanceSourceType = global::EdgIQ.MurimiOS.Domain.FinanceTransaction.FinanceSourceType;
+using FinanceTransaction = global::EdgIQ.MurimiOS.Domain.FinanceTransaction.FinanceTransaction;
+using OutboxMessage = global::EdgIQ.MurimiOS.Domain.OutboxMessage.OutboxMessage;
+using SyncChange = global::EdgIQ.MurimiOS.Domain.SyncClient.SyncChange;
+
+public sealed record RecordFinancialEntryCommand(Guid planId, RecordCropPlanFinancialEntryRequest request) : IRequest<UseCaseResult>;

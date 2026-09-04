@@ -1,6 +1,12 @@
-﻿using Edgias.MurimiOS.Domain.Entities.QuotationAggregate;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
 
-namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Domain.Quotation;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Quotation;
+using Quotation = global::EdgIQ.MurimiOS.Domain.Quotation.Quotation;
+
+using ItemQuoted = global::EdgIQ.MurimiOS.Domain.Quotation.ItemQuoted;
+using QuotationItem = global::EdgIQ.MurimiOS.Domain.Quotation.QuotationItem;
 
 internal class QuotationItemConfig : BaseEntityConfig<QuotationItem>
 {

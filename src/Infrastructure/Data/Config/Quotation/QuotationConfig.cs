@@ -1,4 +1,9 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Quotation;
+using Field = global::EdgIQ.MurimiOS.Domain.Field.Field;
+using Quotation = global::EdgIQ.MurimiOS.Domain.Quotation.Quotation;
+
 
 internal class QuotationConfig : BaseEntityConfig<Quotation>
 {

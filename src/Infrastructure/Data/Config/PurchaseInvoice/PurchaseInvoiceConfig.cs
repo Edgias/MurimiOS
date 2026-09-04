@@ -1,4 +1,9 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.PurchaseInvoice;
+using Field = global::EdgIQ.MurimiOS.Domain.Field.Field;
+using PurchaseInvoice = global::EdgIQ.MurimiOS.Domain.PurchaseInvoice.PurchaseInvoice;
+
 
 internal class PurchaseInvoiceConfig : BaseEntityConfig<PurchaseInvoice>
 {

@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.Equipments;
+namespace EdgIQ.MurimiOS.API.Endpoints.Equipment.Shared;
 
 public record EquipmentModel
 {

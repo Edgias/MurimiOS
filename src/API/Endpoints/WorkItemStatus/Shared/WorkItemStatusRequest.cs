@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.WorkItemStatuses;
+namespace EdgIQ.MurimiOS.API.Endpoints.WorkItemStatus.Shared;
 
 public record WorkItemStatusRequest : WorkItemStatusModel
 {

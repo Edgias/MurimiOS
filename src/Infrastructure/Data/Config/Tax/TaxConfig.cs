@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Tax;
+using Tax = global::EdgIQ.MurimiOS.Domain.Tax.Tax;
+
 
 internal class TaxConfig : BaseEntityConfig<Tax>
 {

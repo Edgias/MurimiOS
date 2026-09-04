@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Loan;
+using Loan = global::EdgIQ.MurimiOS.Domain.Loan.Loan;
+
 
 internal class LoanConfig : BaseEntityConfig<Loan>
 {

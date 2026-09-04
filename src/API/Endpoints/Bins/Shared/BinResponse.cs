@@ -1,5 +1,7 @@
-﻿namespace Edgias.MurimiOS.API.Bins
+namespace EdgIQ.MurimiOS.API.Endpoints.Bins.Shared
 {
+
+
     public record BinResponse : BinModel
     {
         public Guid Id { get; set; }

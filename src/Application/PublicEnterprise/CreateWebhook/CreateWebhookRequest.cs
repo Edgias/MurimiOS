@@ -1,0 +1,12 @@
+using System.Data;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using EdgIQ.Dispatcher;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.PublicEnterprise.CreateWebhook;
+using WebhookSubscription = global::EdgIQ.MurimiOS.Domain.WebhookSubscription.WebhookSubscription;
+public sealed record CreateWebhookRequest(Guid? Id, string Name, string Endpoint, IReadOnlyList<string> EventTypes, int MaximumAttempts = 10);

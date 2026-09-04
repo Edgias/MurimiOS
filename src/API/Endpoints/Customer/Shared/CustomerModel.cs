@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.Customers;
+namespace EdgIQ.MurimiOS.API.Endpoints.Customer.Shared;
 
 public record CustomerModel
 {

@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.Seasons;
+namespace EdgIQ.MurimiOS.API.Endpoints.Season.Shared;
 
 public record SeasonRequest : SeasonModel
 {

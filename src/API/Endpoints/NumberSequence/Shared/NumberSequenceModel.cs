@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.NumberSequences;
+namespace EdgIQ.MurimiOS.API.Endpoints.NumberSequence.Shared;
 
 public record NumberSequenceModel
 {

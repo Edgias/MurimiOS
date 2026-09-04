@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.WorkItem;
+using WorkItem = global::EdgIQ.MurimiOS.Domain.WorkItem.WorkItem;
+
 
 internal class WorkItemConfig : BaseEntityConfig<WorkItem>
 {

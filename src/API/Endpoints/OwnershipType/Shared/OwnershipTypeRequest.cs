@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.OwnershipTypes;
+namespace EdgIQ.MurimiOS.API.Endpoints.OwnershipType.Shared;
 
 public record OwnershipTypeRequest : OwnershipTypeModel
 {

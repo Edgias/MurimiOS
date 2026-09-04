@@ -1,4 +1,6 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+using BaseEntity = global::EdgIQ.MurimiOS.Domain.Common.BaseEntity;
+
 
 internal abstract class BaseEntityConfig<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : BaseEntity
 {

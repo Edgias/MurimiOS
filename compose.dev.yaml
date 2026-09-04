@@ -1,0 +1,54 @@
+services:
+  postgres:
+    image: postgis/postgis:17-3.5
+    environment:
+      POSTGRES_DB: murimios
+      POSTGRES_USER: murimios
+      POSTGRES_PASSWORD: murimios-dev
+    ports:
+      - "55432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U murimios -d murimios"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - murimios-postgres:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+
+  rabbitmq:
+    image: rabbitmq:4.1-management
+    environment:
+      RABBITMQ_DEFAULT_USER: murimios
+      RABBITMQ_DEFAULT_PASS: murimios-dev
+    ports:
+      - "5673:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    volumes:
+      - murimios-rabbitmq:/var/lib/rabbitmq
+
+  minio:
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: murimios
+      MINIO_ROOT_PASSWORD: murimios-dev-secret
+    ports:
+      - "59300:9000"
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    volumes:
+      - murimios-minio:/data
+
+volumes:
+  murimios-postgres:
+  murimios-rabbitmq:
+  murimios-minio:

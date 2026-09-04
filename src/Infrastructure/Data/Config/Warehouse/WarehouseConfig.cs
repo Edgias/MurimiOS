@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Warehouse;
+using Warehouse = global::EdgIQ.MurimiOS.Domain.Warehouse.Warehouse;
+
 
 internal class WarehouseConfig : BaseEntityConfig<Warehouse>
 {

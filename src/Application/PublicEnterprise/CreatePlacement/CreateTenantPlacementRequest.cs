@@ -1,0 +1,14 @@
+using System.Data;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using EdgIQ.MurimiOS.Domain.TenantPlacement;
+using Microsoft.EntityFrameworkCore;
+using EdgIQ.Dispatcher;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.PublicEnterprise.CreatePlacement;
+using TenantDatabaseMode = global::EdgIQ.MurimiOS.Domain.TenantPlacement.TenantDatabaseMode;
+using TenantPlacement = global::EdgIQ.MurimiOS.Domain.TenantPlacement.TenantPlacement;
+public sealed record CreateTenantPlacementRequest(Guid? Id, string Region, string DatabaseKey, TenantDatabaseMode Mode, string ResidencyCountry, bool IsPrimary, DateTimeOffset? EffectiveFrom);

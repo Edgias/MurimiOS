@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.Customers;
+namespace EdgIQ.MurimiOS.API.Endpoints.Customer.Shared;
 
 public record CustomerRequest : CustomerModel
 {

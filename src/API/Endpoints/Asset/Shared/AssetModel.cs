@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.Assets;
+namespace EdgIQ.MurimiOS.API.Endpoints.Asset.Shared;
 
 public record AssetModel
 {

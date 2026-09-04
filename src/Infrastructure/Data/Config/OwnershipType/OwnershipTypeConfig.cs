@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.OwnershipType;
+using OwnershipType = global::EdgIQ.MurimiOS.Domain.OwnershipType.OwnershipType;
+
 
 internal class OwnershipTypeConfig : BaseEntityConfig<OwnershipType>
 {

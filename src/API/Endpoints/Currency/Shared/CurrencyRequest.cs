@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.Currencies;
+namespace EdgIQ.MurimiOS.API.Endpoints.Currency.Shared;
 
 public record CurrencyRequest : CurrencyModel
 {

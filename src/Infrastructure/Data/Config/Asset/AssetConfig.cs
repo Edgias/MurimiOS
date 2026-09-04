@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Asset;
+using Asset = global::EdgIQ.MurimiOS.Domain.Asset.Asset;
+
 
 internal class AssetConfig : BaseEntityConfig<Asset>
 {

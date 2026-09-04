@@ -1,4 +1,9 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.SalesOrder;
+using Field = global::EdgIQ.MurimiOS.Domain.Field.Field;
+using SalesOrder = global::EdgIQ.MurimiOS.Domain.SalesOrder.SalesOrder;
+
 
 internal class SalesOrderConfig : BaseEntityConfig<SalesOrder>
 {

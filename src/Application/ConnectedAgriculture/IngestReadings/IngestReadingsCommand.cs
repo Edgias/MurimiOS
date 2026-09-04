@@ -1,0 +1,26 @@
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using EdgIQ.Dispatcher;
+using EdgIQ.MurimiOS.Application.Common.Results;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.ConnectedAgriculture.IngestReadings;
+using IngestionJob = global::EdgIQ.MurimiOS.Domain.IngestionJob.IngestionJob;
+
+using AuditEvent = global::EdgIQ.MurimiOS.Domain.AuditEvent.AuditEvent;
+using ConnectedDevice = global::EdgIQ.MurimiOS.Domain.ConnectedDevice.ConnectedDevice;
+using ConnectedDeviceStatus = global::EdgIQ.MurimiOS.Domain.ConnectedDevice.ConnectedDeviceStatus;
+using SensorChannel = global::EdgIQ.MurimiOS.Domain.ConnectedDevice.SensorChannel;
+using IngestionRecord = global::EdgIQ.MurimiOS.Domain.IngestionJob.IngestionRecord;
+using IngestionRecordStatus = global::EdgIQ.MurimiOS.Domain.IngestionJob.IngestionRecordStatus;
+using IntegrationFeed = global::EdgIQ.MurimiOS.Domain.IntegrationFeed.IntegrationFeed;
+using IntegrationFeedType = global::EdgIQ.MurimiOS.Domain.IntegrationFeed.IntegrationFeedType;
+using IntegrationTargetType = global::EdgIQ.MurimiOS.Domain.IntegrationFeed.IntegrationTargetType;
+using OutboxMessage = global::EdgIQ.MurimiOS.Domain.OutboxMessage.OutboxMessage;
+using SensorReading = global::EdgIQ.MurimiOS.Domain.SensorReading.SensorReading;
+using SensorValueQuality = global::EdgIQ.MurimiOS.Domain.SensorReading.SensorValueQuality;
+using SyncChange = global::EdgIQ.MurimiOS.Domain.SyncClient.SyncChange;
+
+public sealed record IngestReadingsCommand(Guid recordId, IngestSensorReadingsRequest request) : IRequest<UseCaseResult>;

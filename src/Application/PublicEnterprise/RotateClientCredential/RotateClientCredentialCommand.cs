@@ -1,0 +1,18 @@
+using System.Data;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using EdgIQ.Dispatcher;
+using EdgIQ.MurimiOS.Application.Common.Results;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.PublicEnterprise.RotateClientCredential;
+using ApiCredentialRotationPolicy = global::EdgIQ.MurimiOS.Domain.ApiCredentialRotationPolicy.ApiCredentialRotationPolicy;
+using PublicApiClient = global::EdgIQ.MurimiOS.Domain.PublicApiClient.PublicApiClient;
+using PublicApiClientStatus = global::EdgIQ.MurimiOS.Domain.PublicApiClient.PublicApiClientStatus;
+using PublicApiCredential = global::EdgIQ.MurimiOS.Domain.PublicApiClient.PublicApiCredential;
+using PublicApiCredentialStatus = global::EdgIQ.MurimiOS.Domain.PublicApiClient.PublicApiCredentialStatus;
+
+public sealed record RotateClientCredentialCommand(Guid clientId, RotateCredentialRequest request) : IRequest<UseCaseResult>;

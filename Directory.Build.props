@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup>
+    <RootNamespace>EdgIQ.MurimiOS.$(MSBuildProjectName)</RootNamespace>
+  </PropertyGroup>
+</Project>

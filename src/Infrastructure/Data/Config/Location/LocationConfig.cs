@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Location;
+using Location = global::EdgIQ.MurimiOS.Domain.Location.Location;
+
 
 internal class LocationConfig : BaseEntityConfig<Location>
 {

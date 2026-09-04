@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.BinTypes;
+namespace EdgIQ.MurimiOS.API.Endpoints.BinType.Shared;
 
 public record BinTypeResponse : BinTypeModel
 {

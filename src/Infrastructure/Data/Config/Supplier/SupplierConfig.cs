@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Supplier;
+using Supplier = global::EdgIQ.MurimiOS.Domain.Supplier.Supplier;
+
 
 internal class SupplierConfig : BaseEntityConfig<Supplier>
 {

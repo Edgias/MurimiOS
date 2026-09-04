@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Customer;
+using Customer = global::EdgIQ.MurimiOS.Domain.Customer.Customer;
+
 
 internal class CustomerConfig : BaseEntityConfig<Customer>
 {

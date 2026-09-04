@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.Loans;
+namespace EdgIQ.MurimiOS.API.Endpoints.Loan.Shared;
 
 public record LoanRequest : LoanModel
 {

@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.OwnershipTypes;
+namespace EdgIQ.MurimiOS.API.Endpoints.OwnershipType.Shared;
 
 public record OwnershipTypeModel
 {

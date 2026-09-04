@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.SeasonStatuses;
+namespace EdgIQ.MurimiOS.API.Endpoints.SeasonStatus.Shared;
 
 public record SeasonStatusRequest : SeasonStatusModel
 {

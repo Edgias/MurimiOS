@@ -1,0 +1,6 @@
+using System.Data;
+using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+
+namespace EdgIQ.MurimiOS.API.Endpoints.LivestockRecords.LeaveMembership;
+public sealed record LeaveLivestockGroupMembershipRequest(DateTimeOffset LeftAt);

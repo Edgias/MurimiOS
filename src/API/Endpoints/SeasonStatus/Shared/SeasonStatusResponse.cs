@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.SeasonStatuses;
+namespace EdgIQ.MurimiOS.API.Endpoints.SeasonStatus.Shared;
 
 public record SeasonStatusResponse : SeasonStatusModel
 {

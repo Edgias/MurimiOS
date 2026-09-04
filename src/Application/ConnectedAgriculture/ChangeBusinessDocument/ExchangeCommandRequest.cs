@@ -1,0 +1,10 @@
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using EdgIQ.Dispatcher;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.ConnectedAgriculture.ChangeBusinessDocument;
+using BusinessDocumentExchange = global::EdgIQ.MurimiOS.Domain.BusinessDocumentExchange.BusinessDocumentExchange;
+public sealed record ExchangeCommandRequest(string? Notes, Guid? AppliedEntityId = null);

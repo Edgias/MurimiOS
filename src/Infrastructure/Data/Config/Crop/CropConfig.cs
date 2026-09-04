@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.Crop;
+using Crop = global::EdgIQ.MurimiOS.Domain.Crop.Crop;
+
 
 internal class CropConfig : BaseEntityConfig<Crop>
 {

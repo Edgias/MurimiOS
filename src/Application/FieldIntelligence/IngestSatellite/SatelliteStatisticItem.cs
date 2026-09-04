@@ -1,0 +1,31 @@
+using System.Diagnostics;
+using System.Text.Json;
+using EdgIQ.MurimiOS.Domain.WeatherLocation;
+using EdgIQ.MurimiOS.Domain.SatelliteFieldStatistic;
+using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
+using EdgIQ.Dispatcher;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.FieldIntelligence.IngestSatellite;
+using IngestionJob = global::EdgIQ.MurimiOS.Domain.IngestionJob.IngestionJob;
+using WeatherLocation = global::EdgIQ.MurimiOS.Domain.WeatherLocation.WeatherLocation;
+
+using AuditEvent = global::EdgIQ.MurimiOS.Domain.AuditEvent.AuditEvent;
+using FarmField = global::EdgIQ.MurimiOS.Domain.FarmField.FarmField;
+using FieldBoundaryVersion = global::EdgIQ.MurimiOS.Domain.FarmField.FieldBoundaryVersion;
+using FieldMapLayer = global::EdgIQ.MurimiOS.Domain.FieldMapLayer.FieldMapLayer;
+using MapLayerKind = global::EdgIQ.MurimiOS.Domain.FieldMapLayer.MapLayerKind;
+using IngestionRecord = global::EdgIQ.MurimiOS.Domain.IngestionJob.IngestionRecord;
+using IngestionRecordStatus = global::EdgIQ.MurimiOS.Domain.IngestionJob.IngestionRecordStatus;
+using IntegrationFeed = global::EdgIQ.MurimiOS.Domain.IntegrationFeed.IntegrationFeed;
+using IntegrationFeedType = global::EdgIQ.MurimiOS.Domain.IntegrationFeed.IntegrationFeedType;
+using IntegrationTargetType = global::EdgIQ.MurimiOS.Domain.IntegrationFeed.IntegrationTargetType;
+using OutboxMessage = global::EdgIQ.MurimiOS.Domain.OutboxMessage.OutboxMessage;
+using SatelliteFieldStatistic = global::EdgIQ.MurimiOS.Domain.SatelliteFieldStatistic.SatelliteFieldStatistic;
+using VegetationIndex = global::EdgIQ.MurimiOS.Domain.SatelliteFieldStatistic.VegetationIndex;
+using SyncChange = global::EdgIQ.MurimiOS.Domain.SyncClient.SyncChange;
+using InsightQuality = global::EdgIQ.MurimiOS.Domain.WeatherLocation.InsightQuality;
+public sealed record SatelliteStatisticItem(Guid? Id, string ProviderAcquisitionId, VegetationIndex Index,
+    string? CustomIndex, DateTimeOffset AcquiredAt, decimal Mean, decimal Minimum, decimal Maximum,
+    decimal StandardDeviation, decimal ValidPixelPercent, decimal CloudPercent, InsightQuality Quality);

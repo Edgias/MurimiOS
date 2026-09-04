@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.SoilType;
+using SoilType = global::EdgIQ.MurimiOS.Domain.SoilType.SoilType;
+
 
 internal class SoilTypeConfig : BaseEntityConfig<SoilType>
 {

@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.WorkItemCategories;
+namespace EdgIQ.MurimiOS.API.Endpoints.WorkItemCategory.Shared;
 
 public record WorkItemCategoryModel
 {

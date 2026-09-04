@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http.Metadata;
+using Microsoft.AspNetCore.Http.Metadata;
 using MiniValidation;
 using System.Reflection;
 
-namespace Edgias.MurimiOS.API.Filters;
+namespace EdgIQ.MurimiOS.API.Infrastructure.Filters;
 
 public static class ValidationFilterExtensions
 {

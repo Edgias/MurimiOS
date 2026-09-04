@@ -1,4 +1,4 @@
-﻿namespace Edgias.MurimiOS.API.FieldMeasurements;
+namespace EdgIQ.MurimiOS.API.Endpoints.FieldMeasurement.Shared;
 
 public record FieldMeasurementRequest : FieldMeasurementModel
 {

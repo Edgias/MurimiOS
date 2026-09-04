@@ -1,0 +1,24 @@
+using System.Data;
+using System.Text.Json;
+using EdgIQ.MurimiOS.Domain.Delivery;
+using Microsoft.EntityFrameworkCore;
+using EdgIQ.Dispatcher;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.Traceability.CreateDelivery;
+using MeasurementUnits = global::EdgIQ.MurimiOS.Domain.Common.MeasurementUnits;
+using MeasuredQuantity = global::EdgIQ.MurimiOS.Domain.Common.MeasuredQuantity;
+using DeliveryStatus = global::EdgIQ.MurimiOS.Domain.Delivery.DeliveryStatus;
+using Delivery = global::EdgIQ.MurimiOS.Domain.Delivery.Delivery;
+using DeliveryLine = global::EdgIQ.MurimiOS.Domain.Delivery.DeliveryLine;
+using StorageLot = global::EdgIQ.MurimiOS.Domain.StorageLot.StorageLot;
+using TraceabilityMassBalance = global::EdgIQ.MurimiOS.Domain.StorageLot.TraceabilityMassBalance;
+using TraceEvent = global::EdgIQ.MurimiOS.Domain.TraceEvent.TraceEvent;
+using TraceEventObject = global::EdgIQ.MurimiOS.Domain.TraceEvent.TraceEventObject;
+using TraceEventType = global::EdgIQ.MurimiOS.Domain.TraceEvent.TraceEventType;
+using TraceLink = global::EdgIQ.MurimiOS.Domain.TraceEvent.TraceLink;
+using TraceObjectRole = global::EdgIQ.MurimiOS.Domain.TraceEvent.TraceObjectRole;
+using TraceObjectType = global::EdgIQ.MurimiOS.Domain.TraceEvent.TraceObjectType;
+using TraceRelationshipType = global::EdgIQ.MurimiOS.Domain.TraceEvent.TraceRelationshipType;
+public sealed record DeliveryResponse(Guid Id, Guid FarmId, string DeliveryNumber, string Recipient, string Destination,
+    DeliveryStatus Status, DateTimeOffset DispatchedAt, DateTimeOffset? ReceivedAt, string? TransactionReference);

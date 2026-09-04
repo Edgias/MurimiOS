@@ -1,0 +1,11 @@
+using System.Data;
+using System.Text.Json;
+using EdgIQ.MurimiOS.Domain.LivestockHolding;
+using Microsoft.EntityFrameworkCore;
+using EdgIQ.Dispatcher;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+namespace EdgIQ.MurimiOS.Application.LivestockRecords.CreateHolding;
+using LivestockHolding = global::EdgIQ.MurimiOS.Domain.LivestockHolding.LivestockHolding;
+using LivestockHoldingType = global::EdgIQ.MurimiOS.Domain.LivestockHolding.LivestockHoldingType;
+public sealed record LivestockHoldingResponse(Guid Id, Guid FarmId, string Code, string Name, LivestockHoldingType Type);

@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edgias.MurimiOS.API.SoilTypes;
+namespace EdgIQ.MurimiOS.API.Endpoints.SoilType.Shared;
 
 public record SoilTypeModel
 {

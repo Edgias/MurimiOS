@@ -1,4 +1,8 @@
-﻿namespace Edgias.MurimiOS.Infrastructure.Data.Config;
+using EdgIQ.MurimiOS.Infrastructure.Data.Config.Common;
+
+namespace EdgIQ.MurimiOS.Infrastructure.Data.Config.UnitGroup;
+using UnitGroup = global::EdgIQ.MurimiOS.Domain.UnitGroup.UnitGroup;
+
 
 internal class UnitGroupConfig : BaseEntityConfig<UnitGroup>
 {

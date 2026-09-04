@@ -1,0 +1,7 @@
+# Enforce folder-aligned namespaces throughout the refactored backend.
+[src/**/*.cs]
+dotnet_diagnostic.IDE0130.severity = warning
+
+# Generated migration history is deliberately frozen during the refactor.
+[Infrastructure/**/Migrations/*.cs]
+dotnet_diagnostic.IDE0130.severity = none
