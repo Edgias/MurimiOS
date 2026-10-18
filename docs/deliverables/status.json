@@ -1,0 +1,526 @@
+{
+  "schema_version": 1,
+  "project": "MurimiOS",
+  "checkpoint_date": "2026-10-18",
+  "resume_date": "2026-10-19",
+  "timezone": "Africa/Harare",
+  "repository": "https://github.com/Edgias/MurimiOS",
+  "branch": "master",
+  "handoff": "NEW_MACHINE_HANDOFF.md",
+  "current_gap_audit": "docs/backend-gap-audit.md",
+  "fresh_verification": "not_run",
+  "state_meaning": "Implemented means a backend core is present, not accepted or production complete. This navigation index does not replace full original requirements or milestone exit criteria.",
+  "requirements": [
+    "docs/agri-platform-development-plan.md",
+    "docs/requirements/agri-platform-plan.md",
+    "docs/requirements/agri-platform-engineering-plan.md",
+    "docs/requirements/refactor-to-clean-vertical-slices.md",
+    "docs/requirements/planning-requests.md"
+  ],
+  "recommended_resume_order": [
+    "D001",
+    "D031",
+    "D022",
+    "D013",
+    "D014",
+    "D011",
+    "D008",
+    "D019",
+    "D025",
+    "D024",
+    "D015",
+    "D016",
+    "D018",
+    "D026",
+    "D023",
+    "D027",
+    "D028"
+  ],
+  "milestones": [
+    {
+      "source": "docs/agri-platform-development-plan.md",
+      "names": [
+        "Phase 0 — Stabilize and prove risky paths",
+        "Phase 1 — Platform foundations",
+        "Phase 2 — Sellable production record",
+        "Phase 3 — Planning, finance, field intelligence",
+        "Phase 4 — Supply network, compliance, retail",
+        "Phase 5 — Enterprise scale and connected agriculture"
+      ],
+      "acceptance": "unverified; retain all original exit criteria"
+    },
+    {
+      "source": "docs/requirements/agri-platform-engineering-plan.md",
+      "names": [
+        "M0 — Foundations",
+        "M1 — Crop record and traceability core",
+        "M2 — Planning, inputs, intelligence",
+        "M3 — Livestock",
+        "M4 — Scale and integration"
+      ],
+      "acceptance": "unverified; original capacity budgets, property/fuzz/device/conformance gates remain"
+    }
+  ],
+  "deliverables": [
+    {
+      "id": "D001",
+      "title": "Fresh new-machine verification",
+      "state": "pending",
+      "depends_on": [],
+      "code_paths": [
+        "NEW_MACHINE_HANDOFF.md",
+        "MurimiOS.sln",
+        "tests",
+        "WebApp/package-lock.json"
+      ],
+      "next_action": "Restore pinned dependencies; build; run default tests, API contract/model checks and isolated opt-in PostgreSQL/load checks. Record new results; do not reuse historical acceptance."
+    },
+    {
+      "id": "D002",
+      "title": "Clean vertical-slice structure",
+      "state": "implemented_core_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "docs/clean-vertical-slices-report.md",
+        "src",
+        "tests/ArchitectureTests"
+      ],
+      "next_action": "Preserve the completed structural refactor and compatibility exceptions. Do not rerun one-shot refactoring tools."
+    },
+    {
+      "id": "D003",
+      "title": "Tenancy, hierarchy, grants and identity foundation",
+      "state": "implemented_core_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/Access",
+        "src/Application/Organisation",
+        "src/Application/SupplyNetwork",
+        "src/Infrastructure/Data"
+      ],
+      "next_action": "Revalidate forced RLS, tenant/organisation isolation and explicit cross-tenant grants."
+    },
+    {
+      "id": "D004",
+      "title": "Audit, corrections, outbox, units and telemetry",
+      "state": "implemented_core_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/Audit",
+        "src/Application/Correction",
+        "src/Application/RegionalFoundation",
+        "src/Worker",
+        "tools/SeedData"
+      ],
+      "next_action": "Fresh failure/replay checks, attribution, unit/time fidelity and operational monitoring acceptance."
+    },
+    {
+      "id": "D005",
+      "title": "Backend offline sync and evidence",
+      "state": "implemented_core_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/Sync",
+        "src/Application/Evidence",
+        "WebApp/src/app/offline"
+      ],
+      "next_action": "Replay/gaps/idempotency/media integrity are implemented; expanded conflict policies and physical-device/offline-week acceptance remain."
+    },
+    {
+      "id": "D006",
+      "title": "Farm digital twin and crop production",
+      "state": "implemented_core_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/FarmDigitalTwin",
+        "src/Application/CropProduction",
+        "src/Application/Inventory"
+      ],
+      "next_action": "Revalidate temporal geometry/soil/tenure and stock/operation/harvest invariants; extend launch taxonomies and laboratory exchange as required."
+    },
+    {
+      "id": "D007",
+      "title": "Central operations and work orders",
+      "state": "implemented_core_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/WorkOrder",
+        "tests/Domain.UnitTests/WorkOrderTests.cs"
+      ],
+      "next_action": "Concurrency, resource reservation, correction and physical-device acceptance remain."
+    },
+    {
+      "id": "D008",
+      "title": "Full crop rotation planning",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/CropPlanning",
+        "tests/Infrastructure.IntegrationTests/CropPlanningTests.cs"
+      ],
+      "next_action": "Plan scenarios/budgets/approval/variance exist. Add multi-season sequence constraints/planner beyond current approved-plan rotation history."
+    },
+    {
+      "id": "D009",
+      "title": "Finance and profitability",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/Finance",
+        "src/Application/EnterpriseConsolidation"
+      ],
+      "next_action": "Core balanced allocations, costing, consolidation and reconciliation exist. Automatic currency translation and named accounting integration remain."
+    },
+    {
+      "id": "D010",
+      "title": "Field intelligence and provider ingestion",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/FieldIntelligence",
+        "src/Application/ProviderIntegration",
+        "src/Infrastructure/Integrations"
+      ],
+      "next_action": "Initial weather/satellite/regulatory providers exist; approve crop/jurisdiction fixtures and production credentials/contracts before promotion."
+    },
+    {
+      "id": "D011",
+      "title": "Practice-based analytics and model calibration",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/Analytics",
+        "src/Application/AnalyticsMaturity",
+        "src/Infrastructure/BackgroundJobs/Analytics"
+      ],
+      "next_action": "Add practice comparisons; calibrate/train approved models, validate drift controls and production data/volume. Warehouse is PostgreSQL."
+    },
+    {
+      "id": "D012",
+      "title": "Connected sensors and lifecycle",
+      "state": "implemented_core_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/ConnectedAgriculture",
+        "src/Worker/MqttSubscriptionWorker.cs",
+        "src/Worker/ConnectedDataLifecycleWorker.cs"
+      ],
+      "next_action": "Validate real provider payloads, partition maintenance, legal holds and retention in isolated deployments."
+    },
+    {
+      "id": "D013",
+      "title": "Time-series and cache architecture decisions",
+      "state": "decision_required",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "docs/requirements/agri-platform-engineering-plan.md",
+        "docs/agri-platform-development-plan.md",
+        "docs/backend-gap-audit.md"
+      ],
+      "next_action": "Explicitly accept native PostgreSQL partitioning/database coordination or implement TimescaleDB/Redis from the original requirements. Neither TimescaleDB nor Redis is present."
+    },
+    {
+      "id": "D014",
+      "title": "Machinery task interchange and vendor ERP/accounting",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D013"
+      ],
+      "code_paths": [
+        "src/Infrastructure/Integrations/CanonicalRestAdapters.cs",
+        "src/Application/ConnectedAgriculture",
+        "docs/connected-provider-configuration.md"
+      ],
+      "next_action": "Implement real ISOXML/ADAPT task processing/delivery, funded named adapters and required bidirectional synchronization. Lifecycle metadata is insufficient."
+    },
+    {
+      "id": "D015",
+      "title": "Compliance, EUDR and controlled audit packs",
+      "state": "implemented_core_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/Compliance",
+        "src/Application/ComplianceAuditPack",
+        "src/Application/Eudr",
+        "src/Infrastructure/Storage/Compliance"
+      ],
+      "next_action": "Readiness mappings/internal DDS workflow need qualified supported-market legal/specialist review and external interchange certification."
+    },
+    {
+      "id": "D016",
+      "title": "Traceability and EPCIS partner acceptance",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/Epcis",
+        "src/Application/Traceability",
+        "src/Application/LivestockStatutory"
+      ],
+      "next_action": "Core capture/query/lineage is implemented. Run official GS1 conformance and trading-partner identifier/master-data profiles."
+    },
+    {
+      "id": "D017",
+      "title": "Supplier portal backend and action delivery",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/SupplierWorkflow",
+        "src/Application/SupplierCompletion",
+        "src/Application/SupplyNetwork"
+      ],
+      "next_action": "Backend contracts, risk, claims and reconciliations exist. Production link delivery, approved scoring and indexed pricing feeds remain; UI deferred."
+    },
+    {
+      "id": "D018",
+      "title": "Livestock production and statutory expansion",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/LivestockProduction",
+        "src/Application/LivestockHealth",
+        "src/Application/LivestockExchange",
+        "src/Infrastructure/Integrations/Livestock"
+      ],
+      "next_action": "Initial ScotEID/ICAR profiles exist; certify supported providers/jurisdictions and document allocated-feed FCR limits."
+    },
+    {
+      "id": "D019",
+      "title": "Broader geospatial and master-data onboarding",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/GeospatialImport",
+        "src/Application/MasterDataImport",
+        "src/Application/Common/Imports"
+      ],
+      "next_action": "Core geometry and seven CSV targets exist. General CRS/attributes and full ISOXML tasks/provider-specific legacy transforms remain."
+    },
+    {
+      "id": "D020",
+      "title": "Public API and signed webhooks",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/PublicEnterprise",
+        "src/Infrastructure/BackgroundJobs/Messaging"
+      ],
+      "next_action": "Selected reads and webhook delivery/replay exist; expand module/write coverage only where required and validate edge controls."
+    },
+    {
+      "id": "D021",
+      "title": "Retail disclosure and consumer experiences",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/PublicEnterprise",
+        "WebApp"
+      ],
+      "next_action": "Harvest-lot public resolver exists. Finished/livestock-product disclosure, branded pages, legal review and edge protection remain."
+    },
+    {
+      "id": "D022",
+      "title": "Dedicated-database background-worker coverage",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Worker/Program.cs",
+        "src/Worker/TenantMigrationWorker.cs",
+        "src/Infrastructure/Data/Enterprise",
+        "docs/tenant-database-routing-and-migration.md"
+      ],
+      "next_action": "Audit every worker/store across primary and dedicated databases, then implement discovery/routing/leases and cross-database tests. API tenant migration alone does not prove background coverage."
+    },
+    {
+      "id": "D023",
+      "title": "Enterprise provisioning, residency and disaster recovery",
+      "state": "planned",
+      "depends_on": [
+        "D022"
+      ],
+      "code_paths": [
+        "docs/tenant-database-routing-and-migration.md",
+        "docs/agri-platform-development-plan.md"
+      ],
+      "next_action": "External database provisioning, managed artifact transport, replication, source-retention purge, second-region failover and PITR/restore/RPO/RTO drills remain."
+    },
+    {
+      "id": "D024",
+      "title": "Commercial billing integration",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/SaasControlPlane"
+      ],
+      "next_action": "Provider-neutral lifecycle/billing/entitlements/usage exist; choose processor and implement renewal, dunning, settlement/reconciliation and commercial acceptance."
+    },
+    {
+      "id": "D025",
+      "title": "Production IdP, MFA and recovery integration",
+      "state": "partial_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "src/Application/IdentitySecurity",
+        "src/API/Infrastructure/Tenancy/IdentitySecurityMiddleware.cs"
+      ],
+      "next_action": "Provider-neutral controls exist; select OIDC provider, map trusted MFA/session claims and implement verified recovery-event adapter and credential delivery."
+    },
+    {
+      "id": "D026",
+      "title": "CI, infrastructure and release security",
+      "state": "planned",
+      "depends_on": [
+        "D001",
+        "D013"
+      ],
+      "code_paths": [
+        "compose.dev.yaml",
+        "docs/requirements/agri-platform-engineering-plan.md"
+      ],
+      "next_action": "Add production CI/CD/IaC, migration rollout/recovery, dependency/secret review, penetration/load validation, edge WAF and runtime/key/observability policies."
+    },
+    {
+      "id": "D027",
+      "title": "Complete Angular PWA and offline-device acceptance",
+      "state": "deferred",
+      "depends_on": [
+        "D022",
+        "D014",
+        "D011",
+        "D008",
+        "D019"
+      ],
+      "code_paths": [
+        "WebApp",
+        "docs/agri-platform-development-plan.md"
+      ],
+      "next_action": "Finish full module workflows, production identity/config, conflict inbox, maps/dashboards, quota/update/storage recovery and physical-device seven-day offline/upgrade acceptance after backend priorities."
+    },
+    {
+      "id": "D028",
+      "title": "Landing page",
+      "state": "planned",
+      "depends_on": [
+        "D027"
+      ],
+      "code_paths": [
+        "LandingPage/README.md",
+        "docs/requirements/planning-requests.md"
+      ],
+      "next_action": "No source existed. Define page scope/design and implement separately."
+    },
+    {
+      "id": "D029",
+      "title": "AI-assisted extraction, drafting and tenant copilot",
+      "state": "planned",
+      "depends_on": [
+        "D015",
+        "D026"
+      ],
+      "code_paths": [
+        "docs/agri-platform-development-plan.md",
+        "docs/requirements/agri-platform-plan.md"
+      ],
+      "next_action": "Future gated work: approved data access, provenance, human review, model evaluations and retention/cost controls. No completion claim."
+    },
+    {
+      "id": "D030",
+      "title": "ADR and launch-scope decisions",
+      "state": "pending",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "docs/requirements/agri-platform-engineering-plan.md",
+        "docs/agri-platform-development-plan.md",
+        "docs/backend-gap-audit.md"
+      ],
+      "next_action": "Write original architecture ADRs; mobile choice is Angular PWA. Confirm geography/commodities/species/scheme/device matrix/IdP/provider/residency/retention/pilot scope with user when execution depends on them."
+    },
+    {
+      "id": "D031",
+      "title": "Historical shared-suite analytics isolation",
+      "state": "pending_reproduction",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "tests/API.FunctionalTests/AnalyticsEndToEndTests.cs",
+        "src/Infrastructure/BackgroundJobs/Analytics"
+      ],
+      "next_action": "Reproduce historical global-maintenance processed-job count of three versus expected one using fresh isolated databases; review suite-level state and worker discovery before acceptance."
+    },
+    {
+      "id": "D032",
+      "title": "Legacy compatibility exceptions",
+      "state": "known_limit",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "docs/clean-vertical-slices-report.md",
+        "src/Infrastructure/Data/MurimiOSDbContext.cs",
+        "src/API/Infrastructure/Extensions/EndpointsRegistrationExtensions.cs"
+      ],
+      "next_action": "Keep disabled unless explicitly selected; production MediatR registration and unregistered legacy equipment routes remain documented gaps."
+    },
+    {
+      "id": "D033",
+      "title": "Restored migration source and unfinished local edits",
+      "state": "preserved_unverified",
+      "depends_on": [
+        "D001"
+      ],
+      "code_paths": [
+        "Infrastructure/Platform/Migrations",
+        "src/Application/Eudr/AddPlot",
+        "src/API/Endpoints/Asset/DeleteGroupId",
+        "src/API/Endpoints/Farms/GetFarms"
+      ],
+      "next_action": "125 recovered frozen sources match original SHA-256 bytes; eight prior modified paths preserved. Fresh compile/API/model verification remains."
+    }
+  ]
+}

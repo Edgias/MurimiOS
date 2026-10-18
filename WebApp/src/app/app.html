@@ -1,0 +1,231 @@
+<header class="topbar">
+  <a class="brand" href="#top" aria-label="MurimiOS home">
+    <span class="brand-mark">M</span>
+    <span><strong>MurimiOS</strong><small>Farm intelligence, from soil to shelf</small></span>
+  </a>
+  <div class="connection" [class.offline]="!sync.online()">
+    <span class="pulse"></span>{{ sync.online() ? 'Online' : 'Offline' }}
+    <span class="queue">{{ sync.pendingCount() }} queued</span>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div>
+      <p class="eyebrow">OPERATIONS COMMAND CENTRE</p>
+      <h1>One agricultural record.<br><em>Every field, herd and buyer.</em></h1>
+      <p class="intro">An installable field workspace for production, evidence and traceability—even when the network disappears.</p>
+      <div class="hero-actions">
+        <button class="primary" type="button" (click)="sync.synchronize()" [disabled]="sync.syncing() || !sync.online()">{{ sync.syncing() ? 'Synchronizing…' : 'Synchronize now' }}</button>
+        <button class="secondary" type="button" (click)="refresh()" [disabled]="busy || !sync.online()">Refresh workspace</button>
+      </div>
+    </div>
+    <aside class="readiness">
+      <p>FIELD READINESS</p><strong>{{ sync.pendingCount() === 0 ? 'Ready' : 'Work saved' }}</strong>
+      <div class="meter"><span [style.width.%]="sync.pendingCount() === 0 ? 100 : 68"></span></div>
+      <dl>
+        <div><dt>Device outbox</dt><dd>{{ sync.pendingCount() }} pending</dd></div>
+        <div><dt>Last sync</dt><dd>{{ sync.lastSyncLabel() }}</dd></div>
+        <div><dt>Storage</dt><dd>IndexedDB</dd></div>
+      </dl>
+    </aside>
+  </section>
+
+  @if (notice || sync.message()) { <section class="notice" aria-live="polite">{{ notice || sync.message() }}</section> }
+
+  <section class="workspace-strip">
+    <label>Tenant workspace<input [(ngModel)]="tenantId" autocomplete="off" spellcheck="false"></label>
+    <button type="button" class="compact" (click)="saveTenant()">Switch</button>
+    <span>Bootstrap tenant header; replace with authenticated tenant claims before production.</span>
+  </section>
+
+  <section class="metrics" aria-label="Workspace summary">
+    <article><span>Farms</span><strong>{{ farms.length }}</strong><small>registered holdings</small></article>
+    <article><span>Production</span><strong>{{ seasons.length }} / {{ cropZones.length }}</strong><small>seasons / crop zones</small></article>
+    <article><span>Livestock</span><strong>{{ subjects.length }}</strong><small>individuals and groups</small></article>
+    <article><span>Offline work</span><strong>{{ sync.pendingCount() }}</strong><small>awaiting upload</small></article>
+  </section>
+
+  <section class="grid">
+    <article class="panel wide">
+      <div class="panel-heading"><div><p class="eyebrow">DIGITAL TWIN</p><h2>Farm and field registry</h2></div><span class="number">01</span></div>
+      <div class="two-column">
+        <form (ngSubmit)="createFarm()">
+          <h3>Create a farm</h3>
+          <label>Name<input name="farmName" [(ngModel)]="farmDraft.name" required></label>
+          <div class="pair"><label>Code<input name="farmCode" [(ngModel)]="farmDraft.code" required></label><label>Country<input name="country" maxlength="2" [(ngModel)]="farmDraft.countryCode" required></label></div>
+          <label>Time zone<input name="timezone" [(ngModel)]="farmDraft.timeZone" required></label>
+          <button class="primary" type="submit" [disabled]="busy || !sync.online()">Create farm</button>
+        </form>
+        <form (ngSubmit)="createField()">
+          <h3>Add a versioned field boundary</h3>
+          <label>Farm<select name="fieldFarm" [(ngModel)]="fieldDraft.farmId" (ngModelChange)="selectFarm($event)" required>@for (farm of farms; track farm.id) { <option [value]="farm.id">{{ farm.name }}</option> }</select></label>
+          <div class="pair"><label>Field name<input name="fieldName" [(ngModel)]="fieldDraft.name" required></label><label>Valid from<input name="validFrom" type="date" [(ngModel)]="fieldDraft.validFrom" required></label></div>
+          <label>Boundary coordinates <small>longitude,latitude — one point per line</small><textarea name="coordinates" rows="4" [(ngModel)]="fieldDraft.coordinates" required></textarea></label>
+          <button class="primary" type="submit" [disabled]="busy || !sync.online()">Create field</button>
+        </form>
+      </div>
+    </article>
+
+    <article class="panel wide">
+      <div class="panel-heading"><div><p class="eyebrow">PRODUCTION PLAN</p><h2>Season and crop zones</h2></div><span class="number">02</span></div>
+      <div class="two-column">
+        <form (ngSubmit)="createSeason()">
+          <h3>Open a growing season</h3>
+          <label>Farm<select name="seasonFarm" [(ngModel)]="seasonDraft.farmId" (ngModelChange)="selectFarm($event)" required>@for (farm of farms; track farm.id) { <option [value]="farm.id">{{ farm.name }}</option> }</select></label>
+          <label>Season name<input name="seasonName" [(ngModel)]="seasonDraft.name" required></label>
+          <div class="pair"><label>Starts<input name="seasonStarts" type="date" [(ngModel)]="seasonDraft.startsOn" required></label><label>Ends<input name="seasonEnds" type="date" [(ngModel)]="seasonDraft.endsOn" required></label></div>
+          <label>Status<select name="seasonStatus" [(ngModel)]="seasonDraft.status"><option [ngValue]="1">Planned</option><option [ngValue]="2">Active</option><option [ngValue]="3">Closed</option></select></label>
+          <button class="primary" type="submit" [disabled]="busy || !sync.online() || !seasonDraft.farmId">Create season</button>
+        </form>
+        <form (ngSubmit)="createCropZone()">
+          <h3>Allocate a field to a crop</h3>
+          <label>Season<select name="zoneSeason" [(ngModel)]="cropZoneDraft.seasonId" (change)="refreshCropZones()" required>@for (season of seasons; track season.id) { <option [value]="season.id">{{ season.name }}</option> }</select></label>
+          <label>Field<select name="zoneField" [(ngModel)]="cropZoneDraft.fieldId" (ngModelChange)="selectField($event)" required>@for (field of fields; track field.id) { <option [value]="field.id">{{ field.name }} · {{ field.areaHa | number:'1.1-2' }} ha</option> }</select></label>
+          <div class="pair"><label>Zone name<input name="zoneName" [(ngModel)]="cropZoneDraft.name" required></label><label>Crop<input name="zoneCrop" [(ngModel)]="cropZoneDraft.crop" required></label></div>
+          <label>Variety<input name="zoneVariety" [(ngModel)]="cropZoneDraft.variety"><small>optional</small></label>
+          <p class="form-note">This workflow allocates the complete versioned field boundary. The API also accepts a smaller custom polygon and verifies that it remains inside the field.</p>
+          <button class="primary" type="submit" [disabled]="busy || !sync.online() || !cropZoneDraft.seasonId || !cropZoneDraft.fieldId">Create crop zone</button>
+        </form>
+      </div>
+      <div class="report-export">
+        <div><strong>Production & evidence report</strong><span>Export the selected crop zone's operations, applied input lots, harvest lots, photo/GPS evidence and integrity references as an audited PDF.</span></div>
+        <button class="secondary" type="button" (click)="downloadProductionReport()" [disabled]="busy || !sync.online() || !operationDraft.cropZoneId">Download PDF</button>
+      </div>
+    </article>
+
+    <article class="panel wide">
+      <div class="panel-heading"><div><p class="eyebrow">INPUT INVENTORY</p><h2>Stock lots and receipts</h2></div><span class="number">03</span></div>
+      <div class="two-column">
+        <form (ngSubmit)="createInput()">
+          <h3>Create an input catalogue item</h3>
+          <label>Farm<select name="inputFarm" [(ngModel)]="inputDraft.farmId" (ngModelChange)="selectFarm($event)" required>@for (farm of farms; track farm.id) { <option [value]="farm.id">{{ farm.name }}</option> }</select></label>
+          <label>Name<input name="inputName" [(ngModel)]="inputDraft.name" required></label>
+          <div class="pair"><label>Category<select name="inputCategory" [(ngModel)]="inputDraft.category"><option>Seed</option><option>Fertiliser</option><option>Crop protection</option><option>Feed</option><option>Other</option></select></label><label>Stock unit<input name="inputUnit" [(ngModel)]="inputDraft.unit" required></label></div>
+          <button class="primary" type="submit" [disabled]="busy || !sync.online() || !inputDraft.farmId">Create input</button>
+        </form>
+        <form (ngSubmit)="createStockLot()">
+          <h3>Receive a supplier lot</h3>
+          <label>Input<select name="stockInput" [(ngModel)]="stockLotDraft.inputId" (ngModelChange)="refreshStockLots()" required>@for (input of inputs; track input.id) { <option [value]="input.id">{{ input.name }} · {{ input.unit }}</option> }</select></label>
+          <label>Supplier lot code<input name="stockLotCode" [(ngModel)]="stockLotDraft.lotCode" required></label>
+          <div class="pair"><label>Received<input name="stockReceived" type="date" [(ngModel)]="stockLotDraft.receivedOn" required></label><label>Expires<input name="stockExpires" type="date" [(ngModel)]="stockLotDraft.expiresOn"></label></div>
+          <label>Initial quantity<input name="stockQuantity" type="number" min="0.0001" step="0.01" [(ngModel)]="stockLotDraft.initialQuantity" required></label>
+          <div class="button-row"><button class="primary" type="submit" [disabled]="busy || !sync.online() || !stockLotDraft.inputId">Receive stock</button><button class="secondary" type="button" (click)="inspectTrace()" [disabled]="!inputApplicationDraft.stockLotId || !sync.online()">Inspect trace</button></div>
+          @if (traceSummary) { <p class="form-note trace-summary">{{ traceSummary }}</p> }
+        </form>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-heading"><div><p class="eyebrow">OFFLINE INPUT RECORD</p><h2>Apply stock to a crop zone</h2></div><span class="number">04</span></div>
+      <form (ngSubmit)="queueInputApplication()">
+        <label>Crop zone<select name="applicationZone" [(ngModel)]="inputApplicationDraft.cropZoneId" required>@for (zone of cropZones; track zone.id) { <option [value]="zone.id">{{ zone.name }} · {{ zone.crop }}</option> }</select></label>
+        <label>Stock lot<select name="applicationLot" [(ngModel)]="inputApplicationDraft.stockLotId" required>@for (lot of stockLots; track lot.id) { <option [value]="lot.id">{{ lot.lotCode }} · {{ lot.quantityOnHand | number:'1.0-2' }} {{ lot.unit }} available</option> }</select></label>
+        <label>Quantity<input name="applicationQuantity" type="number" min="0.0001" step="0.01" [(ngModel)]="inputApplicationDraft.quantity" required></label>
+        <label>Notes<textarea name="applicationNotes" rows="3" [(ngModel)]="inputApplicationDraft.notes"></textarea></label>
+        <button class="primary" type="submit" [disabled]="!inputApplicationDraft.cropZoneId || !inputApplicationDraft.stockLotId">Save to device outbox</button>
+      </form>
+    </article>
+
+    <article class="panel">
+      <div class="panel-heading"><div><p class="eyebrow">OFFLINE HARVEST RECORD</p><h2>Create a harvest lot</h2></div><span class="number">05</span></div>
+      <form (ngSubmit)="queueHarvest()">
+        <label>Crop zone<select name="harvestZone" [(ngModel)]="harvestDraft.cropZoneId" required>@for (zone of cropZones; track zone.id) { <option [value]="zone.id">{{ zone.name }} · {{ zone.crop }}</option> }</select></label>
+        <label>Harvest lot code<input name="harvestLotCode" [(ngModel)]="harvestDraft.lotCode" required></label>
+        <div class="pair"><label>Quantity<input name="harvestQuantity" type="number" min="0.0001" step="0.01" [(ngModel)]="harvestDraft.quantity" required></label><label>Unit<input name="harvestUnit" [(ngModel)]="harvestDraft.unit" required></label></div>
+        <label>Notes<textarea name="harvestNotes" rows="3" [(ngModel)]="harvestDraft.notes"></textarea></label>
+        <button class="primary" type="submit" [disabled]="!harvestDraft.cropZoneId">Save to device outbox</button>
+      </form>
+    </article>
+
+    <article class="panel">
+      <div class="panel-heading"><div><p class="eyebrow">FIELD EVIDENCE</p><h2>Photo and GPS capture</h2></div><span class="number">06</span></div>
+      <form (ngSubmit)="queueEvidence()">
+        <label>Crop zone<select name="evidenceZone" [(ngModel)]="evidenceDraft.cropZoneId" required>@for (zone of cropZones; track zone.id) { <option [value]="zone.id">{{ zone.name }} · {{ zone.crop }}</option> }</select></label>
+        <label>Photo<input type="file" accept="image/jpeg,image/png,image/webp" capture="environment" (change)="selectEvidenceFile($event)"></label>
+        <div class="evidence-meta">
+          <span>{{ evidenceFileName || 'No photo selected' }}</span>
+          <span>{{ evidenceLocationLabel }}</span>
+        </div>
+        <div class="button-row"><button class="secondary" type="button" (click)="captureLocation()">Capture GPS</button><button class="primary" type="submit" [disabled]="!evidenceFile || !evidenceDraft.cropZoneId">Save evidence offline</button></div>
+        <p class="form-note">Photos remain in IndexedDB while offline. Upload resumes in verified 1 MB chunks when connectivity returns.</p>
+      </form>
+    </article>
+
+    <article class="panel">
+      <div class="panel-heading"><div><p class="eyebrow">OFFLINE CROP RECORD</p><h2>Crop-zone operation</h2></div><span class="number">07</span></div>
+      <form (ngSubmit)="queueOperation()">
+        <label>Crop zone<select name="operationZone" [(ngModel)]="operationDraft.cropZoneId" required>@for (zone of cropZones; track zone.id) { <option [value]="zone.id">{{ zone.name }} · {{ zone.crop }} · {{ zone.areaHa | number:'1.1-2' }} ha</option> }</select></label>
+        <label>Operation<select name="operationType" [(ngModel)]="operationDraft.operationType"><option>Scouting</option><option>Sowing</option><option>Fertilising</option><option>Spraying</option><option>Irrigation</option><option>Harvest</option></select></label>
+        <label>Notes<textarea name="operationNotes" rows="3" [(ngModel)]="operationDraft.notes"></textarea></label>
+        <button class="primary" type="submit" [disabled]="!operationDraft.cropZoneId">Save to device outbox</button>
+      </form>
+    </article>
+
+    <article class="panel">
+      <div class="panel-heading"><div><p class="eyebrow">LIVESTOCK</p><h2>Registry and measurement</h2></div><span class="number">08</span></div>
+      <form (ngSubmit)="createSubject()" class="subform">
+        <label>Farm<select name="subjectFarm" [(ngModel)]="subjectDraft.farmId" required>@for (farm of farms; track farm.id) { <option [value]="farm.id">{{ farm.name }}</option> }</select></label>
+        <div class="pair"><label>Name<input name="subjectName" [(ngModel)]="subjectDraft.name" required></label><label>Kind<select name="subjectKind" [(ngModel)]="subjectDraft.kind"><option [ngValue]="1">Individual</option><option [ngValue]="2">Group</option></select></label></div>
+        <div class="pair"><label>Species<input name="species" [(ngModel)]="subjectDraft.species" required></label><label>Official ID<input name="officialId" [(ngModel)]="subjectDraft.officialIdentifier"></label></div>
+        <button class="secondary" type="submit" [disabled]="busy || !sync.online()">Register livestock</button>
+      </form>
+      <form (ngSubmit)="queueMeasurement()">
+        <label>Animal or group<select name="measurementSubject" [(ngModel)]="measurementDraft.subjectId" required>@for (subject of subjects; track subject.id) { <option [value]="subject.id">{{ subject.name }} · {{ subject.species }}</option> }</select></label>
+        <div class="triple"><label>Metric<input name="metric" [(ngModel)]="measurementDraft.metric" required></label><label>Value<input name="value" type="number" step="0.01" [(ngModel)]="measurementDraft.value" required></label><label>Unit<input name="unit" [(ngModel)]="measurementDraft.unit" required></label></div>
+        <button class="primary" type="submit" [disabled]="!measurementDraft.subjectId">Save to device outbox</button>
+      </form>
+    </article>
+
+    <article class="panel wide">
+      <div class="panel-heading"><div><p class="eyebrow">ANIMAL HEALTH</p><h2>Treatments and withdrawal controls</h2></div><span class="number">09</span></div>
+      <div class="two-column">
+        <form (ngSubmit)="createMedicine()">
+          <h3>Register veterinary medicine</h3>
+          <label>Farm<select name="medicineFarm" [(ngModel)]="medicineDraft.farmId" (ngModelChange)="selectFarm($event)" required>@for (farm of farms; track farm.id) { <option [value]="farm.id">{{ farm.name }}</option> }</select></label>
+          <div class="pair"><label>Product name<input name="medicineName" [(ngModel)]="medicineDraft.name" required></label><label>Active ingredient<input name="activeIngredient" [(ngModel)]="medicineDraft.activeIngredient" required></label></div>
+          <div class="triple"><label>Stock unit<input name="medicineUnit" [(ngModel)]="medicineDraft.unit" required></label><label>Meat hold (days)<input name="meatWithdrawal" type="number" min="0" [(ngModel)]="medicineDraft.meatWithdrawalDays" required></label><label>Milk hold (hours)<input name="milkWithdrawal" type="number" min="0" [(ngModel)]="medicineDraft.milkWithdrawalHours" required></label></div>
+          <button class="secondary" type="submit" [disabled]="busy || !sync.online() || !medicineDraft.farmId">Create medicine</button>
+        </form>
+        <form (ngSubmit)="createMedicineStockLot()">
+          <h3>Receive a medicine batch</h3>
+          <label>Medicine<select name="stockMedicine" [(ngModel)]="medicineStockDraft.medicineId" (ngModelChange)="refreshMedicineStockLots()" required>@for (medicine of medicines; track medicine.id) { <option [value]="medicine.id">{{ medicine.name }} · {{ medicine.unit }}</option> }</select></label>
+          <label>Batch number<input name="medicineBatch" [(ngModel)]="medicineStockDraft.batchNumber" required></label>
+          <div class="pair"><label>Received<input name="medicineReceived" type="date" [(ngModel)]="medicineStockDraft.receivedOn" required></label><label>Expires<input name="medicineExpires" type="date" [(ngModel)]="medicineStockDraft.expiresOn"></label></div>
+          <label>Initial quantity<input name="medicineQuantity" type="number" min="0.0001" step="0.01" [(ngModel)]="medicineStockDraft.initialQuantity" required></label>
+          <button class="secondary" type="submit" [disabled]="busy || !sync.online() || !medicineStockDraft.medicineId">Receive batch</button>
+        </form>
+      </div>
+      <div class="two-column health-actions">
+        <form (ngSubmit)="queueTreatment()">
+          <h3>Record treatment offline</h3>
+          <label>Animal or group<select name="treatmentSubject" [(ngModel)]="treatmentDraft.subjectId" required>@for (subject of subjects; track subject.id) { <option [value]="subject.id">{{ subject.name }} · {{ subject.species }}</option> }</select></label>
+          <label>Medicine batch<select name="treatmentStock" [(ngModel)]="treatmentDraft.medicineStockLotId" required>@for (lot of medicineStockLots; track lot.id) { <option [value]="lot.id">{{ lot.batchNumber }} · {{ lot.quantityOnHand | number:'1.0-2' }} {{ lot.unit }} available</option> }</select></label>
+          <div class="pair"><label>Dose<input name="treatmentDose" type="number" min="0.0001" step="0.01" [(ngModel)]="treatmentDraft.dose" required></label><label>Route<select name="treatmentRoute" [(ngModel)]="treatmentDraft.route"><option>Intramuscular</option><option>Subcutaneous</option><option>Oral</option><option>Topical</option><option>Intravenous</option><option>Other</option></select></label></div>
+          <label>Notes<textarea name="treatmentNotes" rows="3" [(ngModel)]="treatmentDraft.notes"></textarea></label>
+          <button class="primary" type="submit" [disabled]="!treatmentDraft.subjectId || !treatmentDraft.medicineStockLotId">Save treatment to device</button>
+        </form>
+        <form (ngSubmit)="createDispatch()">
+          <h3>Check and record dispatch</h3>
+          <label>Animal or group<select name="dispatchSubject" [(ngModel)]="dispatchDraft.subjectId" required>@for (subject of subjects; track subject.id) { <option [value]="subject.id">{{ subject.name }} · {{ subject.species }}</option> }</select></label>
+          <label>Purpose<select name="dispatchPurpose" [(ngModel)]="dispatchDraft.purpose"><option [ngValue]="1">Movement</option><option [ngValue]="2">Slaughter / meat</option><option [ngValue]="3">Milk collection</option></select></label>
+          <label>Destination<input name="dispatchDestination" [(ngModel)]="dispatchDraft.destination" required></label>
+          <label>Controlled override reason <small>requires livestock.withdrawal.override permission</small><textarea name="overrideReason" rows="2" [(ngModel)]="dispatchDraft.overrideReason"></textarea></label>
+          <div class="button-row"><button class="secondary" type="button" (click)="checkDispatchEligibility()" [disabled]="busy || !sync.online() || !dispatchDraft.subjectId">Check eligibility</button><button class="primary" type="submit" [disabled]="busy || !sync.online() || !dispatchDraft.subjectId">Record dispatch</button></div>
+          @if (dispatchStatus) { <p class="form-note trace-summary">{{ dispatchStatus }}</p> }
+        </form>
+      </div>
+      <p class="form-note health-note">Withdrawal dates are immutable snapshots of the medicine policy used at administration time. A blocked dispatch returns the treatment IDs and hold end date; overrides require an authenticated permission and authorizing identity.</p>
+    </article>
+  </section>
+
+  <section class="audiences">
+    <div><p class="eyebrow">ONE DATA FOUNDATION</p><h2>Purpose-built views, not separate products.</h2></div>
+    <article><strong>Farms</strong><span>Operations, planning, cost and agronomy</span></article>
+    <article><strong>Enterprise</strong><span>Consolidation, approvals and benchmarking</span></article>
+    <article><strong>Food & beverage</strong><span>Contracting, evidence and quality</span></article>
+    <article><strong>Retail</strong><span>Traceability, recall and transparency</span></article>
+  </section>
+</main>
+
+<footer><span>MurimiOS platform foundation</span><span>Angular PWA · PostGIS · tenant-isolated sync</span></footer>

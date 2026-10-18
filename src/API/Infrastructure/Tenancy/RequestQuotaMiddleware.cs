@@ -1,12 +1,7 @@
-
-
-using EdgIQ.MurimiOS.Application.Common.Abstractions;
-
-
 namespace EdgIQ.MurimiOS.API.Infrastructure.Tenancy;
-using IRequestQuotaStore = global::EdgIQ.MurimiOS.Application.Common.Abstractions.IRequestQuotaStore;
-using ITenantContext = global::EdgIQ.MurimiOS.Application.Common.Abstractions.ITenantContext;
-using RequestQuotaDecision = global::EdgIQ.MurimiOS.Application.Common.Abstractions.RequestQuotaDecision;
+using IRequestQuotaStore = Application.Common.Abstractions.IRequestQuotaStore;
+using ITenantContext = Application.Common.Abstractions.ITenantContext;
+using RequestQuotaDecision = Application.Common.Abstractions.RequestQuotaDecision;
 
 public sealed class RequestQuotaMiddleware(RequestDelegate next)
 {

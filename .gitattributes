@@ -3,6 +3,12 @@
 ###############################################################################
 * text=auto
 
+# Frozen migration history and supplied requirements must retain their source bytes.
+Infrastructure/Platform/Migrations/*.cs -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/requirements/agri-platform-plan.md -text
+docs/requirements/agri-platform-engineering-plan.md -text
+docs/requirements/refactor-to-clean-vertical-slices.md -text
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #

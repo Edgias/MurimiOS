@@ -1,5 +1,7 @@
 # MurimiOS
 
+For the 19 October 2026 machine move, start with [NEW_MACHINE_HANDOFF.md](NEW_MACHINE_HANDOFF.md), [AGENTS.md](AGENTS.md) and [the corrected gap audit](docs/backend-gap-audit.md). This clone now includes the Angular client in `WebApp/`. Fresh verification remains pending; older completion statements below describe backend cores.
+
 MurimiOS is the foundation of a multi-tenant farm and livestock management SaaS. The current vertical slice provides tenant-isolated farm, field, and livestock records; PostGIS field boundaries; an offline command protocol; and an installable Angular progressive web app.
 
 The broader product and delivery roadmap is documented in [docs/agri-platform-development-plan.md](docs/agri-platform-development-plan.md).
@@ -114,8 +116,8 @@ Readiness becomes degraded when undelivered outbox work is older than five minut
 Run the PWA in another terminal:
 
 ```powershell
-cd apps/web
-npm install
+cd WebApp
+npm ci
 npm start
 ```
 
@@ -126,7 +128,7 @@ Open `http://localhost:4200`. The PWA uses the API at `http://localhost:5000` by
 ```powershell
 dotnet build MurimiOS.sln
 dotnet test MurimiOS.sln --no-build
-cd apps/web
+cd WebApp
 npm run build
 ```
 
@@ -390,4 +392,4 @@ See the [clean vertical-slice refactor report](docs/clean-vertical-slices-report
 for project ownership, compatibility decisions and verification. The five test
 projects cover Domain, Application, Infrastructure, API and architecture rules.
 
-`src/Domain` groups the domain model by aggregate. `src/Application` owns Dispatcher use cases and their contracts. `src/Infrastructure` groups persistence, identity, storage, integrations and background processing by concern. `src/API/Endpoints` contains one thin HTTP endpoint per use case; `src/Worker` hosts background jobs. Original migration files remain untouched under `Infrastructure/Platform/Migrations` and are linked into the Infrastructure project. `apps/web` is the offline-first Angular client and is outside this backend refactor. Every tenant-owned table carries `tenant_id`; application filters, composite relationships, and PostgreSQL row-level-security policies provide independent layers of tenant isolation.
+`src/Domain` groups the domain model by aggregate. `src/Application` owns Dispatcher use cases and their contracts. `src/Infrastructure` groups persistence, identity, storage, integrations and background processing by concern. `src/API/Endpoints` contains one thin HTTP endpoint per use case; `src/Worker` hosts background jobs. Original migration files remain untouched under `Infrastructure/Platform/Migrations` and are linked into the Infrastructure project. `WebApp` is the offline-first Angular client and is outside this backend refactor. Every tenant-owned table carries `tenant_id`; application filters, composite relationships, and PostgreSQL row-level-security policies provide independent layers of tenant isolation.

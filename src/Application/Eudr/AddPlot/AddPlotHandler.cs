@@ -1,18 +1,12 @@
+using EdgIQ.Dispatcher;
+using EdgIQ.MurimiOS.Application.Common.Abstractions;
+using EdgIQ.MurimiOS.Application.Common.Results;
+using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using EdgIQ.MurimiOS.Application.Common.Abstractions;
-using EdgIQ.MurimiOS.Domain.AuditEvent;
-using EdgIQ.MurimiOS.Domain.EudrDueDiligenceCase;
-using EdgIQ.MurimiOS.Domain.FarmField;
-using EdgIQ.MurimiOS.Domain.OutboxMessage;
-using Microsoft.EntityFrameworkCore;
-using NetTopologySuite.Geometries;
-using EdgIQ.Dispatcher;
-using EdgIQ.MurimiOS.Application.Common.Results;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 namespace EdgIQ.MurimiOS.Application.Eudr.AddPlot;
 using AuditEvent = global::EdgIQ.MurimiOS.Domain.AuditEvent.AuditEvent;
 using EudrCaseStatus = global::EdgIQ.MurimiOS.Domain.EudrDueDiligenceCase.EudrCaseStatus;
@@ -24,7 +18,7 @@ using OutboxMessage = global::EdgIQ.MurimiOS.Domain.OutboxMessage.OutboxMessage;
 
 public sealed class AddPlotHandler(IPlatformDbContext db, IOrganisationScopeAccess scope, ITenantContext tenant, IRequestActorContext actor, TimeProvider clock, UseCaseContext context) : IRequestHandler<AddPlotCommand, UseCaseResult>
 {
-    public Task<UseCaseResult> Handle(AddPlotCommand message, CancellationToken cancellationToken) => AddPlotAsync(message.caseId, message.request, db, scope, tenant, actor, clock, context, cancellationToken);
+    public Task<UseCaseResult> Handle(AddPlotCommand message, CancellationToken cancellationToken) => AddPlotAsync(message.CaseId, message.Request, db, scope, tenant, actor, clock, context, cancellationToken);
 
     private static async Task<UseCaseResult> AddPlotAsync(Guid caseId, AddEudrPlotRequest request,
         IPlatformDbContext db, IOrganisationScopeAccess scope, ITenantContext tenant, IRequestActorContext actor,
